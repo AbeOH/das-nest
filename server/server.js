@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const compression = require("compression");
@@ -26,6 +27,17 @@ const { hash, compare } = require("../brypt.js");
 // Random key generator
 const cryptoRandomString = require("crypto-random-string");
 const secretCode = cryptoRandomString({ length: 6 });
+
+// AWS access
+const aws = require("aws-sdk");
+const { AWS_KEY, AWS_SECRET, AWS_Region } = process.env;
+const { SECRET } = process.env;
+
+const ses = new aws.SES({
+    accessKeyId: AWS_KEY,
+    secretAccessKey: AWS_SECRET,
+    region: AWS_Region,
+});
 
 app.use(
     cookieSession({
@@ -91,6 +103,73 @@ app.post("/login", (req, res) => {
                     res.json({ success: false });
                 }
             });
+        } else {
+            res.json({ success: false });
+        }
+    });
+});
+//*****************************************************************************************
+// Post Routes for Password Reset
+app.post("/password/reset/start", (req, res) => {
+    const { email } = req.body;
+    getUser(email).then((user) => {
+        if (user) {
+            console.log("data: ", user);
+            const code = cryptoRandomString({ length: 6 });
+            addCode(email, code).then((data) => {
+                if (data) {
+                    ses.sendEmail({
+                        Source: "adaptable.monarch@spicedling.email",
+                        Destination: {
+                            ToAddresses: ["adaptable.monarch@spicedling.email"],
+                        },
+                        Message: {
+                            Body: {
+                                Text: {
+                                    Data: `Your code is ${code}`,
+                                },
+                            },
+                            Subject: {
+                                Data: "Reset your password",
+                            },
+                        },
+                    })
+                        .promise()
+                        .then(() => {
+                            res.json({ success: true });
+                            console.log("Email sent");
+                        })
+                        .catch((err) => {
+                            console.log("Error in sending email: ", err);
+                            res.json({ success: false });
+                        });
+                }
+            });
+        } else {
+            res.json({ success: false });
+        }
+    });
+});
+
+app.post("/password/reset/verify", (req, res) => {
+    const { email, code, password } = req.body;
+    findCode(email).then((data) => {
+        if (data.rows[0].code === code) {
+            // check again
+            hash(password)
+                .then((hashed) => updatePassword(email, hashed))
+                .then((data) => {
+                    if (data) {
+                        console.log("Password updated");
+                        res.json({ success: true });
+                    } else {
+                        res.json({ success: false });
+                    }
+                })
+                .catch((err) =>
+                    console.log("Error in updating password: ", err)
+                );
+            res.json({ success: false });
         } else {
             res.json({ success: false });
         }
