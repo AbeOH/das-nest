@@ -22,16 +22,17 @@ export class Registration extends Component<any, RegistrationState> {
     handleInputChange = (evt) => {
         const property = evt.target.name; // This line will hold value when input for value is changed
         const value = evt.target.value;
+        console.log("Evt Target", evt.target);
         this.setState({ [property]: value }); // This line will update value prob dynamically in this.state variable
     };
     handleSubmit = (evt: FormEvent) => {
         evt.preventDefault();
         const { firstname, lastname, email, password } = this.state;
-
+        console.log("Submit", this.state);
         fetch("/register", {
             method: "POST",
             headers: {
-                "Content-/Type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 firstname: firstname,
@@ -72,7 +73,7 @@ export class Registration extends Component<any, RegistrationState> {
                             required
                             type="text"
                             name="firstname"
-                            // value = {this.state.firstname} // Need to figure out how to update value dynamically
+                            value={this.state.firstname} // Need to figure out how to update value dynamically
                             onChange={this.handleInputChange}
                         />
                     </div>
@@ -82,7 +83,7 @@ export class Registration extends Component<any, RegistrationState> {
                             required
                             type="text"
                             name="lastname"
-                            // value={this.state.lastname}
+                            value={this.state.lastname}
                             onChange={this.handleInputChange}
                         />
                     </div>
@@ -92,7 +93,7 @@ export class Registration extends Component<any, RegistrationState> {
                             required
                             type="email"
                             name="email"
-                            // value={this.state.email}
+                            value={this.state.email}
                             onChange={this.handleInputChange}
                         />
                     </div>
@@ -102,7 +103,7 @@ export class Registration extends Component<any, RegistrationState> {
                             required
                             type="password"
                             name="password"
-                            // value={this.state.password}
+                            value={this.state.password}
                             onChange={this.handleInputChange}
                         />
                     </div>

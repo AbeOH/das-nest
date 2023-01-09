@@ -31,26 +31,18 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 //***************************************************************************************** */
 // Get Routes
 app.get("/user/id.json", (req, res) => {
-    res.json({ userId: null }); // Instead of null; I need to use value from req.session.userId
-});
-
-app.get("*", function (req, res) {
-    console.log("Got requested url: ", req.url);
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-});
-
-app.listen(PORT, function () {
-    console.log(`Express server listening on port ${PORT}`);
+    res.json({ userId: req.session.userId }); // Instead of null; I need to use value from req.session.userId
 });
 
 //***************************************************************************************** */
 // Post Routes for Registration and Login
 
-app.post("/registration", (req, res) => {
+app.post("/register", (req, res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
     const password = req.body.password;
+    console.log("Body", req.body);
     hash(password).then((hashed) => {
         if (
             firstname !== "" &&
@@ -61,7 +53,7 @@ app.post("/registration", (req, res) => {
             addUser(firstname, lastname, email, hashed)
                 .then((data) => {
                     // {rows}
-                    console.log("rows: ", data.rows);
+                    console.log("rows: ", data);
                     req.session.userId = data.rows[0].id;
                     res.json({ success: true });
                 })
@@ -71,4 +63,14 @@ app.post("/registration", (req, res) => {
                 });
         }
     });
+});
+
+//***************************************************************************************** */
+app.get("*", function (req, res) {
+    console.log("Got requested url: ", req.url);
+    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+});
+
+app.listen(PORT, function () {
+    console.log(`Express server listening on port ${PORT}`);
 });
