@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Logo } from "../components/logo";
 import { Registration } from "./registration/registration";
 import { Login } from "./login/login";
+import Reset from "../components/reset";
 
 // import { Login } from "./login/login";
 export function Welcome() {
@@ -13,6 +14,7 @@ export function Welcome() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/login" element={<Login />}></Route>
+                    <Route path="/reset/" element={<Reset />}></Route>
                     <Route path="/" element={<Registration />}></Route>
                 </Routes>
             </BrowserRouter>

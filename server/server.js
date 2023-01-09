@@ -5,7 +5,13 @@ const path = require("path");
 const { PORT = 3001 } = process.env;
 
 // Importing functions from db.js
-const { addUser, getUser } = require("../db.js");
+const {
+    addUser,
+    getUser,
+    addCode,
+    findCode,
+    updatePassword,
+} = require("../db.js");
 
 app.use(compression());
 // Need to use the cookie-session middleware

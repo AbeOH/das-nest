@@ -86,7 +86,7 @@ export class Login extends Component<any, LoginState> {
                 </form>
                 <p>
                     If you have forget your passport,
-                    <a href="/login"> change it here </a>
+                    <a href="/reset"> reset here </a>
                 </p>
             </div>
         );
