@@ -6,18 +6,13 @@ const db = spicedPg(
         `postgres:${SQL_USER}:${SQL_PASSWORD}@localhost:5432/socialnetwork`
 );
 
-// const db = spicedPg(
-//     process.env.DATABASE_URL ||
-//         `postgres:${SQL_USER}:${SQL_PASSWORD}@localhost:5432/socialnetowrk`
-// );
-
 module.exports.addUser = (firstname, lastname, email, password) => {
-    console.log("firstname: ", firstname, lastname, email, password);
     return db.query(
         "INSERT INTO users (firstname, lastname, email, password) VALUES ($1, $2, $3, $4) returning *",
         [firstname, lastname, email, password]
     );
-    // .then((results) => {
-    //     return results;
-    // });
+};
+
+module.exports.getUser = (email) => {
+    return db.query("SELECT * FROM users WHERE email = $1", [email]);
 };
