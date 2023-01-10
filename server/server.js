@@ -117,33 +117,34 @@ app.post("/password/reset/start", (req, res) => {
             console.log("data: ", user);
             const code = cryptoRandomString({ length: 6 });
             addCode(email, code).then((data) => {
-                if (data) {
-                    ses.sendEmail({
-                        Source: "adaptable.monarch@spicedling.email",
-                        Destination: {
-                            ToAddresses: ["adaptable.monarch@spicedling.email"],
-                        },
-                        Message: {
-                            Body: {
-                                Text: {
-                                    Data: `Your code is ${code}`,
-                                },
-                            },
-                            Subject: {
-                                Data: "Reset your password",
-                            },
-                        },
-                    })
-                        .promise()
-                        .then(() => {
-                            res.json({ success: true });
-                            console.log("Email sent");
-                        })
-                        .catch((err) => {
-                            console.log("Error in sending email: ", err);
-                            res.json({ success: false });
-                        });
-                }
+                console.log("data", data); /// Log code instead of email to check if verficiation works
+                //     if (data) {
+                //         ses.sendEmail({
+                //             Source: "adaptable.monarch@spicedling.email",
+                //             Destination: {
+                //                 ToAddresses: ["adaptable.monarch@spicedling.email"],
+                //             },
+                //             Message: {
+                //                 Body: {
+                //                     Text: {
+                //                         Data: `Your code is ${code}`,
+                //                     },
+                //                 },
+                //                 Subject: {
+                //                     Data: "Reset your password",
+                //                 },
+                //             },
+                //         })
+                //             .promise()
+                //             .then(() => {
+                //                 res.json({ success: true });
+                //                 console.log("Email sent");
+                //             })
+                //             .catch((err) => {
+                //                 console.log("Error in sending email: ", err);
+                //                 res.json({ success: false });
+                //             });
+                //     }
             });
         } else {
             res.json({ success: false });
