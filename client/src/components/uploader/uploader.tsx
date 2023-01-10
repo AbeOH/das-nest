@@ -1,9 +1,6 @@
 import { Component } from "react";
-import { Logo } from "../components/logo/logo";
-// import { Profile } from "..components/profile/profile";
-// import { Uploader } from "../components/uploader/uploader";
 
-export class Profil extends Component {
+export class Uploader extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -13,7 +10,6 @@ export class Profil extends Component {
         return (
             <div className="container">
                 <h1 className="heading"> Welcome to the Nest!</h1>
-                <Logo />
                 <p> It takes a neighbood to raise a child</p>
             </div>
         );

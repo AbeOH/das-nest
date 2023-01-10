@@ -62,7 +62,7 @@ export class Registration extends Component<any, RegistrationState> {
     render() {
         console.log("state: ", this.state);
         return (
-            <div>
+            <div className="container">
                 <h1> Welcome to your NeighborhoodNest </h1>
                 {/* <LogoComponent /> */}
                 <p> It takes a neighbood to raise a child</p>
