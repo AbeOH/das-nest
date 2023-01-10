@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { Profil } from "./app/app";
+import { App } from "./app/app";
 // import { Component } from "react";
 import { Welcome } from "./welcome/welcome";
 
@@ -11,7 +11,7 @@ fetch("/user/id.json")
     .then((data) => {
         console.log("data: ", data);
         if (data.userId) {
-            root.render(<Profil />);
+            root.render(<App />);
         } else {
             root.render(<Welcome />);
         }
