@@ -1,39 +1,43 @@
-import React from "react";
-import { Component } from "react";
+import React, { Component } from "react";
+// import { Component } from "react";
 // import { Link } from "react-router-dom";
+import ProfilPic from "../profilpic/profilpic"; // maybe create seperate component just for the image
 
-interface ProfileState {
-    togglePopup: () => void;
-    changeName: () => void;
+interface ProfileProps {
     imgFromApp: string;
+    userInfoApp: object;
+    profilePic: string;
+    // togglePopup: Function;
 }
-export default function Profile(probs: ProfileState) {
+interface ProfileState {
+    // togglePopup: () => void;
+    // togglePopup: Function;
+    //  ReturnType<typeof this.props.togglePopup>;
+    // changeName: () => void;
+    // handleChange: Function;
+    // ReturnType<typeof this.props.handleChange>;
+    // userInfo: boolean;
+}
+export class Profile extends React.Component<ProfileProps, ProfileState> {
     // console.log("Probs in profile: ", props);
-
+    constructor(props) {
+        super(props);
+        // this.state = {
+        //     userInfo: false,
+        //     imgApp: false,
+        // };
+    }
     // probs.imgFromApp = probs.imgFromApp || "/default.png"; /// Check what goes on here later; probably TypeScript error
 
-    return (
-        <>
-            <button onClick={probs.togglePopup}>Toggle Popup</button>
-            <button onClick={() => probs.changeName()}>Change Name</button>
-        </>
-    );
+    render() {
+        return (
+            <div>
+                <h1>Profil Page</h1>
+                {/* <ProfilPic
+                    imgFromApp={this.props.imgFromApp}
+                    userInfoApp={this.props.userInfoApp}
+                /> */}
+            </div>
+        );
+    }
 }
-
-// export class Profile extends Component {
-//     constructor(probs) {
-//         super(probs);
-//         this.state = {
-//             /// Need to add the prober names here
-//         };
-//     }
-//     render() {
-//         return (
-//             <div className="container">
-//                 <h1 className="heading"> Profile Page</h1>
-//                 <p> It takes a neighbood to raise a child</p>
-//                 {/* <Link to="/login">Login</Link> */}
-//             </div>
-//         );
-//     }
-// }

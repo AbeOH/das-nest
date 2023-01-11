@@ -53,6 +53,7 @@ export default class Login extends Component<any, any> {
                 })
                     .then((res) => res.json())
                     .then((data) => {
+                        console.log("dddata: ", data);
                         if (data.success) {
                             this.setState({ step: 3 });
                         } else {

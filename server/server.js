@@ -7,6 +7,8 @@ const { PORT = 3001 } = process.env;
 
 // Importing functions from db.js
 const {
+    getUserId,
+    updateProfile,
     addUser,
     getUser,
     addCode,
@@ -39,6 +41,8 @@ const ses = new aws.SES({
     region: AWS_Region,
 });
 
+const { uploader, fileUpload } = require("./uploader.js");
+
 app.use(
     cookieSession({
         secret: "It takes a village to raise a child",
@@ -49,11 +53,29 @@ app.use(
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
+app.use((req, res, next) => {
+    console.log("---------------------");
+    console.log("req.url:", req.url);
+    console.log("req.method:", req.method);
+    console.log("req.session:", req.session);
+    console.log("req.body:", req.body);
+    console.log("---------------------");
+    next();
+});
 
 //***************************************************************************************** */
 // Get Routes
 app.get("/user/id.json", (req, res) => {
     res.json({ userId: req.session.userId }); // Instead of null; I need to use value from req.session.userId
+});
+
+app.get("user/id/:userId", (req, res) => {
+    // const { userId } = req.session;
+    const userId = req.session.userId;
+    console.log("userId: ", userId);
+    getUserId(userId).then((data) => {
+        res.json(data);
+    });
 });
 
 //***************************************************************************************** */
@@ -93,10 +115,10 @@ app.post("/login", (req, res) => {
     getUser(email).then((user) => {
         if (user) {
             console.log("data: ", user);
-            compare(password, user.rows[0].password).then((isMatch) => {
+            compare(password, user.password).then((isMatch) => {
                 console.log("Check: ", isMatch);
                 if (isMatch) {
-                    req.session.userId = user.rows[0].id;
+                    req.session.userId = user.id;
                     console.log("Logged In", req.session.userId);
                     res.json({ success: true });
                 } else {
@@ -110,13 +132,16 @@ app.post("/login", (req, res) => {
 });
 //*****************************************************************************************
 // Post Routes for Password Reset
-app.post("/password/reset/start", (req, res) => {
+app.post("/reset/start", (req, res) => {
     const { email } = req.body;
     getUser(email).then((user) => {
         if (user) {
             console.log("data: ", user);
             const code = cryptoRandomString({ length: 6 });
+            console.log("code: ", code);
+            console.log("email: ", email);
             addCode(email, code).then((data) => {
+                res.json({ success: true });
                 console.log("data", data); /// Log code instead of email to check if verficiation works
                 //     if (data) {
                 //         ses.sendEmail({
@@ -152,14 +177,16 @@ app.post("/password/reset/start", (req, res) => {
     });
 });
 
-app.post("/password/reset/verify", (req, res) => {
+app.post("/reset/verify", (req, res) => {
     const { email, code, password } = req.body;
     findCode(email).then((data) => {
-        if (data.rows[0].code === code) {
+        console.log("DData: ", data);
+        if (data.code === code) {
             // check again
             hash(password)
                 .then((hashed) => updatePassword(email, hashed))
                 .then((data) => {
+                    console.log("DdData: ", data);
                     if (data) {
                         console.log("Password updated");
                         res.json({ success: true });
@@ -170,12 +197,27 @@ app.post("/password/reset/verify", (req, res) => {
                 .catch((err) =>
                     console.log("Error in updating password: ", err)
                 );
-            res.json({ success: false });
+            // res.json({ success: false });
         } else {
             res.json({ success: false });
         }
     });
 });
+//*****************************************************************************************
+/// Upload Routes for Logout
+
+app.post("/upload", uploader.single("file"), fileUpload, (req, res) => {
+    if (req.file) {
+        const url = res.locals.fileUrl;
+        const iD = req.session.userId;
+        updateProfile(url, iD).then((data) => res.json(data));
+    }
+});
+
+// app.post("/logout", (req, res) => {
+//     req.session = null;
+//     res.json({ userId: null });
+// });
 
 //***************************************************************************************** */
 app.get("*", function (req, res) {

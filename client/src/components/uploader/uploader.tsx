@@ -1,12 +1,20 @@
 import React, { Component } from "react";
 
-export class Uploader extends Component<any, any> {
+interface UploaderProps {
+    // handleClose: Function;
+    togglePopup: Function;
+    handleUpload: Function;
+    handleChange: Function;
+}
+
+export class Uploader extends Component<UploaderProps, {}> {
     constructor(props) {
         super(props);
-        this.state = {
-            toggle: false,
-            upload: false,
-        };
+        // this.state = {
+        //     togglePopup: false,
+        //     handleUpload: false,
+        //     handleChange: false,
+        // };
         // need to add bind like normal function
     }
     componentDidMount() {
@@ -15,14 +23,17 @@ export class Uploader extends Component<any, any> {
     render() {
         return (
             <div>
-                <div className="container" onClick={this.props.toggle}></div>
-                <form onSubmit={this.props.upload} className="form">
+                <div
+                    className="container"
+                    onClick={() => this.props.togglePopup}
+                ></div>
+                <form onSubmit={() => this.props.handleUpload} className="form">
                     <h1>Change profile picture?</h1>
                     <input
                         type="file"
                         name="file"
                         accept="image/*"
-                        onChange={this.props.handleChange}
+                        onChange={() => this.props.handleChange}
                     />
                     <button>Upload</button>
                 </form>
