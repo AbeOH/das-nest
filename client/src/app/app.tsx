@@ -2,7 +2,7 @@ import { Component } from "react";
 import { Logo } from "../components/logo/logo";
 import Profile from "../components/profile/profile";
 import { Uploader } from "../components/uploader/uploader";
-import Reset from "../components/reset/reset";
+// import Reset from "../components/reset/reset";
 
 // interface AppProbs {
 
@@ -27,13 +27,14 @@ export class App extends Component<{}, AppStates> {
             // add more states
         };
         this.togglePopup = this.togglePopup.bind(this);
-        this.changeName = this.changeName.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         // need to add bind like normal function
     }
     componentDidMount() {
         console.log("App mounted");
+        /// Get request to get user info
     }
-    changeName() {
+    handleChange() {
         console.log("change name");
         // this.setState({ username: newName });
     }
@@ -46,9 +47,10 @@ export class App extends Component<{}, AppStates> {
                 <Logo />
                 <Profile
                     togglePopup={this.togglePopup}
-                    changeName={this.changeName}
+                    changeName={this.handleChange}
                     imgFromApp={""} /// Check what goes on here later
                 />
+                <Uploader />
                 {/* {this.state.isPopupOpen && (
                     <Uploader username={this.state.username} />
                 )} */}

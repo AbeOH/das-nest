@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export class Uploader extends Component {
+export class Uploader extends Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,20 +14,19 @@ export class Uploader extends Component {
     }
     render() {
         return (
-            <div>Hi !!! </div>
-            // <div className="container">
-            //     <h1 className="heading"> Welcome to the Nest!</h1>
-            //     <p> It takes a neighbood to raise a child</p>
-            //     <form onSubmit={this.props.handleSubmit}>
-            //         <h2>Change profile picture?</h2>
-            //         <input
-            //             type="file"
-            //             name="file"
-            //             onChange={this.props.handleChange}
-            //         />
-            //         <button>Upload</button>
-            //     </form>
-            // </div>
+            <div>
+                <div className="container" onClick={this.props.toggle}></div>
+                <form onSubmit={this.props.upload} className="form">
+                    <h1>Change profile picture?</h1>
+                    <input
+                        type="file"
+                        name="file"
+                        accept="image/*"
+                        onChange={this.props.handleChange}
+                    />
+                    <button>Upload</button>
+                </form>
+            </div>
         );
     }
 }
