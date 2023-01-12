@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS rest_codes;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -6,7 +7,7 @@ CREATE TABLE users (
   lastname VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  -- imageurl VARCHAR(255) NOT NULL,
+  imageurl VARCHAR(255),
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

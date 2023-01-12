@@ -43,7 +43,7 @@ export class App extends React.Component<{}, AppStates> {
     componentDidMount() {
         console.log("App mounted");
         /// Fetch request to get user info
-        fetch(`/user/id///${this.state.id}`, {
+        fetch(`/user/id.json`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -51,22 +51,35 @@ export class App extends React.Component<{}, AppStates> {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log("data from server: ", data);
-                if (data) {
-                    const { id, first, last, imgUrl } = data;
-                }
-                this.setState({
-                    id: data.id,
-                    first: data.first,
-                    last: data.last,
-                    imgUrl: data.imgUrl,
-                });
-                // this.setState({ imgUrl: data.userData[0].imgUrl });
+                console.log("dddddata from server: ", data);
+                fetch(`/user/id/${data.userId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log("Data from user: ", data);
+                        if (data) {
+                            const { id, first, last, imgUrl } = data;
+                            this.setState({
+                                id: data.id,
+                                first: data.firstname,
+                                last: data.lastname,
+                                imgUrl: data.imgurl,
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        console.log("Error in fetch: ", err);
+                    });
             })
             .catch((err) => {
-                console.log("Error in fetch: ", err);
+                console.log("EEError in fetch: ", err);
             });
     }
+
     // add Signout function here
     togglePopup(evt: React.MouseEvent<HTMLDivElement>) {
         /// taking evt out

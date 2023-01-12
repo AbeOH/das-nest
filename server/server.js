@@ -69,13 +69,24 @@ app.get("/user/id.json", (req, res) => {
     res.json({ userId: req.session.userId }); // Instead of null; I need to use value from req.session.userId
 });
 
-app.get("user/id/:userId", (req, res) => {
+// app.get("/user", (req, res) => {
+
+//     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+// });
+
+app.get("/user/id/:userId", (req, res) => {
     // const { userId } = req.session;
+    console.log("Hello Test");
     const userId = req.session.userId;
     console.log("userId: ", userId);
-    getUserId(userId).then((data) => {
-        res.json(data);
-    });
+    getUserId(userId)
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            console.log("error in GET /user/id: ", err);
+            res.json("Error", err);
+        });
 });
 
 //***************************************************************************************** */
