@@ -4,7 +4,7 @@ import { Logo } from "../components/logo/logo";
 import { Profile } from "../components/profile/profile";
 import { Uploader } from "../components/uploader/uploader";
 import ProfilPic from "../components/profilpic/profilpic";
-// import Reset from "../components/reset/reset";
+// import { Reset } from "../welcome/reset/reset";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -38,7 +38,7 @@ export class App extends React.Component<AppProbs, AppStates> {
         };
         this.togglePopup = this.togglePopup.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleUpload = this.handleUpload.bind(this);
+        this.updateImageClosePopup = this.updateImageClosePopup.bind(this);
         // need to add bind like normal function
     }
     componentDidMount() {
@@ -82,36 +82,23 @@ export class App extends React.Component<AppProbs, AppStates> {
     }
 
     // add Signout function here
-    togglePopup(evt: React.MouseEvent<HTMLDivElement>) {
+    togglePopup() {
         /// taking evt out
-        evt.preventDefault();
+        // evt.preventDefault();
+        console.log("Clicking togglePopup");
         this.setState({ isPopupOpen: !this.state.isPopupOpen });
     }
     handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
         // console.log("change name");
         // this.setState({ file: evt.target.files[0] });
     }
-    handleUpload(evt: React.FormEvent<HTMLFormElement>) {
-        console.log("upload");
-        evt.preventDefault();
-        const formData = new FormData();
-        if (this.state.file === null) {
-            return;
-        }
-        formData.append("file", this.state.file);
-        fetch("/upload", {
-            method: "POST",
-            body: formData,
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("data from server: ", data);
-                this.setState({ imgApp: data.imgUrl, isPopupOpen: false });
-            })
-            .catch((err) => {
-                console.log("Error in fetch: ", err);
-            });
+
+    updateImageClosePopup(newImgUrl: string) {
+        console.log("newImgUrl: ", newImgUrl);
+        this.setState({ imgUrl: newImgUrl });
+        // this.togglePopup();
     }
+    ///
 
     render() {
         return (
@@ -129,8 +116,8 @@ export class App extends React.Component<AppProbs, AppStates> {
                     <Uploader
                         // handleClose={this.handleClose} /// change
                         togglePopup={this.togglePopup}
-                        handleUpload={this.handleUpload}
                         handleChange={this.handleChange}
+                        updateImageClosePopup={this.updateImageClosePopup}
                     />
                 )}
                 {/* //// Sign out here */}
