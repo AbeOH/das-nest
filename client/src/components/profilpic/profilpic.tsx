@@ -18,19 +18,13 @@ interface ProfilPicProps {
 
 export default function ProfilPic(props: ProfilPicProps) {
     return (
-        <div>
-            <p>HELLO</p>
+        <>
             <img
-                src={props.imgFromApp}
+                src={props.imgFromApp || "/logo.png"}
                 alt={`${props.firstName}, ${props.lastName}`}
+                onClick={() => props.togglePopup}
             />
-            <h1 className="user">
-                <p>WORLD</p>
-                <p>
-                    {props.firstName} {props.lastName}
-                </p>
-            </h1>
-        </div>
+        </>
     );
 }
 

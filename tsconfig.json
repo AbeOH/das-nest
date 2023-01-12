@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "./src/",
-        "noImplicitAny": false, //// Change maybe later to true and check before compiling
+        "noImplicitAny": true, //// Change maybe later to true and check before compiling
         "module": "es6",
         "target": "es5",
         "jsx": "react-jsx",
@@ -9,6 +9,6 @@
         "moduleResolution": "node",
         "noEmitOnError": true,
         "allowSyntheticDefaultImports": true,
-        "strict": false /// Change maybe later to true and check before compiling
+        "strict": true /// Change maybe later to true and check before compiling
     }
 }

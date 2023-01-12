@@ -7,8 +7,10 @@ interface LoginState {
     errormsg?: string;
 }
 
-export class Login extends Component<any, LoginState> {
-    constructor(probs) {
+interface LoginProbs {}
+
+export class Login extends Component<LoginProbs, LoginState> {
+    constructor(probs: LoginProbs) {
         super(probs);
         this.state = {
             email: "",
@@ -16,7 +18,7 @@ export class Login extends Component<any, LoginState> {
             errormsg: "",
         };
     }
-    handleInputChange = (evt) => {
+    handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name; // This line will hold value when input for value is changed
         const value = evt.target.value;
         console.log("Evt Target", evt.target);

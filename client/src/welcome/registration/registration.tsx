@@ -8,8 +8,13 @@ interface RegistrationState {
     errormsg?: string;
 }
 
-export class Registration extends Component<any, RegistrationState> {
-    constructor(probs) {
+interface RegistrationProbs {}
+
+export class Registration extends Component<
+    RegistrationProbs,
+    RegistrationState
+> {
+    constructor(probs: RegistrationProbs) {
         super(probs);
         this.state = {
             firstname: "",
@@ -19,7 +24,7 @@ export class Registration extends Component<any, RegistrationState> {
             errormsg: "",
         };
     }
-    handleInputChange = (evt) => {
+    handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name; // This line will hold value when input for value is changed
         const value = evt.target.value;
         console.log("Evt Target", evt.target);

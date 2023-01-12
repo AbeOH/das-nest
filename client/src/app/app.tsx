@@ -13,25 +13,26 @@ interface AppStates {
     last: string;
     // userInfo: object;
     imgUrl?: string;
-    file: File; /// Check what goes on here later
+    file: File | null; /// Check what goes on here later
     imgApp: string;
     // add later states for bio/profile
 }
+interface AppProbs {}
 
 /// Change Profile back to App; need to motify other files
-export class App extends React.Component<{}, AppStates> {
-    constructor(props) {
+export class App extends React.Component<AppProbs, AppStates> {
+    constructor(props: AppProbs) {
         super(props);
         this.state = {
             isPopupOpen: false,
-            id: null,
+            id: 0,
             first: "", // check later if can be null
             last: "",
             // username: "LeBron James",
             // userInfo: {},
-            imgUrl: null,
+            imgUrl: "",
             file: null,
-            imgApp: null,
+            imgApp: "",
 
             // add more states
         };
@@ -88,12 +89,15 @@ export class App extends React.Component<{}, AppStates> {
     }
     handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
         // console.log("change name");
-        this.setState({ file: evt.target.files[0] });
+        // this.setState({ file: evt.target.files[0] });
     }
-    handleUpload(evt) {
+    handleUpload(evt: React.FormEvent<HTMLFormElement>) {
         console.log("upload");
         evt.preventDefault();
         const formData = new FormData();
+        if (this.state.file === null) {
+            return;
+        }
         formData.append("file", this.state.file);
         fetch("/upload", {
             method: "POST",

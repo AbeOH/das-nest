@@ -8,7 +8,7 @@ interface UploaderProps {
 }
 
 export class Uploader extends Component<UploaderProps, {}> {
-    constructor(props) {
+    constructor(props: UploaderProps) {
         super(props);
         // this.state = {
         //     togglePopup: false,
@@ -33,7 +33,7 @@ export class Uploader extends Component<UploaderProps, {}> {
                         type="file"
                         name="file"
                         accept="image/*"
-                        onChange={() => this.props.handleChange}
+                        // onChange={() => this.props.handleChange}
                     />
                     <button>Upload</button>
                 </form>
