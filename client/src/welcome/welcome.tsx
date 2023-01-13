@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Logo } from "../components/logo/logo";
 import { Registration } from "./registration/registration";
 import { Login } from "./login/login";
-import Reset from "../components/reset/reset";
+import Reset from "./reset/reset";
 
 // import { Login } from "./login/login";
 export function Welcome() {

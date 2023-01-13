@@ -20,7 +20,7 @@ interface ProfileState {
 }
 export class Profile extends React.Component<ProfileProps, ProfileState> {
     // console.log("Probs in profile: ", props);
-    constructor(props) {
+    constructor(props: ProfileProps) {
         super(props);
         // this.state = {
         //     userInfo: false,

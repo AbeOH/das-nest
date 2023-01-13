@@ -218,10 +218,12 @@ app.post("/reset/verify", (req, res) => {
 /// Upload Routes for Logout
 
 app.post("/upload", uploader.single("file"), fileUpload, (req, res) => {
+    console.log("Files", req.file);
     if (req.file) {
         const url = res.locals.fileUrl;
         const iD = req.session.userId;
-        updateProfile(url, iD).then((data) => res.json(data));
+        console.log("url: ", url);
+        updateProfile(iD, url).then((data) => res.json(data));
     }
 });
 
@@ -232,7 +234,7 @@ app.post("/upload", uploader.single("file"), fileUpload, (req, res) => {
 
 //***************************************************************************************** */
 app.get("*", function (req, res) {
-    console.log("Got requested url: ", req.url);
+    // console.log("Got requested url: ", req.url);
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 

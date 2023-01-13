@@ -13,7 +13,9 @@ interface AppStates {
     last: string;
     // userInfo: object;
     imgUrl?: string;
-    file: File | null; /// Check what goes on here later
+    file: File | null;
+    files: FileList | null;
+    /// Check what goes on here later
     imgApp: string;
     // add later states for bio/profile
 }
@@ -32,6 +34,7 @@ export class App extends React.Component<AppProbs, AppStates> {
             // userInfo: {},
             imgUrl: "",
             file: null,
+            files: null,
             imgApp: "",
 
             // add more states
@@ -89,10 +92,16 @@ export class App extends React.Component<AppProbs, AppStates> {
         this.setState({ isPopupOpen: !this.state.isPopupOpen });
     }
     handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
-        // console.log("change name");
-        // this.setState({ file: evt.target.files[0] });
+        console.log("change name", evt.target.files);
+        if (evt.target.files) {
+            const file = evt.target.files[0];
+            // const file = evt.target.files[0]
+            if (file !== null) {
+                this.setState({ file });
+                // return;
+            }
+        }
     }
-
     updateImageClosePopup(newImgUrl: string) {
         console.log("newImgUrl: ", newImgUrl);
         this.setState({ imgUrl: newImgUrl });

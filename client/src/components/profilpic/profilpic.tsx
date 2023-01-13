@@ -22,7 +22,7 @@ export default function ProfilPic(props: ProfilPicProps) {
             <img
                 src={props.imgFromApp || "/logo.png"}
                 alt={`${props.firstName}, ${props.lastName}`}
-                onClick={() => props.togglePopup}
+                onClick={() => props.togglePopup()}
             />
         </>
     );

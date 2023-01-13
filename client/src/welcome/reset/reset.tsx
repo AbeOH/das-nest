@@ -1,22 +1,30 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-export default class Login extends Component<any, any> {
-    constructor(probs) {
+interface ResetProps {}
+
+interface ResetState {
+    step: number;
+    email: string;
+    code: string;
+    password: string;
+    error: string;
+}
+
+export default class Reset extends Component<{}, ResetState> {
+    constructor(probs: ResetProps) {
         super(probs);
-        this.state = { step: 1 };
+        this.state = { step: 1, email: "", code: "", password: "", error: "" };
         this.whatToRender = this.whatToRender.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(evt) {
-        this.setState({
-            [evt.target.name]: evt.target.value,
-        });
+    handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ ...this.state, [evt.target.name]: evt.target.value });
     }
 
-    handleSubmit(evt) {
+    handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
         evt.preventDefault();
         switch (this.state.step) {
             case 1:
