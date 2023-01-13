@@ -74,7 +74,7 @@ app.get("/user/id.json", (req, res) => {
 //     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 // });
 
-app.get("/user/id/:userId", (req, res) => {
+app.get("/user/userInformation.json", (req, res) => {
     // const { userId } = req.session;
     console.log("Hello Test");
     const userId = req.session.userId;
@@ -84,7 +84,7 @@ app.get("/user/id/:userId", (req, res) => {
             res.json(data);
         })
         .catch((err) => {
-            console.log("error in GET /user/id: ", err);
+            console.log("error in GET /user/userInformation.json: ", err);
             res.json("Error", err);
         });
 });

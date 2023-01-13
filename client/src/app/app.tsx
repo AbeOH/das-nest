@@ -12,12 +12,7 @@ interface AppStates {
     id: number;
     first: string;
     last: string;
-    // userInfo: object;
-    imgUrl?: any;
-    file: File | null;
-    files: FileList | null;
-    /// Check what goes on here later
-    imgApp: string;
+    imgUrl: string;
     // add later states for bio/profile
 }
 interface AppProbs {}
@@ -31,24 +26,18 @@ export class App extends React.Component<AppProbs, AppStates> {
             id: 0,
             first: "", // check later if can be null
             last: "",
-            // username: "LeBron James",
-            // userInfo: {},
             imgUrl: "",
-            file: null,
-            files: null,
-            imgApp: "",
-
             // add more states
         };
         this.togglePopup = this.togglePopup.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
         this.updateImageClosePopup = this.updateImageClosePopup.bind(this);
         // need to add bind like normal function
     }
     componentDidMount() {
         console.log("App mounted");
         /// Fetch request to get user info
-        fetch(`/user/id.json`, {
+        fetch(`/user/userInformation.json`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -57,28 +46,17 @@ export class App extends React.Component<AppProbs, AppStates> {
             .then((res) => res.json())
             .then((data) => {
                 console.log("dddddata from server: ", data);
-                fetch(`/user/id/${data.userId}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        console.log("Data from user: ", data);
-                        if (data) {
-                            const { id, first, last, imgUrl } = data;
-                            this.setState({
-                                id: data.id,
-                                first: data.firstname,
-                                last: data.lastname,
-                                imgUrl: data.imgurl,
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        console.log("Error in fetch: ", err);
+                if (data) {
+                    console.log("Setting State");
+                    const { id, first, last, imgUrl } = data;
+                    console.log("Data before setting: ", data);
+                    this.setState({
+                        id: data.id,
+                        first: data.firstname,
+                        last: data.lastname,
+                        imgUrl: data.imageurl,
                     });
+                }
             })
             .catch((err) => {
                 console.log("EEError in fetch: ", err);
@@ -87,52 +65,34 @@ export class App extends React.Component<AppProbs, AppStates> {
 
     // add Signout function here
     togglePopup() {
-        /// taking evt out
-        // evt.preventDefault();
         console.log("Clicking togglePopup");
         this.setState({ isPopupOpen: !this.state.isPopupOpen });
     }
-    handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
-        console.log("change name", evt.target.files);
-        if (evt.target.files) {
-            console.log("evt.target.files: ", evt.target.files[0]);
 
-            const file = evt.target.files[0];
-            // const file = evt.target.files[0]
-            // if (file !== null) {
-            this.setState({ file });
-            // return;
-            // }
-        }
-    }
     updateImageClosePopup(newImgUrl: string) {
         console.log("newImgUrl: ", newImgUrl);
         this.setState({ imgUrl: newImgUrl });
-        // this.togglePopup();
+        console.log("this.state", this.state);
+        this.togglePopup();
     }
     ///
 
     render() {
-        console.log("File in app: ", this.state.file);
-
         return (
             <div className="container">
+                <pre>{JSON.stringify(this.state)}</pre>
                 <Logo />
                 <ProfilPic
-                    imgFromApp={this.state.imgUrl} /// Check what goes on here later
+                    userPic={this.state.imgUrl} /// Check what goes on here later
                     // userInfoApp={this.state.userInfo}
                     firstName={this.state.first}
                     lastName={this.state.last}
                     togglePopup={this.togglePopup}
-                    handleChange={this.handleChange}
                 />
                 {this.state.isPopupOpen && (
                     <Uploader
-                        // handleClose={this.handleClose} /// change
                         togglePopup={this.togglePopup}
-                        handleChange={this.handleChange}
                         updateImageClosePopup={this.updateImageClosePopup}
-                        fileFromApp={this.state.file}
                     />
                 )}
                 {/* //// Sign out here */}

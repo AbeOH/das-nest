@@ -2,31 +2,27 @@ import { Form } from "aws-sdk/clients/amplifyuibuilder";
 import React, { Component } from "react";
 
 interface UploaderProps {
-    // handleClose: Function;
     togglePopup: Function;
-    // handleUpload: Function;
-    handleChange: Function;
+    // handleChange: Function;
     updateImageClosePopup: Function;
-    fileFromApp: File | null;
+    // fileFromApp: File | null;
 }
 
 interface UploaderState {
-    // handleUpload: Function;
-    file: File | null;
-    files: FileList | null;
+    fileUrl: File | null;
+    // files: FileList | null;
 }
 export class Uploader extends Component<UploaderProps, UploaderState> {
     constructor(props: UploaderProps) {
         super(props);
         this.state = {
-            file: null,
-            files: null,
-            // togglePopup: false,
-            // handleUpload: false,
-            // handleChange: false,
+            fileUrl: null,
+            // files: null,
         };
         // need to add bind like normal function
+        this.handleChange = this.handleChange.bind(this);
     }
+
     componentDidMount() {
         console.log("Uploader mounted");
     }
@@ -37,11 +33,11 @@ export class Uploader extends Component<UploaderProps, UploaderState> {
         // const file = (evt.target as Form)//   .children.file;
         // console.log("form: ", form);
         const formData = new FormData();
-        if (this.props.fileFromApp === null) {
+        if (this.state.fileUrl === null) {
             return;
         }
         console.log("Does it append?");
-        formData.append("file", this.props.fileFromApp);
+        formData.append("file", this.state.fileUrl);
         console.log("formData: ", formData);
         fetch("/upload", {
             method: "POST",
@@ -56,8 +52,20 @@ export class Uploader extends Component<UploaderProps, UploaderState> {
                 console.log("Errrrrrror in fetch: ", err);
             });
     }
+    handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
+        console.log("change name", evt.target.files);
+        if (evt.target.files) {
+            console.log("evt.target.files: ", evt.target.files[0]);
+            const fileUrl = evt.target.files[0];
+            // const file = evt.target.files[0]
+            // if (file !== null) {
+            this.setState({ fileUrl });
+            // return;
+            // }
+        }
+    }
     render() {
-        console.log("Fille", this.state.file);
+        console.log("Fille", this.state.fileUrl);
         return (
             <section>
                 {/* <p className="container" onClick={() => this.props.togglePopup}>
@@ -74,7 +82,7 @@ export class Uploader extends Component<UploaderProps, UploaderState> {
                         type="file"
                         name="file"
                         accept="image/*"
-                        onChange={(evt) => this.props.handleChange(evt)}
+                        onChange={(evt) => this.handleChange(evt)}
                     />
                     <button>Upload</button>
                 </form>

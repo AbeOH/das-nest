@@ -1,12 +1,12 @@
 // import { Component } from "react";
 
 interface ProfilPicProps {
-    imgFromApp: string;
+    userPic: string;
     // userInfoApp: object;
     firstName: string;
     lastName: string;
     togglePopup: Function; // ? optinallity of props
-    handleChange: Function;
+    // handleChange: Function;
 }
 
 // interface ProfilPicState {
@@ -20,7 +20,7 @@ export default function ProfilPic(props: ProfilPicProps) {
     return (
         <>
             <img
-                src={props.imgFromApp || "/logo.png"}
+                src={props.userPic || "/logo.png"}
                 alt={`${props.firstName}, ${props.lastName}`}
                 onClick={() => props.togglePopup()}
             />
