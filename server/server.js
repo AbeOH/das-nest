@@ -223,7 +223,12 @@ app.post("/upload", uploader.single("file"), fileUpload, (req, res) => {
         const url = res.locals.fileUrl;
         const iD = req.session.userId;
         console.log("url: ", url);
-        updateProfile(iD, url).then((data) => res.json(data));
+        updateProfile(iD, url)
+            .then((data) => {
+                console.log("What is data", data);
+                res.json(data.rows[0]);
+            })
+            .catch((err) => console.log("Error in updating profile: ", err));
     }
 });
 

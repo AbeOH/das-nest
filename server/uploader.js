@@ -11,7 +11,7 @@ const { AWS_KEY, AWS_SECRET, AWS_BUCKET } = process.env;
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         /// second argumnet in callback says where file should be save
-        callback(null, path.join(__dirname, "..", "uploads"));
+        callback(null, path.join(__dirname, "uploads"));
     },
     filename: function (req, file, callback) {
         uidSafe(24).then(function (uid) {

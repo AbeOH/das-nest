@@ -52,12 +52,11 @@ module.exports.updatePassword = (email, password) => {
 };
 
 module.exports.updateProfile = (id, url) => {
-    return db
-        .query("UPDATE users SET imageurl=$2 WHERE id=$1 RETURNING *", [
-            id,
-            url,
-        ])
-        .then((data) => data.rows[0]);
+    return db.query(
+        "UPDATE users SET imageurl = $2 WHERE id = $1 RETURNING *",
+        [id, url]
+    );
+    // .then((data) => data.rows[0]);
 };
 
 module.exports.getUserId = (id) => {

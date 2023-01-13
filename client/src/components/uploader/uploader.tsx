@@ -7,6 +7,7 @@ interface UploaderProps {
     // handleUpload: Function;
     handleChange: Function;
     updateImageClosePopup: Function;
+    fileFromApp: File | null;
 }
 
 interface UploaderState {
@@ -33,13 +34,15 @@ export class Uploader extends Component<UploaderProps, UploaderState> {
         console.log("uUUpload");
         console.log("evt: ", evt);
         evt.preventDefault();
-        // const file = (evt.target as Form).children.file;
+        // const file = (evt.target as Form)//   .children.file;
         // console.log("form: ", form);
         const formData = new FormData();
-        if (this.state.file === null) {
+        if (this.props.fileFromApp === null) {
             return;
         }
-        formData.append("file", this.state.file);
+        console.log("Does it append?");
+        formData.append("file", this.props.fileFromApp);
+        console.log("formData: ", formData);
         fetch("/upload", {
             method: "POST",
             body: formData,
@@ -47,13 +50,14 @@ export class Uploader extends Component<UploaderProps, UploaderState> {
             .then((res) => res.json())
             .then((data) => {
                 console.log("data from server: ", data);
-                this.props.updateImageClosePopup(data.imgUrl);
+                this.props.updateImageClosePopup(data.imageurl);
             })
             .catch((err) => {
-                console.log("Error in fetch: ", err);
+                console.log("Errrrrrror in fetch: ", err);
             });
     }
     render() {
+        console.log("Fille", this.state.file);
         return (
             <section>
                 {/* <p className="container" onClick={() => this.props.togglePopup}>

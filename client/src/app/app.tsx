@@ -4,6 +4,7 @@ import { Logo } from "../components/logo/logo";
 import { Profile } from "../components/profile/profile";
 import { Uploader } from "../components/uploader/uploader";
 import ProfilPic from "../components/profilpic/profilpic";
+import { CleanPlugin } from "webpack";
 // import { Reset } from "../welcome/reset/reset";
 
 interface AppStates {
@@ -12,7 +13,7 @@ interface AppStates {
     first: string;
     last: string;
     // userInfo: object;
-    imgUrl?: string;
+    imgUrl?: any;
     file: File | null;
     files: FileList | null;
     /// Check what goes on here later
@@ -94,12 +95,14 @@ export class App extends React.Component<AppProbs, AppStates> {
     handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
         console.log("change name", evt.target.files);
         if (evt.target.files) {
+            console.log("evt.target.files: ", evt.target.files[0]);
+
             const file = evt.target.files[0];
             // const file = evt.target.files[0]
-            if (file !== null) {
-                this.setState({ file });
-                // return;
-            }
+            // if (file !== null) {
+            this.setState({ file });
+            // return;
+            // }
         }
     }
     updateImageClosePopup(newImgUrl: string) {
@@ -110,11 +113,13 @@ export class App extends React.Component<AppProbs, AppStates> {
     ///
 
     render() {
+        console.log("File in app: ", this.state.file);
+
         return (
             <div className="container">
                 <Logo />
                 <ProfilPic
-                    imgFromApp={this.state.imgApp} /// Check what goes on here later
+                    imgFromApp={this.state.imgUrl} /// Check what goes on here later
                     // userInfoApp={this.state.userInfo}
                     firstName={this.state.first}
                     lastName={this.state.last}
@@ -127,6 +132,7 @@ export class App extends React.Component<AppProbs, AppStates> {
                         togglePopup={this.togglePopup}
                         handleChange={this.handleChange}
                         updateImageClosePopup={this.updateImageClosePopup}
+                        fileFromApp={this.state.file}
                     />
                 )}
                 {/* //// Sign out here */}
