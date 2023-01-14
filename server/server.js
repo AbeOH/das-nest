@@ -92,6 +92,7 @@ app.get("/bio", (req, res) => {
         res.json(data);
     });
 });
+
 //***************************************************************************************** */
 // Post Routes for Registration
 app.post("/register", (req, res) => {
@@ -218,7 +219,7 @@ app.post("/reset/verify", (req, res) => {
     });
 });
 //*****************************************************************************************
-/// Upload Routes for Logout
+/// Post Upload Routes , Update bio, Logout
 
 app.post("/upload", uploader.single("file"), fileUpload, (req, res) => {
     console.log("Files", req.file);
@@ -233,6 +234,13 @@ app.post("/upload", uploader.single("file"), fileUpload, (req, res) => {
             })
             .catch((err) => console.log("Error in updating profile: ", err));
     }
+});
+
+app.post("/bio", (req, res) => {
+    const { bio } = req.body;
+    const iD = req.session.userId;
+    console.log("Bio: ", bio);
+    updateBio(iD, bio).then((data) => res.json(data));
 });
 
 // app.post("/logout", (req, res) => {
