@@ -67,3 +67,15 @@ module.exports.getUserId = (id) => {
         )
         .then((data) => data.rows[0]);
 };
+
+module.exports.getUserBio = (id) => {
+    return db
+        .query("SELECT bio FROM users WHERE id=$1", [id])
+        .then((data) => data.rows[0]);
+};
+
+module.exports.updateBio = (id, bio) => {
+    return db
+        .query("UPDATE users SET bio = $2 WHERE id = $1 RETURNING *", [id, bio])
+        .then((data) => data.rows[0]);
+};
