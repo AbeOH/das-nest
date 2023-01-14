@@ -7,6 +7,8 @@ const { PORT = 3001 } = process.env;
 
 // Importing functions from db.js
 const {
+    getUserBio,
+    updateBio,
     getUserId,
     updateProfile,
     addUser,
@@ -69,11 +71,6 @@ app.get("/user/id.json", (req, res) => {
     res.json({ userId: req.session.userId }); // Instead of null; I need to use value from req.session.userId
 });
 
-// app.get("/user", (req, res) => {
-
-//     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-// });
-
 app.get("/user/userInformation.json", (req, res) => {
     // const { userId } = req.session;
     console.log("Hello Test");
@@ -89,6 +86,12 @@ app.get("/user/userInformation.json", (req, res) => {
         });
 });
 
+app.get("/bio", (req, res) => {
+    const userId = req.session.userId;
+    getUserBio(userId).then((data) => {
+        res.json(data);
+    });
+});
 //***************************************************************************************** */
 // Post Routes for Registration
 app.post("/register", (req, res) => {
