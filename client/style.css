@@ -22,3 +22,35 @@ img {
     color: black;
     size: xx-large;
 }
+
+.topBarContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: orange;
+    height: 50px;
+    width: 100%;
+    padding: 0 20px;
+}
+.logo {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    /* position: left; */
+}
+
+.profileContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: yellow; */
+    height: 300px;
+    /* width: 100%; */
+    padding: 0 20px;
+}
+
+.profilePicPro {
+    align-items: center;
+}

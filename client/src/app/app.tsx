@@ -1,11 +1,10 @@
 // import { Component } from "react";
 import * as React from "react";
 import { Logo } from "../components/logo/logo";
-import { Profile } from "../components/profile/profile";
+import Profile from "../components/profile/profile";
 import { Uploader } from "../components/uploader/uploader";
-import ProfilPic from "../components/profilpic/profilpic";
+import ProfilPic from "../components/profile/profilpic/profilpic";
 import { CleanPlugin } from "webpack";
-// import { Reset } from "../welcome/reset/reset";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -79,32 +78,37 @@ export class App extends React.Component<AppProbs, AppStates> {
 
     render() {
         return (
-            <div className="container">
-                <pre>{JSON.stringify(this.state)}</pre>
-                <Logo />
-                <ProfilPic
-                    userPic={this.state.imgUrl} /// Check what goes on here later
-                    // userInfoApp={this.state.userInfo}
-                    firstName={this.state.first}
-                    lastName={this.state.last}
-                    togglePopup={this.togglePopup}
-                />
-                {this.state.isPopupOpen && (
-                    <Uploader
-                        togglePopup={this.togglePopup}
-                        updateImageClosePopup={this.updateImageClosePopup}
-                    />
-                )}
-                {/* //// Sign out here */}
-                {/* <div className="container">
+            <section>
+                <div className="topBarContainer">
+                    <pre>{JSON.stringify(this.state)}</pre>
+                    <div className="logo">
+                        <Logo />
+                    </div>
+                    {/* <div className="profilPic">
+                        <ProfilPic
+                            userPic={this.state.imgUrl} 
+                            firstName={this.state.first}
+                            lastName={this.state.last}
+                            togglePopup={this.togglePopup}
+                        />
+                    </div> */}
+                    {/* //// Sign out here */}
+                </div>
+                <div className="profileContainer">
                     <Profile
-                        imgFromApp={this.state.imgApp}
-                        userInfoApp={this.state.userInfo}
-                        profilePic={this.state.imgUrl}
-                        // togglePopup={this.togglePopup}
+                        userPic={this.state.imgUrl}
+                        firstName={this.state.first}
+                        lastName={this.state.last}
+                        togglePopup={this.togglePopup}
                     />
-                </div> */}
-            </div>
+                    {this.state.isPopupOpen && (
+                        <Uploader
+                            togglePopup={this.togglePopup}
+                            updateImageClosePopup={this.updateImageClosePopup}
+                        />
+                    )}
+                </div>
+            </section>
         );
     }
 }
