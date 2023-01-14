@@ -12,6 +12,7 @@ interface AppStates {
     first: string;
     last: string;
     imgUrl: string;
+    // bio: string;
     // add later states for bio/profile
 }
 interface AppProbs {}
@@ -26,6 +27,7 @@ export class App extends React.Component<AppProbs, AppStates> {
             first: "", // check later if can be null
             last: "",
             imgUrl: "",
+            // bio: "",
             // add more states
         };
         this.togglePopup = this.togglePopup.bind(this);
