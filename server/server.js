@@ -94,9 +94,11 @@ app.get("/bio", (req, res) => {
     });
 });
 
-app.get("/users/:id.json", (req, res) => {
-    const { id } = req.params;
-    getMatchingSearch(id)
+app.get("/users", (req, res) => {
+    // const { id } = req.params;
+    const val = req.query.search;
+    console.log("req search: ", val);
+    getMatchingSearch(val)
         .then((data) => {
             res.json(data);
         })

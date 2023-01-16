@@ -4,7 +4,8 @@ import { Logo } from "../components/logo/logo";
 import Profile from "../components/profile/profile";
 import { Uploader } from "../components/uploader/uploader";
 import ProfilPic from "../components/profile/profilpic/profilpic";
-import { CleanPlugin } from "webpack";
+// import { CleanPlugin } from "webpack";
+import Find from "../components/find/find";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -109,6 +110,7 @@ export class App extends React.Component<AppProbs, AppStates> {
                             updateImageClosePopup={this.updateImageClosePopup}
                         />
                     )}
+                    <Find />
                 </div>
             </section>
         );

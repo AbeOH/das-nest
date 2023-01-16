@@ -80,6 +80,6 @@ module.exports.updateBio = (id, bio) => {
         .then((data) => data.rows[0]);
 };
 
-module.exports.getMatchingSearch = (id) => {
-    return db.query("SELECT name FROM users WHERE name ILIKE $1", [id + "%"]);
+module.exports.getMatchingSearch = (val) => {
+    return db.query("SELECT name FROM users WHERE name ILIKE $1", [val + "%"]);
 };
