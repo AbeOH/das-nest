@@ -79,3 +79,7 @@ module.exports.updateBio = (id, bio) => {
         .query("UPDATE users SET bio = $2 WHERE id = $1 RETURNING *", [id, bio])
         .then((data) => data.rows[0]);
 };
+
+module.exports.getMatchingSearch = (id) => {
+    return db.query("SELECT name FROM users WHERE name ILIKE $1", [id + "%"]);
+};
