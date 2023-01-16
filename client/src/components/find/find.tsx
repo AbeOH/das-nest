@@ -15,16 +15,21 @@ export default function Find() {
     // };
 
     useEffect(() => {
-        fetch("/users?search=" + search)
+        fetch("/users?search=" + search, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log("data from server: ", data);
-                setSearchResults(data);
+                setSearch(data);
             })
             .catch((err) => {
                 console.log("Errrrrrror in fetch: ", err);
             });
-    }, [searchResults]);
+    }, [search]);
 
     return (
         <section>

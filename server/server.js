@@ -7,6 +7,7 @@ const { PORT = 3001 } = process.env;
 
 // Importing functions from db.js
 const {
+    getMatchingSearch,
     getUserBio,
     updateBio,
     getUserId,
@@ -91,6 +92,18 @@ app.get("/bio", (req, res) => {
     getUserBio(userId).then((data) => {
         res.json(data);
     });
+});
+
+app.get("/users/:id.json", (req, res) => {
+    const { id } = req.params;
+    getMatchingSearch(id)
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            console.log("error in GET /users/:id.json: ", err);
+            res.json("Error", err);
+        });
 });
 
 //***************************************************************************************** */
@@ -219,7 +232,7 @@ app.post("/reset/verify", (req, res) => {
     });
 });
 //*****************************************************************************************
-/// Post Upload Routes , Update bio, Logout
+/// Post Upload Routes, Update bio, Logout
 
 app.post("/upload", uploader.single("file"), fileUpload, (req, res) => {
     console.log("Files", req.file);
