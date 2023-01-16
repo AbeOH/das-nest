@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import { Component } from "react";
 // import { Link } from "react-router-dom";
 import ProfilPic from "./profilpic/profilpic"; // maybe create seperate component just for the image
-// import BioEditor from "../bioeditor/bioeditor";
+import BioEditor from "./bioeditor/bioeditor";
 
 interface ProfileProps {
     userPic: string;
@@ -25,7 +25,13 @@ export default function Profile(props: ProfileProps) {
                 <h2>
                     {props.firstName} {props.lastName}
                 </h2>
-                {/* <BioEditor /> */}
+                <BioEditor
+                    // bio={props.bio}
+                    // updateBio={props.updateBio}
+                    firstName={props.firstName}
+                    lastName={props.lastName}
+                    togglePopupBio={props.togglePopup}
+                />
             </div>
         </section>
     );
