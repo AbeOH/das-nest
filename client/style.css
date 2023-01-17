@@ -1,29 +1,63 @@
+/* ----------------------------------
+            BASE
+----------------------------------- */
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
 body {
     background-color: bisque;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
 img {
     width: 200px;
 }
 
-.heading {
-    font-size: 50px;
-    color: orange;
-}
-
-.container {
+/* ----------------------------------
+            WELCOME
+----------------------------------- */
+.section {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: bisque;
 }
 
-.user {
-    color: black;
-    size: xx-large;
+.section form input {
+    width: 50%;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
 }
 
-.topBarContainer {
+/* ----------------------------------
+            LOGIN
+----------------------------------- */
+
+/* ----------------------------------
+            REGISTER
+----------------------------------- */
+
+/* ----------------------------------
+            RESET PASSWORD
+----------------------------------- */
+
+/* ----------------------------------
+            APP
+----------------------------------- */
+.header-app {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -33,6 +67,16 @@ img {
     width: 100%;
     padding: 0 20px;
 }
+
+.header-app .profilPic {
+    width: 100px;
+    height: 100px;
+}
+
+/* ----------------------------------
+            LOGO
+----------------------------------- */
+
 .logo {
     color: white;
     font-size: 30px;
@@ -40,21 +84,46 @@ img {
     /* position: left; */
 }
 
-.profileContainer {
+/* ----------------------------------
+            PROFILE PIC
+----------------------------------- */
+/* ----------------------------------
+            HEADER
+----------------------------------- */
+
+.heading {
+    font-size: 50px;
+    color: orange;
+}
+/* ----------------------------------
+            MY PROFILE
+----------------------------------- */
+
+/* ----------------------------------
+            SEARCH PROFILE
+----------------------------------- */
+
+.searchProfil {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    /* background-color: yellow; */
     height: 300px;
     /* width: 100%; */
     padding: 0 20px;
 }
 
-.profilePicPro {
-    align-items: center;
-}
+/* ----------------------------------
+            Bio
+----------------------------------- */
+
 /* 
 .bio{
 
+} */
+
+/* 
+.user {
+    color: black;
+    size: xx-large;
 } */

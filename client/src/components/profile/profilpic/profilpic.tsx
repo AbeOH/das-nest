@@ -14,6 +14,7 @@ export default function ProfilPic(props: ProfilPicProps) {
                 src={props.userPic || "/logo.png"}
                 alt={`${props.firstName}, ${props.lastName}`}
                 onClick={() => props.togglePopup()}
+                className="profilPic"
             />
         </>
     );

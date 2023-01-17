@@ -1,12 +1,13 @@
 // import { Component } from "react";
 import * as React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { Logo } from "../components/logo/logo";
+import Logo from "../components/logo/logo";
 import Profile from "../components/profile/profile";
 import { Uploader } from "../components/uploader/uploader";
 import ProfilPic from "../components/profile/profilpic/profilpic";
 // import { CleanPlugin } from "webpack";
 import Find from "../components/find/find";
+import Signout from "../components/signout/signout";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -82,44 +83,50 @@ export class App extends React.Component<AppProbs, AppStates> {
 
     render() {
         return (
-            <section>
-                <div className="topBarContainer">
-                    <pre>{JSON.stringify(this.state)}</pre>
-                    <div className="logo">
+            <>
+                <BrowserRouter>
+                    <header className="header-app">
+                        {/* <pre>{JSON.stringify(this.state)}</pre> */}
                         <Logo />
-                    </div>
-                    {/* <div className="profilPic">
+
+                        {/* //// Sign out here */}
+
+                        <Link to="/search">Find People</Link>
+                        <Link to="/">My Profile</Link>
+                        <Link to="/signout">Sign Out</Link>
                         <ProfilPic
-                            userPic={this.state.imgUrl} 
+                            userPic={this.state.imgUrl}
                             firstName={this.state.first}
                             lastName={this.state.last}
                             togglePopup={this.togglePopup}
                         />
-                    </div> */}
-                    {/* //// Sign out here */}
-                </div>
-                <div className="profileContainer">
-                    <Profile
-                        userPic={this.state.imgUrl}
-                        firstName={this.state.first}
-                        lastName={this.state.last}
-                        togglePopup={this.togglePopup}
-                    />
+                    </header>
+
                     {this.state.isPopupOpen && (
                         <Uploader
                             togglePopup={this.togglePopup}
                             updateImageClosePopup={this.updateImageClosePopup}
                         />
                     )}
-                    {/* <Find /> */}
-                </div>
-                <BrowserRouter>
-                    <Link to="/users">Find People</Link>
+
                     <Routes>
+                        <Route
+                            path="/"
+                            element={
+                                <Profile
+                                    userPic={this.state.imgUrl}
+                                    firstName={this.state.first}
+                                    lastName={this.state.last}
+                                    togglePopup={this.togglePopup}
+                                />
+                            }
+                        />
+                        <Route path="/search" element={<Find />} />
                         <Route path="/users" element={<Find />} />
+                        <Route path="/signout" element={<Signout />} />
                     </Routes>
                 </BrowserRouter>
-            </section>
+            </>
         );
     }
 }

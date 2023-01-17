@@ -59,7 +59,7 @@ export class Login extends Component<LoginProbs, LoginState> {
     render() {
         console.log("state: ", this.state);
         return (
-            <div className="container">
+            <section className="section">
                 <h1> Welcome to your NeighborhoodNest </h1>
                 {/* <LogoComponent /> */}
                 <p> It takes a neighbood to raise a child</p>
@@ -90,7 +90,7 @@ export class Login extends Component<LoginProbs, LoginState> {
                     If you have forget your passport,
                     <a href="/reset"> reset here </a>
                 </p>
-            </div>
+            </section>
         );
     }
 }

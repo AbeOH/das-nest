@@ -258,10 +258,10 @@ app.post("/bio", (req, res) => {
     updateBio(iD, bio).then((data) => res.json(data));
 });
 
-// app.post("/logout", (req, res) => {
-//     req.session = null;
-//     res.json({ userId: null });
-// });
+app.post("/signout", (req, res) => {
+    req.session = null;
+    res.json({ userId: null });
+});
 
 //***************************************************************************************** */
 app.get("*", function (req, res) {

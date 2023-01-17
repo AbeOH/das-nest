@@ -13,7 +13,7 @@ interface ProfileProps {
 
 export default function Profile(props: ProfileProps) {
     return (
-        <section>
+        <section className="section-myProfile">
             <div className="profilPicPro">
                 <h1>Profil Page</h1>
                 <ProfilPic

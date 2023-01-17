@@ -34,8 +34,8 @@ export default function Find() {
     }, [search]);
 
     return (
-        <section>
-            <div className="search">
+        <section className="section-find">
+            <header className="search">
                 <h2>Search Friends</h2>
                 <input
                     type="text"
@@ -45,20 +45,20 @@ export default function Find() {
                     }}
                     value={search}
                 />
-            </div>
-            <div>
+            </header>
+            <section>
                 {searchResults.map((user) => (
-                    <div key={user.id}>{user.firstname}</div>
+                    <div className="searchProfil" key={user.id}>
+                        {user.firstname} {user.lastname}
+                        {/* <img */}
+                        <img
+                            src={user.imageurl || "/logo.png"}
+                            alt={`${user.firstname}, ${user.lastname}`}
+                            // onClick={() => props.togglePopup()}
+                        />
+                    </div>
                 ))}
-            </div>
+            </section>
         </section>
     );
 }
-
-// const handleSearch = (users: { name: string }[]) => {
-//     const filteredUsers = users.filter((user) => {
-//         // return
-//         user.name.toLowerCase().includes(search.toLowerCase());
-//     });
-//     setSearchResults(filteredUsers);
-// };

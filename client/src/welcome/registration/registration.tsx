@@ -67,13 +67,13 @@ export class Registration extends Component<
     render() {
         console.log("state: ", this.state);
         return (
-            <div className="container">
+            <section className="section">
                 <h1> Welcome to your NeighborhoodNest </h1>
                 {/* <LogoComponent /> */}
                 <p> It takes a neighbood to raise a child</p>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        <span>Firstname</span>
+                        <label htmlFor="firstname"> Firstname</label>
                         <input
                             required
                             type="text"
@@ -83,7 +83,7 @@ export class Registration extends Component<
                         />
                     </div>
                     <div>
-                        <span>Lastname</span>
+                        <label htmlFor="lastname">Lastname</label>
                         <input
                             required
                             type="text"
@@ -93,7 +93,7 @@ export class Registration extends Component<
                         />
                     </div>
                     <div>
-                        <span>Email</span>
+                        <label htmlFor="email">Email</label>
                         <input
                             required
                             type="email"
@@ -103,7 +103,7 @@ export class Registration extends Component<
                         />
                     </div>
                     <div>
-                        <span>Password</span>
+                        <label htmlFor="password">Password</label>
                         <input
                             required
                             type="password"
@@ -118,7 +118,7 @@ export class Registration extends Component<
                     If you already have an account, please
                     <a href="/login"> login here </a>
                 </p>
-            </div>
+            </section>
         );
     }
 }
