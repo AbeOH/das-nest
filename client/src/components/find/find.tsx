@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function Find() {
-    const [users, setUsers] = useState<{ name: string }[]>([]);
-    const [search, setSearch] = useState("");
-    const [searchResults, setSearchResults] = useState<{ name: string }[]>([]);
+interface User {
+    id: number;
+    firstname: string;
+    lastname: string;
+    imageurl: string;
+    bio: string;
+}
 
-    // const handleSearch = (users: { name: string }[]) => {
-    //     const filteredUsers = users.filter((user) => {
-    //         // return
-    //         user.name.toLowerCase().includes(search.toLowerCase());
-    //     });
-    //     setSearchResults(filteredUsers);
-    // };
+export default function Find() {
+    // const [users, setUsers] = useState<{ name: string }[]>([]);
+    const [search, setSearch] = useState("");
+    const [searchResults, setSearchResults] = useState<User[]>([]);
 
     useEffect(() => {
-        fetch("/users?search=" + search, {
+        console.log("search: ", search);
+        fetch(`/users?search=${search}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -23,8 +24,9 @@ export default function Find() {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log("data from server: ", data);
-                setSearch(data);
+                console.log("The data from server: ", data);
+                setSearchResults(data.rows); /// slice(0, 3) to limit results
+                console.log("searchResults: ", searchResults);
             })
             .catch((err) => {
                 console.log("Errrrrrror in fetch: ", err);
@@ -41,9 +43,22 @@ export default function Find() {
                     onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
                         setSearch(evt.target.value);
                     }}
+                    value={search}
                 />
             </div>
-            <div></div>
+            <div>
+                {searchResults.map((user) => (
+                    <div key={user.id}>{user.firstname}</div>
+                ))}
+            </div>
         </section>
     );
 }
+
+// const handleSearch = (users: { name: string }[]) => {
+//     const filteredUsers = users.filter((user) => {
+//         // return
+//         user.name.toLowerCase().includes(search.toLowerCase());
+//     });
+//     setSearchResults(filteredUsers);
+// };

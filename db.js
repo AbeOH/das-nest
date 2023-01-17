@@ -81,5 +81,7 @@ module.exports.updateBio = (id, bio) => {
 };
 
 module.exports.getMatchingSearch = (val) => {
-    return db.query("SELECT name FROM users WHERE name ILIKE $1", [val + "%"]);
+    return db.query("SELECT * FROM users WHERE firstname ILIKE $1", [
+        val + "%",
+    ]);
 };

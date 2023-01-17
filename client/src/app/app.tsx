@@ -1,5 +1,6 @@
 // import { Component } from "react";
 import * as React from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Logo } from "../components/logo/logo";
 import Profile from "../components/profile/profile";
 import { Uploader } from "../components/uploader/uploader";
@@ -110,8 +111,14 @@ export class App extends React.Component<AppProbs, AppStates> {
                             updateImageClosePopup={this.updateImageClosePopup}
                         />
                     )}
-                    <Find />
+                    {/* <Find /> */}
                 </div>
+                <BrowserRouter>
+                    <Link to="/users">Find People</Link>
+                    <Routes>
+                        <Route path="/users" element={<Find />} />
+                    </Routes>
+                </BrowserRouter>
             </section>
         );
     }
