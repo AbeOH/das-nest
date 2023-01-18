@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import FriendButton from "./friendbutton/friendbutton";
 
 // interface OtherUsersProbs {
 //     // id: number;
@@ -7,13 +8,14 @@ import { useParams, useNavigate } from "react-router-dom";
 //     // lastname: string;
 //     // imgUrl: string;
 //     // bio: string;
-// }
+//
 // props: OtherUsersProbs;
 
 export default function OtherUsers() {
-    let { id } = useParams();
+    const params = useParams();
+    const id = +(params.id ?? 0);
     /// Getting to the other profile with id from params or search input
-    console.log("id: ", id);
+    console.log("What type is the id? ", typeof id);
     const [search, setSearch] = useState("");
     // const [searchResults, setSearchResults] = useState<OtherUsersProbs[]>([]);
 
@@ -61,6 +63,7 @@ export default function OtherUsers() {
                 />
                 <p>{email}</p>
                 <p>{bio}</p>
+                <FriendButton receiverId={id} />
             </header>
         </section>
     );

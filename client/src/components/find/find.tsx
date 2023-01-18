@@ -10,7 +10,7 @@ interface User {
 }
 
 export default function Find() {
-    // const [users, setUsers] = useState<{ name: string }[]>([]);
+    // const [users, setUssers] = useState<{ name: string }[]>([]);
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState<User[]>([]);
 

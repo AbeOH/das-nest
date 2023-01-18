@@ -93,6 +93,18 @@ module.exports.findFriendship = (user1, user2) => {
     );
 };
 
-// module.exports.acceptFriendship = (sender, reciver) => {
-//     return db.query("UPDATE friendships SET accepted = true WHERE sender_id = $1 AND receiver_id = $2 RETURNING *", [sender, reciver]);
-// };
+module.exports.acceptFriendship = (user1, user2) => {
+    return db.query(
+        "UPDATE friendships SET accepted = true WHERE sender_id = $1 AND receiver_id = $2 RETURNING *",
+        [user1, user2]
+    );
+};
+
+module.exports.rejectFriendship = (user1, user2) => {
+    return db.query(
+        "DELETE FROM friendships WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)",
+        [user1, user2]
+    );
+};
+
+/// Check accept and recect db queries again

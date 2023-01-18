@@ -7,6 +7,9 @@ const { PORT = 3001 } = process.env;
 
 // Importing functions from db.js
 const {
+    rejectFriendship,
+    acceptFriendship,
+    findFriendship,
     getMatchingSearch,
     getUserBio,
     updateBio,
@@ -118,6 +121,21 @@ app.get("/users", (req, res) => {
         })
         .catch((err) => {
             console.log("error in GET /users/:id.json: ", err);
+            res.json("Error", err);
+        });
+});
+
+app.get("frinedship/:senderId/:userId", (req, res) => {
+    /// Can I get the senderId from the cookies session?
+    findFriendship(req.params.senderId, req.params.userId)
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            console.log(
+                "error in GET /frinedship/:senderId/:receiverId: ",
+                err
+            );
             res.json("Error", err);
         });
 });
@@ -275,6 +293,27 @@ app.post("/bio", (req, res) => {
 app.post("/signout", (req, res) => {
     req.session = null;
     res.json({ userId: null });
+});
+
+//*****************************************************************************************
+// Post Routes for Friendship accepetane and cancellation
+
+app.post("/friendaccept/:senderId/:userId", (req, res) => {
+    acceptFriendship(req.params.senderId, req.params.userId)
+        .then((data) => {
+            console.log("Friend Accepted: ", data);
+            res.json(data);
+        })
+        .catch((err) => console.log("Error in accepting friendship: ", err));
+});
+
+app.post("/friendreject/:senderId/:userId", (req, res) => {
+    rejectFriendship(req.params.senderId, req.params.userId)
+        .then((data) => {
+            console.log("Friend Rejected: ", data);
+            res.json(data);
+        })
+        .catch((err) => console.log("Error in rejecting friendship: ", err));
 });
 
 //***************************************************************************************** */
