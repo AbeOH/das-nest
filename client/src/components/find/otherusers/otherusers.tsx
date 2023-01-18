@@ -20,6 +20,7 @@ export default function OtherUsers() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [imgUrl, setImgUrl] = useState("");
+    const [email, setEmail] = useState("");
     const [bio, setBio] = useState("");
 
     useEffect(() => {
@@ -33,11 +34,12 @@ export default function OtherUsers() {
             .then((data) => {
                 if (data) {
                     console.log("Data from other users ", data);
-                    // const { firstname, lastname, imageurl, bio } = data.rows[0];
-                    // setFirstName(firstname);
-                    // setLastName(lastname);
-                    // setImgUrl(imageurl);
-                    // setBio(bio);
+                    const { firstname, lastname, imageurl, bio } = data;
+                    setFirstName(firstname);
+                    setLastName(lastname);
+                    setImgUrl(imageurl);
+                    setEmail(email);
+                    setBio(bio);
                 }
             })
             .catch((err) => {
@@ -48,15 +50,17 @@ export default function OtherUsers() {
     return (
         <section className="section-find">
             <header className="search">
-                <h2>Other User </h2>
-                {/* <input
-                    type="text"
-                    placeholder="Search"
-                    onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-                        setSearch(evt.target.value);
-                    }}
-                    value={search}
-                /> */}
+                <h2>
+                    {firstName} {lastName}{" "}
+                </h2>
+
+                <img
+                    src={imgUrl || "/logo.png"}
+                    alt={`${firstName}, ${lastName}`}
+                    // onClick={() => props.togglePopup()}
+                />
+                <p>{email}</p>
+                <p>{bio}</p>
             </header>
         </section>
     );

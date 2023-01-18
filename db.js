@@ -62,7 +62,7 @@ module.exports.updateProfile = (id, url) => {
 module.exports.getUserId = (id) => {
     return db
         .query(
-            "SELECT id, firstname, lastname, email, imageurl FROM users WHERE id=$1",
+            "SELECT id, firstname, lastname, email, imageurl, bio FROM users WHERE id=$1",
             [id]
         )
         .then((data) => data.rows[0]);

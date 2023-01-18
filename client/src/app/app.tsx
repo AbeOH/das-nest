@@ -91,7 +91,6 @@ export class App extends React.Component<AppProbs, AppStates> {
                         <Logo />
                         <Link to="/search">Find People</Link>
                         <Link to="/">My Profile</Link>
-                        <Link to="/user">Other Users</Link>
                         <Link to="/signout">Sign Out</Link>
                         <ProfilPic
                             userPic={this.state.imgUrl}

@@ -92,6 +92,7 @@ app.get("/user/:id", (req, res) => {
     console.log("Req", req.params);
     getUserId(id)
         .then((data) => {
+            console.log("All Data: ", data);
             res.json(data);
         })
         .catch((err) => {
