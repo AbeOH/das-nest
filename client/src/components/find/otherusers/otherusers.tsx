@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-interface OtherUsersProbs {
-    id: number;
-    firstname: string;
-    lastname: string;
-    imgUrl: string;
-    bio: string;
-}
+// interface OtherUsersProbs {
+//     // id: number;
+//     // firstname: string;
+//     // lastname: string;
+//     // imgUrl: string;
+//     // bio: string;
+// }
+// props: OtherUsersProbs;
 
-export default function OtherUsers(props: OtherUsersProbs) {
-    let id = useParams();
+export default function OtherUsers() {
+    let { id } = useParams();
     /// Getting to the other profile with id from params or search input
-
+    console.log("id: ", id);
     const [search, setSearch] = useState("");
-    const [searchResults, setSearchResults] = useState<OtherUsersProbs[]>([]);
+    // const [searchResults, setSearchResults] = useState<OtherUsersProbs[]>([]);
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -22,7 +23,7 @@ export default function OtherUsers(props: OtherUsersProbs) {
     const [bio, setBio] = useState("");
 
     useEffect(() => {
-        fetch(`/users?search=${search}`, {
+        fetch(`/user/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -31,31 +32,31 @@ export default function OtherUsers(props: OtherUsersProbs) {
             .then((res) => res.json())
             .then((data) => {
                 if (data) {
-                    console.log("Data from server: ", data);
-                    const { firstname, lastname, imageurl, bio } = data.rows[0];
-                    setFirstName(firstname);
-                    setLastName(lastname);
-                    setImgUrl(imageurl);
-                    setBio(bio);
+                    console.log("Data from other users ", data);
+                    // const { firstname, lastname, imageurl, bio } = data.rows[0];
+                    // setFirstName(firstname);
+                    // setLastName(lastname);
+                    // setImgUrl(imageurl);
+                    // setBio(bio);
                 }
             })
             .catch((err) => {
                 console.log("Errrrrrror in fetch: ", err);
             });
-    }, [search]);
+    }, []);
 
     return (
         <section className="section-find">
             <header className="search">
-                <h2>Search Friends</h2>
-                <input
+                <h2>Other User </h2>
+                {/* <input
                     type="text"
                     placeholder="Search"
                     onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
                         setSearch(evt.target.value);
                     }}
                     value={search}
-                />
+                /> */}
             </header>
         </section>
     );

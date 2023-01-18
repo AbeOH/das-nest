@@ -87,6 +87,19 @@ app.get("/user/userInformation.json", (req, res) => {
         });
 });
 
+app.get("/user/:id", (req, res) => {
+    const { id } = req.params;
+    console.log("Req", req.params);
+    getUserId(id)
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            console.log("error in GET /user/:id.json: ", err);
+            res.json("Error", err);
+        });
+});
+
 app.get("/bio", (req, res) => {
     const userId = req.session.userId;
     getUserBio(userId).then((data) => {

@@ -8,6 +8,7 @@ import ProfilPic from "../components/profile/profilpic/profilpic";
 // import { CleanPlugin } from "webpack";
 import Find from "../components/find/find";
 import Signout from "../components/signout/signout";
+import OtherUsers from "../components/find/otherusers/otherusers";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -88,11 +89,9 @@ export class App extends React.Component<AppProbs, AppStates> {
                     <header className="header-app">
                         {/* <pre>{JSON.stringify(this.state)}</pre> */}
                         <Logo />
-
-                        {/* //// Sign out here */}
-
                         <Link to="/search">Find People</Link>
                         <Link to="/">My Profile</Link>
+                        <Link to="/user">Other Users</Link>
                         <Link to="/signout">Sign Out</Link>
                         <ProfilPic
                             userPic={this.state.imgUrl}
@@ -123,6 +122,7 @@ export class App extends React.Component<AppProbs, AppStates> {
                         />
                         <Route path="/search" element={<Find />} />
                         <Route path="/users" element={<Find />} />
+                        <Route path="/user/:id" element={<OtherUsers />} />
                         <Route path="/signout" element={<Signout />} />
                     </Routes>
                 </BrowserRouter>

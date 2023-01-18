@@ -51,11 +51,13 @@ export default function Find() {
                     <div className="searchProfil" key={user.id}>
                         {user.firstname} {user.lastname}
                         {/* <img */}
-                        <img
-                            src={user.imageurl || "/logo.png"}
-                            alt={`${user.firstname}, ${user.lastname}`}
-                            // onClick={() => props.togglePopup()}
-                        />
+                        <Link to={`/user/${user.id}`}>
+                            <img
+                                src={user.imageurl || "/logo.png"}
+                                alt={`${user.firstname}, ${user.lastname}`}
+                                // onClick={() => props.togglePopup()}
+                            />
+                        </Link>
                     </div>
                 ))}
             </section>
