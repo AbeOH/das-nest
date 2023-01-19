@@ -95,7 +95,7 @@ app.get("/user/:id", (req, res) => {
     console.log("Req", req.params);
     getUserId(id)
         .then((data) => {
-            console.log("All Data: ", data);
+            console.log("Alllll Data: ", data);
             res.json(data);
         })
         .catch((err) => {
@@ -125,11 +125,28 @@ app.get("/users", (req, res) => {
         });
 });
 
-app.get("frinedship/:senderId/:userId", (req, res) => {
+app.get("/friendshipStatus/:senderId", (req, res) => {
+    console.log("friendshipStatus");
     /// Can I get the senderId from the cookies session?
-    findFriendship(req.params.senderId, req.params.userId)
+    const myProfilRequestId = req.session.userId;
+    const otherRequestId = req.params.senderId;
+    findFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
-            res.json(data);
+            if (data.accepted === true) {
+                res.json({ friendStatus: "UNFRIEND" });
+            } else if (
+                data.accepted === false &&
+                data.sender_id === otherRequestId
+            ) {
+                res.json({ friendStatus: "CANCEL" });
+            } else if (
+                data.accepted === false &&
+                data.sender_id === myProfilRequestId
+            ) {
+                res.json({ friendStatus: "ACCEPT" });
+            } else {
+                res.json({ friendStatus: "ADD FRIEND" });
+            }
         })
         .catch((err) => {
             console.log(
@@ -298,23 +315,26 @@ app.post("/signout", (req, res) => {
 //*****************************************************************************************
 // Post Routes for Friendship accepetane and cancellation
 
-app.post("/friendaccept/:senderId/:userId", (req, res) => {
-    acceptFriendship(req.params.senderId, req.params.userId)
+app.post("/friendStatusUpdate", (req, res) => {
+    /// Add Friend, delete friendship
+    const myProfilRequestId = req.session.userId;
+    const otherRequestId = req.params.senderId;
+    acceptFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
             console.log("Friend Accepted: ", data);
-            res.json(data);
+            res.json({ friendStatus: "ACCEPT" });
         })
         .catch((err) => console.log("Error in accepting friendship: ", err));
 });
 
-app.post("/friendreject/:senderId/:userId", (req, res) => {
-    rejectFriendship(req.params.senderId, req.params.userId)
-        .then((data) => {
-            console.log("Friend Rejected: ", data);
-            res.json(data);
-        })
-        .catch((err) => console.log("Error in rejecting friendship: ", err));
-});
+// app.post("/friendreject/:senderId/:userId", (req, res) => {
+//     rejectFriendship(req.params.senderId, req.params.userId)
+//         .then((data) => {
+//             console.log("Friend Rejected: ", data);
+//             res.json(data);
+//         })
+//         .catch((err) => console.log("Error in rejecting friendship: ", err));
+// });
 
 //***************************************************************************************** */
 app.get("*", function (req, res) {

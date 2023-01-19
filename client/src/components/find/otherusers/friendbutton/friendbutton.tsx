@@ -1,42 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-interface OtherUsersProbs {
+interface OtherUsersProps {
     // senderId: number;
-    receiverId: number;
+    receiverFriendId: number;
 }
 
-export default function FriendButton(probs: OtherUsersProbs) {
-    const [senderId, setSenderId] = useState<number | null>(null);
-    const [friendStatus, setFriendStatus] = useState<boolean>(false);
-    const [addFriend, setAddFriend] = useState<boolean>(false);
-    const [cancelFriend, setCancelFriend] = useState<boolean>(false);
+export default function FriendButton(props: OtherUsersProps) {
+    // const [senderId, setSenderId] = useState<number | null>(null);
 
-    const friendButton = (evt: React.SyntheticEvent) => {
-        setFriendStatus(!friendStatus);
-    };
+    const [friendStatusButton, setFriendStatusButton] =
+        useState<boolean>(false);
 
-    /// Loggend in User Id status
+    // const [addFriend, setAddFriend] = useState<boolean>(false);
+    // const [cancelFriend, setCancelFriend] = useState<boolean>(false);
+
+    // const [messageButton, setMessageButton] = useState<boolean>(false);
+
+    // const friendButtonToggle = (evt: React.SyntheticEvent) => {
+    //     setFriendStatusButton(!friendStatusButton);
+    // };
+
+    /// Friendship status: Modify to get senderId from cookies
     useEffect(() => {
-        fetch(`/user/userInformation.json`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data) {
-                    console.log("Data from other users ", data);
-                    const { senderId } = data.id;
-                    setSenderId(senderId);
-                }
-            });
-    }, []);
-
-    /// Friendship status
-    useEffect(() => {
-        fetch(`/friendship/${senderId}/${probs.receiverId}`, {
+        console.log("Unmounting FriendButton component");
+        fetch(`/friendshipStatus/${props.receiverFriendId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -46,53 +34,53 @@ export default function FriendButton(probs: OtherUsersProbs) {
             .then((data) => {
                 if (data) {
                     console.log("Friendship status", data);
-                    const { accepted } = data;
-                    setFriendStatus(accepted);
+                    const { friendStatus } = data;
+                    setFriendStatusButton(friendStatus);
                 }
             });
-    }, []);
+    }, [props.receiverFriendId]);
 
     /// Insert Friendship
-    useEffect(() => {
-        fetch(`/friendaccepted/${senderId}/${probs.receiverId}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data) {
-                    console.log("Friendship status", data);
-                    const { friendStatus } = data.accepted;
-                    setFriendStatus(friendStatus);
-                }
-            });
-    }, []);
 
-    /// Delete Friendship
-    useEffect(() => {
-        fetch(`/friendreject/${senderId}/${probs.receiverId}`, {
+    const updateFriendshipStatus = (evt: React.SyntheticEvent) => {
+        let url = "";
+        switch (friendStatusButton) {
+            case "UNFRIEND":
+            case "CANCEL":
+                /// URL =
+                break;
+            case "ACCEPT":
+                //// URL =
+                break;
+        }
+
+        fetch(`/friendStatusUpdate/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify({}),
         })
             .then((res) => res.json())
             .then((data) => {
                 if (data) {
                     console.log("Friendship status", data);
-                    const { friendStatus } = data.accepted;
-                    setFriendStatus(friendStatus);
+                    const { friendStatus } = data;
+                    setFriendStatusButton(friendStatus);
                 }
             });
-    }, []);
+    };
+
+    /// Notes
+    //// Current status of friendship and what action the user is trying to do
 
     /// Update Friendship
 
     return (
         <>
-            <button onClick={(evt) => friendButton(evt)}>Friend Request</button>
+            <button onClick={(evt) => updateFriendshipStatus(evt)}>
+                {friendStatusButton}
+            </button>
         </>
     );
 }
