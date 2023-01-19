@@ -6,11 +6,18 @@ interface OtherUsersProps {
     receiverFriendId: number;
 }
 
+interface Data {
+    friendStatus: string;
+    accepted: boolean;
+}
+
 export default function FriendButton(props: OtherUsersProps) {
     // const [senderId, setSenderId] = useState<number | null>(null);
 
     const [friendStatusButton, setFriendStatusButton] =
         useState<boolean>(false);
+
+    const [serverUrl, setServerUrl] = useState<string>("");
 
     // const [addFriend, setAddFriend] = useState<boolean>(false);
     // const [cancelFriend, setCancelFriend] = useState<boolean>(false);
@@ -31,11 +38,12 @@ export default function FriendButton(props: OtherUsersProps) {
             },
         })
             .then((res) => res.json())
-            .then((data) => {
+            .then((data: Data) => {
                 if (data) {
                     console.log("Friendship status", data);
-                    const { friendStatus } = data;
-                    setFriendStatusButton(friendStatus);
+                    const { friendStatus, accepted } = data;
+                    setFriendStatusButton(accepted);
+                    setServerUrl(friendStatus);
                 }
             });
     }, [props.receiverFriendId]);
@@ -44,13 +52,18 @@ export default function FriendButton(props: OtherUsersProps) {
 
     const updateFriendshipStatus = (evt: React.SyntheticEvent) => {
         let url = "";
-        switch (friendStatusButton) {
+        switch (serverUrl) {
             case "UNFRIEND":
+                url = `/friendshipStatus/${props.receiverFriendId}/unfriend`;
+                break;
             case "CANCEL":
-                /// URL =
+                url = `/friendshipStatus/${props.receiverFriendId}/cancel`;
                 break;
             case "ACCEPT":
-                //// URL =
+                url = `/friendshipStatus/${props.receiverFriendId}/accept`;
+                break;
+            case "ADD FRIEND":
+                url = `/friendshipStatus/${props.receiverFriendId}/addfriend`;
                 break;
         }
 
@@ -59,7 +72,7 @@ export default function FriendButton(props: OtherUsersProps) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({}),
+            body: JSON.stringify({ friendStatusButton }),
         })
             .then((res) => res.json())
             .then((data) => {

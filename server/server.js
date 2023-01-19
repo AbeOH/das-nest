@@ -133,19 +133,19 @@ app.get("/friendshipStatus/:senderId", (req, res) => {
     findFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
             if (data.accepted === true) {
-                res.json({ friendStatus: "UNFRIEND" });
+                res.json({ friendStatus: "UNFRIEND", accepted: true });
             } else if (
                 data.accepted === false &&
                 data.sender_id === otherRequestId
             ) {
-                res.json({ friendStatus: "CANCEL" });
+                res.json({ friendStatus: "CANCEL", accepted: false });
             } else if (
                 data.accepted === false &&
                 data.sender_id === myProfilRequestId
             ) {
-                res.json({ friendStatus: "ACCEPT" });
+                res.json({ friendStatus: "ACCEPT", accepted: false });
             } else {
-                res.json({ friendStatus: "ADD FRIEND" });
+                res.json({ friendStatus: "ADD FRIEND", accepted: false });
             }
         })
         .catch((err) => {
