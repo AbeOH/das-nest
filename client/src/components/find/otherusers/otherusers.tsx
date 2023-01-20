@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import FriendButton from "./friendbutton/friendbutton";
 
 // interface OtherUsersProbs {
@@ -50,7 +52,7 @@ export default function OtherUsers() {
     }, []);
 
     return (
-        <section className="section-find">
+        <section className="section-otheruser">
             <header className="search">
                 <h2>
                     {firstName} {lastName}{" "}
@@ -63,7 +65,11 @@ export default function OtherUsers() {
                 />
                 <p>{email}</p>
                 <p>{bio}</p>
-                <FriendButton receiverId={id} />
+                <FriendButton receiverFriendId={id} key={id} />
+
+                {/* <Routes>
+                    <Route path="friendshipStatus/:id" element={<FriendButton />} />
+                </Routes> */}
             </header>
         </section>
     );

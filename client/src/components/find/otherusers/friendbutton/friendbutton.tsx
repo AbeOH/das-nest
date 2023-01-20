@@ -17,13 +17,12 @@ export default function FriendButton(props: OtherUsersProps) {
     const [friendStatusButton, setFriendStatusButton] =
         useState<boolean>(false);
 
-    const [serverUrl, setServerUrl] = useState<string>("");
+    const [friendshipStatusText, setfriendshipStatusText] =
+        useState<string>("");
 
     // const [addFriend, setAddFriend] = useState<boolean>(false);
     // const [cancelFriend, setCancelFriend] = useState<boolean>(false);
-
     // const [messageButton, setMessageButton] = useState<boolean>(false);
-
     // const friendButtonToggle = (evt: React.SyntheticEvent) => {
     //     setFriendStatusButton(!friendStatusButton);
     // };
@@ -43,7 +42,7 @@ export default function FriendButton(props: OtherUsersProps) {
                     console.log("Friendship status", data);
                     const { friendStatus, accepted } = data;
                     setFriendStatusButton(accepted);
-                    setServerUrl(friendStatus);
+                    setfriendshipStatusText(friendStatus);
                 }
             });
     }, [props.receiverFriendId]);
@@ -51,28 +50,32 @@ export default function FriendButton(props: OtherUsersProps) {
     /// Insert Friendship
 
     const updateFriendshipStatus = (evt: React.SyntheticEvent) => {
-        let url = "";
-        switch (serverUrl) {
-            case "UNFRIEND":
-                url = `/friendshipStatus/${props.receiverFriendId}/unfriend`;
-                break;
-            case "CANCEL":
-                url = `/friendshipStatus/${props.receiverFriendId}/cancel`;
-                break;
-            case "ACCEPT":
-                url = `/friendshipStatus/${props.receiverFriendId}/accept`;
-                break;
-            case "ADD FRIEND":
-                url = `/friendshipStatus/${props.receiverFriendId}/addfriend`;
-                break;
-        }
+        // let url = "";
+        const url = `/friendshipStatus/${friendshipStatusText.toLocaleLowerCase()}/${
+            props.receiverFriendId
+        }`;
+        // switch (serverUrl) {
 
-        fetch(`/friendStatusUpdate/`, {
+        //     case "UNFRIEND":
+        //         url = `/friendshipStatus/${props.receiverFriendId}/unfriend`}`;
+        //         break;
+        //     case "CANCEL":
+        //         url = `/friendshipStatus/${props.receiverFriendId}/cancel`;
+        //         break;
+        //     case "ACCEPT":
+        //         url = `/friendshipStatus/${props.receiverFriendId}/accept`;
+        //         break;
+        //     case "ADD FRIEND":
+        //         url = `/friendshipStatus/${props.receiverFriendId}/addfriend`;
+        //         break;
+        // }
+
+        fetch(`${url}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ friendStatusButton }),
+            // body: JSON.stringify({ friendStatusButton }),
         })
             .then((res) => res.json())
             .then((data) => {
@@ -80,6 +83,7 @@ export default function FriendButton(props: OtherUsersProps) {
                     console.log("Friendship status", data);
                     const { friendStatus } = data;
                     setFriendStatusButton(friendStatus);
+                    setfriendshipStatusText(friendStatus);
                 }
             });
     };
@@ -92,7 +96,7 @@ export default function FriendButton(props: OtherUsersProps) {
     return (
         <>
             <button onClick={(evt) => updateFriendshipStatus(evt)}>
-                {friendStatusButton}
+                {friendshipStatusText}
             </button>
         </>
     );

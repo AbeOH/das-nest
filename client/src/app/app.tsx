@@ -9,6 +9,7 @@ import ProfilPic from "../components/profile/profilpic/profilpic";
 import Find from "../components/find/find";
 import Signout from "../components/signout/signout";
 import OtherUsers from "../components/find/otherusers/otherusers";
+import FriendButton from "../components/find/otherusers/friendbutton/friendbutton";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -123,6 +124,7 @@ export class App extends React.Component<AppProbs, AppStates> {
                         <Route path="/users" element={<Find />} />
                         <Route path="/user/:id" element={<OtherUsers />} />
                         <Route path="/signout" element={<Signout />} />
+                        {/* <Route path="/friendship/:id" element={<FriendButton />} /> */}
                     </Routes>
                 </BrowserRouter>
             </>
