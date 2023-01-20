@@ -106,7 +106,7 @@ module.exports.acceptFriendship = (user1, user2) => {
     console.log("user1", user1);
     console.log("user2", user2);
     return db.query(
-        "UPDATE friendships SET accepted = true WHERE sender_id = $1 AND receiver_id = $2 RETURNING *",
+        "UPDATE friendships SET accepted = true WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1) RETURNING *",
         [user1, user2]
     );
 };

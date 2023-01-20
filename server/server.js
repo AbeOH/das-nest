@@ -133,21 +133,22 @@ app.get("/friendshipStatus/:senderId", (req, res) => {
     const otherRequestId = req.params.senderId;
     findFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
-            console.log("dddaata: ", data);
+            // console.log("dddaata: ", data);
             if (data.rows.length === 0) {
-                res.json({ friendStatus: "ADDFRIEND", accepted: false });
+                console.log("Hii Test");
+                res.json({ friendStatus: "ADDFRIEND" });
             } else if (data.rows[0].accepted === true) {
-                res.json({ friendStatus: "UNFRIEND", accepted: true });
+                res.json({ friendStatus: "UNFRIEND" });
             } else if (
                 data.rows[0].accepted === false &&
                 data.rows[0].sender_id === myProfilRequestId
             ) {
-                res.json({ friendStatus: "CANCEL", accepted: false });
+                res.json({ friendStatus: "CANCEL" });
             } else if (
                 data.rows[0].accepted === false &&
                 data.rows[0].sender_id !== myProfilRequestId
             ) {
-                res.json({ friendStatus: "ACCEPT", accepted: false });
+                res.json({ friendStatus: "ACCEPT" });
             }
         })
         .catch((err) => {
@@ -316,54 +317,59 @@ app.post("/signout", (req, res) => {
 
 //*****************************************************************************************
 // Post Routes for Friendship accepetane and cancellation
+/// Have it look tomorrow morning again what I am sending back in my friendStatus
 
-app.post("/friendshipStatus/:senderId/addfriend", (req, res) => {
+app.get("/friendshipStatus/:senderId/addfriend", (req, res) => {
     /// Add Friend, delete friendship
-    console.log("Hello");
+    console.log("Hello Add Friend");
     const myProfilRequestId = req.session.userId;
     const otherRequestId = req.params.senderId;
     addFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
             console.log("Friend Accepted: ", data);
-            res.json({ friendStatus: "ACCEPT", accepted: true });
+            res.json({ friendStatus: "UNFRIEND" });
         })
         .catch((err) => console.log("Error in accepting friendship: ", err));
 });
 
-app.post("/friendshipStatus/:senderId/accept", (req, res) => {
+app.get("/friendshipStatus/:senderId/accept", (req, res) => {
     /// Add Friend, delete friendship
-    console.log("Hello");
+    console.log("Hello Accept Friend");
     const myProfilRequestId = req.session.userId;
     const otherRequestId = req.params.senderId;
     acceptFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
             console.log("Friend Accepted: ", data);
-            res.json({ friendStatus: "ACCEPT", accepted: true });
+            res.json({ friendStatus: "CANCEL" });
         })
         .catch((err) => console.log("Error in accepting friendship: ", err));
 });
 
-app.post("/friendshipStatus/:senderId/cancel", (req, res) => {
+app.get("/friendshipStatus/:senderId/cancel", (req, res) => {
     /// Add Friend, delete friendship
-    console.log("Hello");
+    console.log("Hello Delete Friend");
     const myProfilRequestId = req.session.userId;
     const otherRequestId = req.params.senderId;
     cancelFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
             console.log("Friend Accepted: ", data);
-            res.json({ friendStatus: "CANCEL", accepted: false });
+            res.json({ friendStatus: "ADDFRIEND" });
         })
         .catch((err) => console.log("Error in accepting friendship: ", err));
 });
 
-// app.post("/friendreject/:senderId/:userId", (req, res) => {
-//     rejectFriendship(req.params.senderId, req.params.userId)
-//         .then((data) => {
-//             console.log("Friend Rejected: ", data);
-//             res.json(data);
-//         })
-//         .catch((err) => console.log("Error in rejecting friendship: ", err));
-// });
+app.get("/friendshipStatus/:senderId/unfriend", (req, res) => {
+    /// Add Friend, delete friendship
+    console.log("Hello Unfriend Friend");
+    const myProfilRequestId = req.session.userId;
+    const otherRequestId = req.params.senderId;
+    cancelFriendship(myProfilRequestId, otherRequestId)
+        .then((data) => {
+            console.log("Friend Accepted: ", data);
+            res.json({ friendStatus: "ADDFRIEND" });
+        })
+        .catch((err) => console.log("Error in accepting friendship: ", err));
+});
 
 //***************************************************************************************** */
 app.get("*", function (req, res) {
