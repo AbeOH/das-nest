@@ -91,7 +91,7 @@ app.get("/user/userInformation.json", (req, res) => {
         });
 });
 
-app.get("/user/:id", (req, res) => {
+app.get("/api/user/:id", (req, res) => {
     const { id } = req.params;
     console.log("Req", req.params);
     getUserId(id)
@@ -133,16 +133,17 @@ app.get("/friendshipStatus/:senderId", (req, res) => {
     const otherRequestId = req.params.senderId;
     findFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
-            if (data.accepted === true) {
+            console.log("ddaata: ", data);
+            if (data.rows[0].accepted === true) {
                 res.json({ friendStatus: "UNFRIEND", accepted: true });
             } else if (
-                data.accepted === false &&
-                data.sender_id === otherRequestId
+                data.rows[0].accepted === false &&
+                data.rows[0].sender_id === myProfilRequestId
             ) {
                 res.json({ friendStatus: "CANCEL", accepted: false });
             } else if (
-                data.accepted === false &&
-                data.sender_id === myProfilRequestId
+                data.rows[0].accepted === false &&
+                data.rows[0].sender_id !== myProfilRequestId
             ) {
                 res.json({ friendStatus: "ACCEPT", accepted: false });
             } else {
@@ -151,7 +152,7 @@ app.get("/friendshipStatus/:senderId", (req, res) => {
         })
         .catch((err) => {
             console.log(
-                "error in GET /frinedship/:senderId/:receiverId: ",
+                "error in GET /friendship/:senderId/:receiverId: ",
                 err
             );
             res.json("Error", err);
@@ -316,7 +317,7 @@ app.post("/signout", (req, res) => {
 //*****************************************************************************************
 // Post Routes for Friendship accepetane and cancellation
 
-app.post("/friendshipStatus/addfriend/:senderId", (req, res) => {
+app.post("/friendshipStatus/:senderId/addfriend", (req, res) => {
     /// Add Friend, delete friendship
     console.log("Hello");
     const myProfilRequestId = req.session.userId;
@@ -329,7 +330,7 @@ app.post("/friendshipStatus/addfriend/:senderId", (req, res) => {
         .catch((err) => console.log("Error in accepting friendship: ", err));
 });
 
-app.post("/friendship/accept/:senderId", (req, res) => {
+app.post("/friendshipStatus/:senderId/accept", (req, res) => {
     /// Add Friend, delete friendship
     console.log("Hello");
     const myProfilRequestId = req.session.userId;
@@ -342,7 +343,7 @@ app.post("/friendship/accept/:senderId", (req, res) => {
         .catch((err) => console.log("Error in accepting friendship: ", err));
 });
 
-app.post("/friendship/cancel/:senderId", (req, res) => {
+app.post("/friendshipStatus/:senderId/cancel", (req, res) => {
     /// Add Friend, delete friendship
     console.log("Hello");
     const myProfilRequestId = req.session.userId;
