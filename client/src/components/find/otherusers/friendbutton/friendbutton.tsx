@@ -30,12 +30,7 @@ export default function FriendButton(props: OtherUsersProps) {
     /// Friendship status: Modify to get senderId from cookies
     useEffect(() => {
         console.log("Unmounting FriendButton component");
-        fetch(`/friendshipStatus/${props.receiverFriendId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
+        fetch(`/friendshipStatus/${props.receiverFriendId}`)
             .then((res) => res.json())
             .then((data: Data) => {
                 if (data) {
@@ -45,15 +40,15 @@ export default function FriendButton(props: OtherUsersProps) {
                     setfriendshipStatusText(friendStatus);
                 }
             });
-    }, [props.receiverFriendId]);
+    }, []);
 
     /// Insert Friendship
 
     const updateFriendshipStatus = (evt: React.SyntheticEvent) => {
         // let url = "";
-        const url = `/friendshipStatus/${friendshipStatusText.toLocaleLowerCase()}/${
+        const url = `/friendshipStatus/${
             props.receiverFriendId
-        }`;
+        }/${friendshipStatusText.toLocaleLowerCase()}`;
         // switch (serverUrl) {
 
         //     case "UNFRIEND":
@@ -78,11 +73,11 @@ export default function FriendButton(props: OtherUsersProps) {
             // body: JSON.stringify({ friendStatusButton }),
         })
             .then((res) => res.json())
-            .then((data) => {
+            .then((data: Data) => {
                 if (data) {
                     console.log("Friendship status", data);
-                    const { friendStatus } = data;
-                    setFriendStatusButton(friendStatus);
+                    const { friendStatus, accepted } = data;
+                    setFriendStatusButton(accepted);
                     setfriendshipStatusText(friendStatus);
                 }
             });

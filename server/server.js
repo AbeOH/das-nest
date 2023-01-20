@@ -133,8 +133,10 @@ app.get("/friendshipStatus/:senderId", (req, res) => {
     const otherRequestId = req.params.senderId;
     findFriendship(myProfilRequestId, otherRequestId)
         .then((data) => {
-            console.log("ddaata: ", data);
-            if (data.rows[0].accepted === true) {
+            console.log("dddaata: ", data);
+            if (data.rows.length === 0) {
+                res.json({ friendStatus: "ADDFRIEND", accepted: false });
+            } else if (data.rows[0].accepted === true) {
                 res.json({ friendStatus: "UNFRIEND", accepted: true });
             } else if (
                 data.rows[0].accepted === false &&
@@ -146,8 +148,6 @@ app.get("/friendshipStatus/:senderId", (req, res) => {
                 data.rows[0].sender_id !== myProfilRequestId
             ) {
                 res.json({ friendStatus: "ACCEPT", accepted: false });
-            } else {
-                res.json({ friendStatus: "ADDFRIEND", accepted: false });
             }
         })
         .catch((err) => {

@@ -28,7 +28,7 @@ export default function OtherUsers() {
     const [bio, setBio] = useState("");
 
     useEffect(() => {
-        fetch(`/user/${id}`, {
+        fetch(`/api/user/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
