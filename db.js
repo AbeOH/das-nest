@@ -118,4 +118,18 @@ module.exports.cancelFriendship = (user1, user2) => {
     );
 };
 
+module.exports.currentFriendshipStatus = (userId) => {
+    return db.query(
+        `SELECT f.accepted, u.id, f.sender_id, f.receiver_id, u.firstname, u.lastname, u.imageurl, u.bio from users u join friendships f on u.id = f.sender_id or u.id = f.receiver_id where f.accepted=true and u.id != $1 and (f.sender_id = $1 or f.receiver_id = $1)`,
+        [userId]
+    );
+};
+
+module.exports.pendingFriendshipStatus = (userId) => {
+    return db.query(
+        `SELECT f.accepted, u.id, f.sender_id, f.receiver_id, u.firstname, u.lastname, u.imageurl, u.bio from users u join friendships f on u.id = f.sender_id or u.id = f.receiver_id where f.accepted=false and u.id != $1 and (f.sender_id = $1 or f.receiver_id = $1)`,
+        [userId]
+    );
+};
+
 /// Check accept and recect db queries again

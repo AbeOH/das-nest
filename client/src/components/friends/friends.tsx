@@ -8,15 +8,15 @@ import { useEffect, useState } from "react";
 export function Friends() {
     const dispatch = useDispatch();
     const users = useSelector((state: RootState) => state.friendslist.users);
-    const userId = useSelector((state: RootState) => state.user.userId);
+    // const userId = useSelector((state: RootState) => state.friendslist.userId);
 
-    const acceptedFriends = users.filter((user) => user.accepted);
-    const userPendingFriends = users.filter(
-        (user) => !user.accepted && user.sender_id === userId
-    );
-    const otherPendingFriends = users.filter(
-        (user) => !user.accepted && user.sender_id !== userId
-    );
+    // const acceptedFriends = users.filter((user) => user.accepted);
+    // const userPendingFriends = users.filter(
+    //     (user) => !user.accepted && user.sender_id === userId
+    // );
+    // const otherPendingFriends = users.filter(
+    //     (user) => !user.accepted && user.sender_id !== userId
+    // );
 
     /// Do I need to create db queries or can I reuse others?
     useEffect(() => {

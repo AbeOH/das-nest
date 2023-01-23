@@ -7,6 +7,8 @@ const { PORT = 3001 } = process.env;
 
 // Importing functions from db.js
 const {
+    currentFriendshipStatus,
+    pendingFriendshipStatus,
     addFriendship,
     cancelFriendship,
     acceptFriendship,
@@ -158,6 +160,17 @@ app.get("/friendshipStatus/:senderId", (req, res) => {
             );
             res.json("Error", err);
         });
+});
+
+app.get("/friendshipStatusAll/", (req, res) => {
+    const userId = req.session.userId;
+    Promise.all([
+        currentFriendshipStatus(userId),
+        pendingFriendshipStatus(userId),
+    ]).then((friendStatus) => {
+        console.log("friendStatus: ", friendStatus);
+        res.json(friendStatus);
+    });
 });
 
 //***************************************************************************************** */
