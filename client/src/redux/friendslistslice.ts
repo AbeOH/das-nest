@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { Action } from "../app/typeinterface";
+import { Action } from "../app/typeinterface";
 
 // FriendListState
 
 export interface FriendList {
+    accepted: boolean;
     id: number;
     sender_id: number;
-    recipient_id: number;
-    accepted: boolean;
+    receiver_id: number;
     firstname: string;
     lastname: string;
     imageurl: string;
@@ -23,33 +23,31 @@ const initialState: FriendListState = {
 };
 
 export const friendslistslice = createSlice({
-    name: "friendship",
+    name: "friendslist",
     initialState,
     reducers: {
-        // addFriendship: (
-        //     state,
-        //     userFriendListId: PayloadAction<Array<FriendList>>
-        // ) => {
-        //     state.users = userFriendListId.payload;
+        getFriendship: (state, action: PayloadAction<Array<FriendList>>) => {
+            console.log("Hello where is my payload?", action.payload);
+            state.users = action.payload;
+        },
+        // cancelFriendship: (state, userFriendListId: PayloadAction<number>) => {
+        //     const userFriendListIndex = state.users.findIndex(
+        //         (user) => user.id === userFriendListId.payload
+        //     );
+        //     state.users.splice(userFriendListIndex, 1);
         // },
-        cancelFriendship: (state, userFriendListId: PayloadAction<number>) => {
-            const userFriendListIndex = state.users.findIndex(
-                (user) => user.id === userFriendListId.payload
-            );
-            state.users.splice(userFriendListIndex, 1);
-        },
-        acceptFriendship: (state, userFriendListId: PayloadAction<number>) => {
-            const userFriendListIndex = state.users.findIndex(
-                (user) => user.id === userFriendListId.payload
-            );
-            state.users[userFriendListIndex].accepted = true;
-        },
+        // acceptFriendship: (state, userFriendListId: PayloadAction<number>) => {
+        //     const userFriendListIndex = state.users.findIndex(
+        //         (user) => user.id === userFriendListId.payload
+        //     );
+        //     state.users[userFriendListIndex].accepted = true;
+        // },
     },
 });
 
 /// Exporting the Actions
-export const { addFriendship, cancelFriendship, acceptFriendship } =
-    friendslistslice.actions;
+// cancelFriendship, acceptFriendship;
+export const { getFriendship } = friendslistslice.actions;
 
 /// Exporting the Reducer
 export default friendslistslice.reducer;
