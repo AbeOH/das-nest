@@ -118,18 +118,40 @@ module.exports.cancelFriendship = (user1, user2) => {
     );
 };
 
-module.exports.currentFriendshipStatus = (userId) => {
+module.exports.getFriendshipStatus = (userId) => {
     return db.query(
-        `SELECT f.accepted, u.id, f.sender_id, f.receiver_id, u.firstname, u.lastname, u.imageurl, u.bio from users u join friendships f on u.id = f.sender_id or u.id = f.receiver_id where f.accepted=true and u.id != $1 and (f.sender_id = $1 or f.receiver_id = $1)`,
+        `SELECT f.accepted, u.id, f.sender_id, f.receiver_id, u.firstname, u.lastname, u.imageurl, u.bio from users u join friendships f on u.id = f.sender_id or u.id = f.receiver_id where u.id != $1 and (f.sender_id = $1 or f.receiver_id = $1)`,
         [userId]
     );
 };
 
-module.exports.pendingFriendshipStatus = (userId) => {
+module.exports.addMessage = (sender_id, message) => {
     return db.query(
-        `SELECT f.accepted, u.id, f.sender_id, f.receiver_id, u.firstname, u.lastname, u.imageurl, u.bio from users u join friendships f on u.id = f.sender_id or u.id = f.receiver_id where f.accepted=false and u.id != $1 and (f.sender_id = $1 or f.receiver_id = $1)`,
+        "INSERT INTO messages (sender_id, message) VALUES ($1, $2) RETURNING *",
+        [sender_id, message]
+    );
+};
+
+module.exports.getMessageFromUser = (userId) => {
+    return db.query(
+        `SELECT m.id, m.sender_id, m.message, m.created_at, u.firstname, u.lastname, u.imageurl, u.bio from users u join messages m on u.id = m.sender_id where u.id = $1`,
         [userId]
     );
+};
+
+module.exports.getLatestMessages = (limit = 10) => {
+    const sql = `
+        SELECT * FROM (
+            SELECT m.id, m.message, m.created_at,
+                u.first_name, u.last_name, u.profile_pic_url
+            FROM messages m
+            JOIN users u ON m.sender_id = u.id
+            ORDER BY m.created_at DESC
+            limit $1
+        ) as results ORDER BY created_at ASC
+    `;
+
+    return db.query(sql, [limit]);
 };
 
 /// Check accept and recect db queries again

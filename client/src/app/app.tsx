@@ -125,7 +125,10 @@ export class App extends React.Component<AppProbs, AppStates> {
                         <Route path="/search" element={<Find />} />
                         {/* <Route path="/users" element={<Find />} /> */}
                         <Route path="/user/:id" element={<OtherUsers />} />
-                        <Route path="/friends" element={<Friends />} />
+                        <Route
+                            path="/friends"
+                            element={<Friends myId={this.state.id} />}
+                        />
                         <Route path="/signout" element={<Signout />} />
                         {/* <Route path="/friendship/:id" element={<FriendButton />} /> */}
                     </Routes>

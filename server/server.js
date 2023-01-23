@@ -5,10 +5,20 @@ const compression = require("compression");
 const path = require("path");
 const { PORT = 3001 } = process.env;
 
+/// Socket modifications
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) => {
+        callback(null, req.headers.referer.startsWith("http://localhost:3000"));
+    },
+});
+
 // Importing functions from db.js
 const {
-    currentFriendshipStatus,
-    pendingFriendshipStatus,
+    getLatestMessages,
+    addMessage,
+    getMessageFromUser,
+    getFriendshipStatus,
     addFriendship,
     cancelFriendship,
     acceptFriendship,
@@ -30,7 +40,12 @@ app.use(compression());
 // Need json middleware for POST requests
 
 // Setting up cookies session
-const cookieSession = require("cookie-session");
+// const cookieSession = require("cookie-session");
+
+/// Getting & setting up cookie session for socket.io
+const { cookieSession } = require("./middleware.js");
+
+app.use(cookieSession);
 
 // Importing function from bcrypt.js
 const { hash, compare } = require("../brypt.js");
@@ -52,12 +67,13 @@ const ses = new aws.SES({
 
 const { uploader, fileUpload } = require("./uploader.js");
 
-app.use(
-    cookieSession({
-        secret: "It takes a village to raise a child",
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// app.use(
+//     cookieSession({
+//         secret: "It takes a village to raise a child",
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+
 // Setting up json middleware == Enables access values in req.body
 app.use(express.json());
 
@@ -71,6 +87,37 @@ app.use((req, res, next) => {
     console.log("---------------------");
     next();
 });
+
+//***************************************************************************************** */
+/// Socket.io setup
+io.use((socket, next) => {
+    cookieSession(socket.request, socket.request.res, next);
+});
+
+io.on("connection", async (socket) => {
+    console.log(`Socket with the id ${socket.id} is now connected`);
+    console.log("socket.request.session: ", socket.request.session);
+    const { userId } = socket.request.session;
+    if (!userId) {
+        return socket.disconnect(true);
+    }
+    const latestMessages = await getLatestMessages();
+    socket.emit("chatMessages", [
+        {
+            text: "Welcome to the chat",
+        },
+        {
+            text: "Please be considered, this is a public chat",
+        },
+    ]);
+    socket.on("chatMessage", (text) => {
+        console.log("text: ", text);
+        /////// Something here; check notes
+        io.emit("chatMessage");
+    });
+});
+
+//***************************************************************************************** */
 
 //***************************************************************************************** */
 // Get Routes
@@ -162,14 +209,11 @@ app.get("/friendshipStatus/:senderId", (req, res) => {
         });
 });
 
-app.get("/friendshipStatusAll/", (req, res) => {
+app.get("/friendshipStatusAll", (req, res) => {
     const userId = req.session.userId;
-    Promise.all([
-        currentFriendshipStatus(userId),
-        pendingFriendshipStatus(userId),
-    ]).then((friendStatus) => {
-        console.log("friendStatus: ", friendStatus);
-        res.json(friendStatus);
+    getFriendshipStatus(userId).then((friendStatus) => {
+        console.log("friendStatus: ", friendStatus.rows);
+        res.json({ friendStatus: friendStatus.rows });
     });
 });
 
@@ -390,6 +434,11 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(PORT, function () {
+/// Changing from app.listen to server.listen
+server.listen(PORT, function () {
     console.log(`Express server listening on port ${PORT}`);
 });
+
+// app.listen(PORT, function () {
+//     console.log(`Express server listening on port ${PORT}`);
+// });

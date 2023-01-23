@@ -5,6 +5,7 @@ import { Welcome } from "./welcome/welcome";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { initSocket } from "./socket";
 
 const root = ReactDOM.createRoot(document.querySelector("main") as HTMLElement);
 
