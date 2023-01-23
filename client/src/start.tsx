@@ -15,6 +15,7 @@ fetch("/user/id.json")
     .then((data) => {
         console.log("data: ", data);
         if (data.userId) {
+            initSocket(store);
             root.render(
                 <Provider store={store}>
                     <App />

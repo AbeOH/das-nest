@@ -134,7 +134,7 @@ module.exports.addMessage = (sender_id, message) => {
 
 module.exports.getMessageFromUser = (userId) => {
     return db.query(
-        `SELECT m.id, m.sender_id, m.message, m.created_at, u.firstname, u.lastname, u.imageurl, u.bio from users u join messages m on u.id = m.sender_id where u.id = $1`,
+        `SELECT m.id, m.sender_id, m.message, m.create_at, u.firstname, u.lastname, u.imageurl, u.bio from users u join messages m on u.id = m.sender_id where u.id = $1`,
         [userId]
     );
 };
@@ -142,13 +142,13 @@ module.exports.getMessageFromUser = (userId) => {
 module.exports.getLatestMessages = (limit = 10) => {
     const sql = `
         SELECT * FROM (
-            SELECT m.id, m.message, m.created_at,
-                u.first_name, u.last_name, u.profile_pic_url
+            SELECT m.id, m.message, m.create_at,
+                u.firstname, u.lastname, u.imageurl
             FROM messages m
             JOIN users u ON m.sender_id = u.id
-            ORDER BY m.created_at DESC
+            ORDER BY m.create_at DESC
             limit $1
-        ) as results ORDER BY created_at ASC
+        ) as results ORDER BY create_at ASC
     `;
 
     return db.query(sql, [limit]);

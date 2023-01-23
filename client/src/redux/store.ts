@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { friendslistslice } from "./friendslistslice";
-// import { userIdSlice } from "./userIdslice";
+import { messagesSlice } from "./messagesslice";
 
 export const store = configureStore({
     reducer: {
         friendslist: friendslistslice.reducer,
-        // user: userIdSlice.reducer,
+        messages: messagesSlice.reducer,
     },
 });
 

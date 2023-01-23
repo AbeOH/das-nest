@@ -1,18 +1,19 @@
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import {
     recentMessagesReceived,
     singleMessageReceived,
-} from "../../redux/messageslicer";
+} from "./redux/messagesslice";
+import { Store } from "redux";
 
-export let socket;
+export let socket: Socket;
 
-export const initSocket = (store) => {
+export const initSocket = (store: Store) => {
     console.log("initSocket");
     if (socket) {
         return;
     }
 
-    socket = io.connect();
+    socket = io();
 
     // I receive a list of messages (prob. at the beginning)
     socket.on("chatMessages", (data) => {
