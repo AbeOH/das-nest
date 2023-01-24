@@ -102,22 +102,15 @@ io.on("connection", async (socket) => {
         return socket.disconnect(true);
     }
     const latestMessages = await getLatestMessages();
-    socket.emit("chatMessages", [
-        {
-            text: "Welcome to the chat",
-        },
-        {
-            text: "Please be considered, this is a public chat",
-        },
-    ]);
-    socket.on("chatMessage", (text) => {
+    console.log("latestMessages: ", latestMessages);
+    socket.emit("chatMessages", latestMessages.rows);
+    socket.on("sendMessage", async (text) => {
         console.log("text: ", text);
+        const insertedMessages = await addMessage(userId, text);
         /////// Something here; check notes
-        io.emit("chatMessage");
+        io.emit("chatMessage", insertedMessages);
     });
 });
-
-//***************************************************************************************** */
 
 //***************************************************************************************** */
 // Get Routes

@@ -7,7 +7,7 @@ import { Store } from "redux";
 
 export let socket: Socket;
 
-export const initSocket = (store: Store) => {
+export const connect = (store: Store) => {
     console.log("initSocket");
     if (socket) {
         return;
@@ -17,13 +17,15 @@ export const initSocket = (store: Store) => {
 
     // I receive a list of messages (prob. at the beginning)
     socket.on("chatMessages", (data) => {
-        const action = recentMessagesReceived(data.messages);
+        console.log("dataaaaa", data);
+        const action = recentMessagesReceived(data); /// data.messages
         store.dispatch(action);
     });
 
     // I receive a single message when someone has sent it to the server
     socket.on("chatMessage", (data) => {
-        const action = singleMessageReceived(data.message);
+        const action = singleMessageReceived(data); /// data.message
+        console.log("actionnnnnn", data);
         store.dispatch(action);
     });
 };

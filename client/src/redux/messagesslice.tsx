@@ -2,31 +2,30 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Action } from "../app/typeinterface";
 
 export interface Message {
-    id_sender: number;
-    message: string;
-    firstname_sender: string;
-    lastname_sender: string;
-    imgurl_sender: string;
-    created_at: string;
+    bio: string;
+    email: string;
+    firstname: string;
+    id: number;
+    imageurl: string;
+    lastname: string;
 }
 
 export interface MessagesState {
     messages: Message[];
 }
 
-const initialState: MessagesState = {
-    messages: [],
-};
+const initialState: Message[] = [];
 
 export const messagesSlice = createSlice({
     name: "messages",
     initialState,
     reducers: {
         recentMessagesReceived: (state, action: PayloadAction<Message[]>) => {
-            state.messages = action.payload;
+            state = action.payload;
         },
         singleMessageReceived: (state, action: PayloadAction<Message>) => {
-            state.messages.unshift(action.payload);
+            console.log("action.payload: ", action);
+            state.unshift(action.payload);
         },
     },
 });

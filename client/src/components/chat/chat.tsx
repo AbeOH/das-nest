@@ -1,38 +1,94 @@
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { socket } from "../../socket";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, SyntheticEvent } from "react";
+import { connect, socket } from "../../socket";
+
+import { io, Socket } from "socket.io-client";
+import {
+    recentMessagesReceived,
+    singleMessageReceived,
+} from "../../redux/messagesSlice";
+import { Store } from "redux";
+import { Action } from "../../app/typeinterface";
+import { RootState } from "../../redux/store";
 
 export default function Chat() {
-    // const messages = useSelector((state) => state.messages);
-    const [message, setMessage] = useState("");
+    // const dispatch = useDispatch();
+    const messages = useSelector((state: RootState) => {
+        console.log("state", state);
+        return state.messages;
+    });
+    const [messageState, setMessageState] = useState("");
 
-    // const onChatKeyDown = (e) => {
-    //     if (e.code === "Enter") {
-    //         e.preventDefault();
-    //         // no need to `fetch`! Just emit via the socket.
-    //         socket.emit("chatMessage", { message: message.trim() });
-    //         // clear the input field!
-    //     }
+    const changeMessage = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setMessageState(evt.target.value);
+    };
+
+    const submitMessage = (evt: React.FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
+        console.log("messageState: ", messageState);
+        socket.emit("sendMessage", { message: messageState });
+        setMessageState("");
+    };
+
+    const onChatKeyDown = (evt: React.KeyboardEvent) => {
+        if (evt.code === "Enter") {
+            evt.preventDefault();
+            socket.emit("sendMessage", messageState);
+            console.log("messageState: ", messageState);
+            setMessageState("");
+        }
+    };
+
+    // const [connectChat, setConnectChat] = useState<Boolean>(false);
+    // const toggleChat = () => {
+    //     setConnectChat(!connectChat);
     // };
 
-    // const onMessageChange = (e) => {
-    //     // 1. get the text from e.currentTarget.value
-    //     // 2. update the message state (in this component only)
+    // const onChatKeyDown = (evt: React.SyntheticEvent) => {
+    //     if (evt.code === "Enter") {
+    //         evt.preventDefault();
+    //         // no need to `fetch`! Just emit via the socket.
+    //         socket.emit("sendMessage", { message: evt.currentTarget.value });
+    //         // clear the input field!
+    //     }
     // };
 
     // ...
 
     return (
-        // ... a list of all messages
-        // an input for user to type a new message
-        <div className="new-message">
-            <textarea
-                name="message"
-                placeholder="Your message here"
-                // onKeyDown={(e) => onChatKeyDown(e)}
-                // onChange={(e) => onMessageChange(e)}
-                value={message}
-            ></textarea>
-        </div>
+        <section>
+            <h1>Chat</h1>
+            {/* <button onClick={toggleChat}>Chat to Community</button> */}
+            <div className="new-message">
+                <textarea
+                    name="message"
+                    placeholder="Your message here"
+                    onChange={(evt) => changeMessage(evt)}
+                    onKeyDown={(evt) => onChatKeyDown(evt)}
+                    value={messageState}
+                ></textarea>
+                {/* Mapping over messages */}
+
+                {messages &&
+                    messages.map((message) => <div key={message.id}></div>)}
+            </div>
+        </section>
     );
 }
+
+// useEffect(() => {
+// const socket = connect();
+
+//     socket.on("chatMessages", (data) => {
+//         console.log("data: ", data);
+//         const action = recentMessagesReceived(data.messages);
+//         store.dispatch(action);
+//     });
+
+//     // I receive a single message when someone has sent it to the server
+//     socket.on("chatMessage", (data) => {
+//         const action = singleMessageReceived(data.message);
+//         store.dispatch(action);
+//     });
+// }, []);
+// }, [dispatch]);
