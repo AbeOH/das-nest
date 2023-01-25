@@ -43,6 +43,8 @@ CREATE TABLE messages (
 CREATE TABLE groups (
   id SERIAL PRIMARY KEY,
   group_name VARCHAR(255) NOT NULL,
+  group_description VARCHAR(255),
+  group_url VARCHAR(255),
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
