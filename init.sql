@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS rest_codes;
 DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS users_groups;
 DROP TABLE IF EXISTS posts;
 
 
@@ -41,13 +42,16 @@ CREATE TABLE messages (
 
 CREATE TABLE groups (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id),
-  group_id INTEGER NOT NULL REFERENCES groups(id),
-  name VARCHAR(255) NOT NULL,
-  description VARCHAR(255),
+  group_name VARCHAR(255) NOT NULL,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE users_groups (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  group_id INTEGER NOT NULL REFERENCES groups(id),
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
