@@ -3,23 +3,28 @@ import { RootState } from "../../redux/store";
 import { useEffect, useState, FormEvent } from "react";
 // import groupsslice from "../../redux/groupsslice";
 
-interface GroupsState {
-    group_name: string;
-    group_description: string;
-    group_url: string;
-    fileUrl: File | null;
-}
+// interface GroupsState {
+//     group_name: string;
+//     group_description: string;
+//     group_url: string;
+//     fileUrl: File | null;
+//     // updateImageClosePopup: Function;
+// }
 
-export function Groups(props: GroupsState) {
+export function Groups() {
     const [group_name, setGroup_name] = useState("");
+    const [group_description, setGroup_description] = useState("");
+    const [group_url, setGroup_url] = useState("");
+    const [fileUrl, setFileUrl] = useState<File | null>(null);
+    // const [updateImageClosePopup, setUpdateImageClosePopup] = useState<
 
     const handleUpload = (evt: React.SyntheticEvent) => {
         evt.preventDefault();
         const formData = new FormData();
-        if (this.state.fileUrl === null) {
+        if (fileUrl === null) {
             return;
         }
-        formData.append("file", this.state.fileUrl);
+        formData.append("file", fileUrl);
         fetch("/groupupload", {
             method: "POST",
             body: formData,
@@ -27,7 +32,7 @@ export function Groups(props: GroupsState) {
             .then((res) => res.json())
             .then((data) => {
                 console.log("data from server: ", data);
-                this.props.updateImageClosePopup(data.imageurl);
+                // updateImageClosePopup(data.imageurl); adjust this
             })
             .catch((err) => {
                 console.log("Errrrrrror in fetch: ", err);
@@ -38,13 +43,12 @@ export function Groups(props: GroupsState) {
         const property = evt.target.name; // This line will hold value when input for value is changed
         const value = evt.target.value;
         console.log("Evt Target", evt.target);
-        this.setState({ [property]: value }); // This line will update value prob dynamically in this.state variable
+        // props.setState({ [property]: value }); // This line will update value prob dynamically in this.state variable
     };
 
     const handleSubmit = (evt: FormEvent) => {
         evt.preventDefault();
-        const { group_name } = this.state;
-        console.log("Submit", this.state);
+        // const { group_name } = this.setState;
         fetch("/groups", {
             method: "POST",
             headers: {
@@ -74,15 +78,15 @@ export function Groups(props: GroupsState) {
         <section>
             <div>
                 <h1>Want to create a Group?</h1>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="group_name">Group Name</label>
                         <input
                             required
                             type="text"
                             name="group_name"
-                            value={this.state.group_name}
-                            onChange={this.handleInputChange}
+                            value={group_name}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div>
@@ -93,8 +97,8 @@ export function Groups(props: GroupsState) {
                             required
                             type="text"
                             name="group_description"
-                            value={this.state.group_description}
-                            onChange={this.handleInputChange}
+                            value={group_description}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div>
@@ -103,8 +107,8 @@ export function Groups(props: GroupsState) {
                             required
                             type="text"
                             name="group_url"
-                            value={this.state.group_url}
-                            onChange={this.handleInputChange}
+                            value={group_url}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <button type="submit">Create Group</button>

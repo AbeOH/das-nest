@@ -2,24 +2,28 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createStore, combineReducers } from "redux";
 
-const groupsSlice = createSlice({
-    name: "groups",
-    initialState: {
-        groups: [],
-    },
-    reducers: {
-        addGroup: (state, action: PayloadAction<string>) => {
-            state.groups.push(action.payload);
-        },
-    },
-});
+export interface GroupsState {
+    groups: string[];
+}
 
-const store = createStore(
-    combineReducers({
-        groups: groupsSlice.reducer,
-    })
-);
+// const groupsSlice = createSlice({
+//     name: "groups",
+//     initialState: {
+//         groups: [],
+//     },
+//     // reducers: {
+//     //     addGroup: (state, action: PayloadAction<string>) => {
+//     //         state.groups.push(action.payload);
+//     //     },
+//     },
+// });
 
-export const { addGroup } = groupsSlice.actions;
+// const store = createStore(
+//     combineReducers({
+//         groups: groupsSlice.reducer,
+//     })
+// );
 
-export default store;
+// export const { addGroup } = groupsSlice.actions;
+
+// export default store;

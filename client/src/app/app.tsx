@@ -12,6 +12,7 @@ import OtherUsers from "../components/find/otherusers/otherusers";
 import FriendButton from "../components/find/otherusers/friendbutton/friendbutton";
 import { Friends } from "../components/friends/friends";
 import Chat from "../components/chat/chat";
+import { Groups } from "../components/groups/groups";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -95,6 +96,7 @@ export class App extends React.Component<AppProbs, AppStates> {
                         <Link to="/search">Find People</Link>
                         <Link to="/">My Profile</Link>
                         <Link to="/friends">Friends List</Link>
+                        <Link to="/groups">Groups</Link>
                         <Link to="/chat">Chat</Link>
                         <Link to="/signout">Sign Out</Link>
                         <ProfilPic
@@ -131,6 +133,7 @@ export class App extends React.Component<AppProbs, AppStates> {
                             path="/friends"
                             element={<Friends myId={this.state.id} />}
                         />
+                        <Route path="/groups" element={<Groups />} />
                         <Route path="/chat" element={<Chat />} />
                         <Route path="/signout" element={<Signout />} />
                         {/* <Route path="/friendship/:id" element={<FriendButton />} /> */}

@@ -15,6 +15,8 @@ const io = require("socket.io")(server, {
 
 // Importing functions from db.js
 const {
+    updateImageGroups,
+    createGroup,
     getLatestMessages,
     addMessage,
     getMessageFromUser,
@@ -422,6 +424,35 @@ app.get("/friendshipStatus/:senderId/unfriend", (req, res) => {
 });
 
 //***************************************************************************************** */
+/// Post Route for Group Creation
+app.get("/groups", (req, res) => {
+    const userId = req.session.userId;
+    console.log("UserId: ", userId);
+    createGroup(userId)
+        .then((data) => {
+            console.log("Group Created: ", data);
+            res.json(data);
+        })
+        .catch((err) => console.log("Error in creating group: ", err));
+});
+
+/// Upload Group Image
+app.post("/groupupload", uploader.single("file"), fileUpload, (req, res) => {
+    console.log("Files", req.file);
+    if (req.file) {
+        const url = res.locals.fileUrl;
+        const userId = req.session.userId;
+        console.log("url: ", url);
+        updateImageGroups(userId, url)
+            .then((data) => {
+                console.log("What is data", data);
+                res.json(data.rows[0]);
+            })
+            .catch((err) => console.log("Error in updating profile: ", err));
+    }
+});
+//***************************************************************************************** */
+
 app.get("*", function (req, res) {
     // console.log("Got requested url: ", req.url);
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

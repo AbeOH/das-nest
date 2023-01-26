@@ -42,18 +42,18 @@ CREATE TABLE messages (
 
 CREATE TABLE groups (
   id SERIAL PRIMARY KEY,
-  group_name VARCHAR(255) NOT NULL,
-  group_description VARCHAR(255),
-  group_imageurl VARCHAR(255),
+  name VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  imageurl VARCHAR(255),
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE users_groups (
-  id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id),
-  group_id INTEGER NOT NULL REFERENCES groups(id),
-  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- CREATE TABLE users_groups (
+--   id SERIAL PRIMARY KEY,
+--   user_id INTEGER NOT NULL REFERENCES users(id),
+--   group_id INTEGER NOT NULL REFERENCES groups(id),
+--   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
