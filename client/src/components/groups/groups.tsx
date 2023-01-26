@@ -7,16 +7,32 @@ interface GroupsState {
     group_name: string;
     group_description: string;
     group_url: string;
+    fileUrl: File | null;
 }
 
-export function Groups(probs: GroupsState) {
-    // const [group_name, setGroup_name] = useState("");
-    // const dispatch = useDispatch();
-    // const groups = useSelector((state: RootState) => state.groups);
+export function Groups(props: GroupsState) {
+    const [group_name, setGroup_name] = useState("");
 
-    // useEffect(() => {
-    //     dispatch(groupsslice.actions.getGroups());
-    // }, [dispatch]);
+    const handleUpload = (evt: React.SyntheticEvent) => {
+        evt.preventDefault();
+        const formData = new FormData();
+        if (this.state.fileUrl === null) {
+            return;
+        }
+        formData.append("file", this.state.fileUrl);
+        fetch("/groupupload", {
+            method: "POST",
+            body: formData,
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("data from server: ", data);
+                this.props.updateImageClosePopup(data.imageurl);
+            })
+            .catch((err) => {
+                console.log("Errrrrrror in fetch: ", err);
+            });
+    };
 
     const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name; // This line will hold value when input for value is changed
@@ -97,3 +113,12 @@ export function Groups(probs: GroupsState) {
         </section>
     );
 }
+
+/// Later Reduxification
+// const dispatch = useDispatch();
+
+// const groups = useSelector((state: RootState) => state.groups);
+
+// useEffect(() => {
+//     dispatch(groupsslice.actions.getGroups());
+// }, [dispatch]);

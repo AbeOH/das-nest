@@ -154,4 +154,24 @@ module.exports.getLatestMessages = (limit = 10) => {
     return db.query(sql, [limit]);
 };
 
+module.exports.createGroup = (
+    group_name,
+    group_description,
+    group_imageurl,
+    creator_id
+) => {
+    return db.query(
+        "INSERT INTO groups (name, description, imageurl, creator_id) VALUES ($1, $2, $3, $4) RETURNING *",
+        [group_name, group_description, group_imageurl, creator_id]
+    );
+};
+
+module.exports.updateImageGroups = (id, url) => {
+    return db.query(
+        "UPDATE groups SET imageurl = $2 WHERE id = $1 RETURNING *",
+        [id, url]
+    );
+    // .then((data) => data.rows[0]);
+};
+
 /// Check accept and recect db queries again
