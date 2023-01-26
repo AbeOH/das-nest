@@ -1,10 +1,7 @@
 require("dotenv").config();
-const { SQL_USER, SQL_PASSWORD } = process.env;
+const { DATABASE_URL } = process.env;
 const spicedPg = require("spiced-pg");
-const db = spicedPg(
-    process.env.DATABASE_URL ||
-        `postgres:${SQL_USER}:${SQL_PASSWORD}@localhost:5432/socialnetwork`
-);
+const db = spicedPg(DATABASE_URL);
 
 module.exports.addUser = (firstname, lastname, email, password) => {
     return db.query(
@@ -155,11 +152,14 @@ module.exports.getLatestMessages = (limit = 10) => {
 };
 
 module.exports.createGroup = (data) => {
+    console.log("data in DB createGroup", data);
     const { group_name, group_description, group_imageurl } = data;
-    return db.query(
-        "INSERT INTO groups (name, description, imageurl) VALUES ($1, $2, $3) RETURNING *",
-        [group_name, group_description, group_imageurl || null]
-    ) /*.then((data) => data.rows[0])*/;
+    return db
+        .query(
+            "INSERT INTO groups (name, description, imageurl) VALUES ($1, $2, $3) RETURNING *",
+            [group_name, group_description, group_imageurl]
+        )
+        .then((data) => data.rows);
 };
 
 module.exports.updateImageGroups = (id, url) => {

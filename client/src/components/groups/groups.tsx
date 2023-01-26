@@ -44,34 +44,34 @@ export function Groups() {
         const property = evt.target.name; // This line will hold value when input for value is changed
         const value = evt.target.value;
         // console.log("Evt Target", evt.target);
-        if (property === "group_name") {
-            setGroup_name(value);
-        } else if (property === "group_description") {
-            setGroup_description(value);
-            // } else if (property === "group_url") {
-            //     setGroup_url(value);
-        } else if (property === "file" && evt.target.files !== null) {
-            setFileUrl(evt.target.files[0]);
+        switch (property) {
+            case "group_name":
+                setGroup_name(value);
+                break;
+            case "group_description":
+                setGroup_description(value);
+                break;
+            case "file_Url":
+                if (evt.target.files !== null) {
+                    setFileUrl(evt.target.files[0]);
+                }
+                break;
         }
     };
 
     const handleSubmit = (evt: FormEvent) => {
         evt.preventDefault();
-        if (fileUrl !== null) {
-            const formData = new FormData();
-            formData.append("file", fileUrl);
-        }
-        fetch("/groups", {
+
+        const formData = new FormData();
+        formData.append("group_name", group_name);
+        formData.append("group_description", group_description);
+        formData.append("file_Url", fileUrl as File);
+
+        console.log("formData: ", formData);
+
+        fetch("/createGroups", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                group_name: group_name,
-                group_descripton: group_description,
-                image_url: fileUrl,
-                // group_url: group_url,
-            }),
+            body: formData,
         })
             .then((res) => res.json())
             .then((data) => {
@@ -119,7 +119,7 @@ export function Groups() {
                         <input
                             required
                             type="file"
-                            name="fileUrl"
+                            name="file_Url"
                             accept="image/*"
                             onChange={handleInputChange}
                         />

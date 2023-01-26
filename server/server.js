@@ -45,7 +45,7 @@ app.use(compression());
 // const cookieSession = require("cookie-session");
 
 /// Getting & setting up cookie session for socket.io
-const { cookieSession } = require("./middleware.js");
+const { cookieSession, verifyFields } = require("./middleware.js");
 
 app.use(cookieSession);
 
@@ -427,24 +427,23 @@ app.get("/friendshipStatus/:senderId/unfriend", (req, res) => {
 //***************************************************************************************** */
 /// Post Route for Group Creation
 app.post(
-    "/groups",
-    groupUploader.single("file"),
+    "/createGroups",
+    groupUploader.single("file_Url"),
+    verifyFields,
     groupFileUpload,
     (req, res) => {
-        console.log("Body: ", req.body);
         const { group_name, group_description } = req.body;
+        const url = res.locals.fileUrl || null;
+
         let data = {
             group_name: group_name,
             group_description: group_description,
+            group_imageurl: url,
         };
-        if (req.file) {
-            const image_url = res.locals.fileUrl;
-            data.image_url = image_url;
-        }
+
         createGroup(data)
             .then((data) => {
-                console.log("Group Created: ", data);
-                res.json(data);
+                res.json({ status: "success", data: data[0] });
             })
             .catch((err) => console.log("Error in creating group: ", err));
     }

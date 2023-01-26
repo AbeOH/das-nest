@@ -33,9 +33,9 @@ const s3 = new aws.S3({
 });
 
 function groupFileUpload(req, res, next) {
-    console.log("file: ", req.file);
+    // console.log("file: ", req.file);
     if (!req.file) {
-        console.log("[imageboard:s3] file not there, skipping file upload");
+        console.log("file not there, skipping file upload");
         next();
     } else {
         const { mimetype, filename, path, size } = req.file;
