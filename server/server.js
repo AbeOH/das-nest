@@ -68,7 +68,7 @@ const ses = new aws.SES({
 });
 
 const { uploader, fileUpload } = require("./uploader.js");
-const { groupuploader } = require("./groupuploader.js");
+const { groupUploader, groupFileUpload } = require("./groupuploader.js");
 
 // app.use(
 //     cookieSession({
@@ -426,37 +426,45 @@ app.get("/friendshipStatus/:senderId/unfriend", (req, res) => {
 
 //***************************************************************************************** */
 /// Post Route for Group Creation
-app.post("/groups", groupuploader("file"), fileUpload, (req, res) => {
-    console.log("Body: ", req.body);
-    const { group_name, group_description } = req.body;
-    let data = { group_name: group_name, group_description: group_description };
-    if (req.file) {
-        const image_url = res.locals.fileUrl;
-        data.image_url = image_url;
+app.post(
+    "/groups",
+    groupUploader.single("file"),
+    groupFileUpload,
+    (req, res) => {
+        console.log("Body: ", req.body);
+        const { group_name, group_description } = req.body;
+        let data = {
+            group_name: group_name,
+            group_description: group_description,
+        };
+        if (req.file) {
+            const image_url = res.locals.fileUrl;
+            data.image_url = image_url;
+        }
+        createGroup(data)
+            .then((data) => {
+                console.log("Group Created: ", data);
+                res.json(data);
+            })
+            .catch((err) => console.log("Error in creating group: ", err));
     }
-    createGroup(data)
-        .then((data) => {
-            console.log("Group Created: ", data);
-            res.json(data);
-        })
-        .catch((err) => console.log("Error in creating group: ", err));
-});
+);
 
 /// Upload Group Image
-app.post("/groupupload", uploader.single("file"), fileUpload, (req, res) => {
-    console.log("Files", req.file);
-    if (req.file) {
-        const url = res.locals.fileUrl;
-        const userId = req.session.userId;
-        console.log("url: ", url);
-        updateImageGroups(userId, url)
-            .then((data) => {
-                console.log("What is data", data);
-                res.json(data.rows[0]);
-            })
-            .catch((err) => console.log("Error in updating profile: ", err));
-    }
-});
+// app.post("/groupupload", uploader.single("file"), fileUpload, (req, res) => {
+//     console.log("Files", req.file);
+//     if (req.file) {
+//         const url = res.locals.fileUrl;
+//         const userId = req.session.userId;
+//         console.log("url: ", url);
+//         updateImageGroups(userId, url)
+//             .then((data) => {
+//                 console.log("What is data", data);
+//                 res.json(data.rows[0]);
+//             })
+//             .catch((err) => console.log("Error in updating profile: ", err));
+//     }
+// });
 //***************************************************************************************** */
 
 app.get("*", function (req, res) {

@@ -20,7 +20,7 @@ const diskStorage = multer.diskStorage({
     },
 });
 
-const groupuploader = multer({
+const groupUploader = multer({
     storage: diskStorage,
     limits: {
         fieldSize: 2097152,
@@ -32,7 +32,7 @@ const s3 = new aws.S3({
     secretAccessKey: AWS_SECRET,
 });
 
-function fileUpload(req, res, next) {
+function groupFileUpload(req, res, next) {
     console.log("file: ", req.file);
     if (!req.file) {
         console.log("[imageboard:s3] file not there, skipping file upload");
@@ -61,4 +61,4 @@ function fileUpload(req, res, next) {
     }
 }
 
-module.exports = { groupuploader, fileUpload };
+module.exports = { groupFileUpload, groupUploader };
