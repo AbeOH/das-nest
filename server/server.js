@@ -68,6 +68,7 @@ const ses = new aws.SES({
 });
 
 const { uploader, fileUpload } = require("./uploader.js");
+const { groupuploader } = require("./groupuploader.js");
 
 // app.use(
 //     cookieSession({
@@ -425,10 +426,15 @@ app.get("/friendshipStatus/:senderId/unfriend", (req, res) => {
 
 //***************************************************************************************** */
 /// Post Route for Group Creation
-app.get("/groups", (req, res) => {
-    const userId = req.session.userId;
-    console.log("UserId: ", userId);
-    createGroup(userId)
+app.post("/groups", groupuploader("file"), fileUpload, (req, res) => {
+    console.log("Body: ", req.body);
+    const { group_name, group_description } = req.body;
+    let data = { group_name: group_name, group_description: group_description };
+    if (req.file) {
+        const image_url = res.locals.fileUrl;
+        data.image_url = image_url;
+    }
+    createGroup(data)
         .then((data) => {
             console.log("Group Created: ", data);
             res.json(data);

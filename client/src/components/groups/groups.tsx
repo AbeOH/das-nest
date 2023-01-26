@@ -14,41 +14,53 @@ import { useEffect, useState, FormEvent } from "react";
 export function Groups() {
     const [group_name, setGroup_name] = useState("");
     const [group_description, setGroup_description] = useState("");
-    const [group_url, setGroup_url] = useState("");
+    // const [group_url, setGroup_url] = useState("");
     const [fileUrl, setFileUrl] = useState<File | null>(null);
     // const [updateImageClosePopup, setUpdateImageClosePopup] = useState<
 
-    const handleUpload = (evt: React.SyntheticEvent) => {
-        evt.preventDefault();
-        const formData = new FormData();
-        if (fileUrl === null) {
-            return;
-        }
-        formData.append("file", fileUrl);
-        fetch("/groupupload", {
-            method: "POST",
-            body: formData,
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("data from server: ", data);
-                // updateImageClosePopup(data.imageurl); adjust this
-            })
-            .catch((err) => {
-                console.log("Errrrrrror in fetch: ", err);
-            });
-    };
+    // const handleUpload = (evt: React.SyntheticEvent) => {
+    //     evt.preventDefault();
+    //     const formData = new FormData();
+    //     if (fileUrl === null) {
+    //         return;
+    //     }
+    //     formData.append("file", fileUrl);
+
+    //     fetch("/groupupload", {
+    //         method: "POST",
+    //         body: formData,
+    //     })
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             console.log("data from server: ", data);
+    //             // updateImageClosePopup(data.imageurl); adjust this
+    //         })
+    //         .catch((err) => {
+    //             console.log("Errrrrrror in fetch: ", err);
+    //         });
+    // };
 
     const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name; // This line will hold value when input for value is changed
         const value = evt.target.value;
-        console.log("Evt Target", evt.target);
-        // props.setState({ [property]: value }); // This line will update value prob dynamically in this.state variable
+        // console.log("Evt Target", evt.target);
+        if (property === "group_name") {
+            setGroup_name(value);
+        } else if (property === "group_description") {
+            setGroup_description(value);
+            // } else if (property === "group_url") {
+            //     setGroup_url(value);
+        } else if (property === "file" && evt.target.files !== null) {
+            setFileUrl(evt.target.files[0]);
+        }
     };
 
     const handleSubmit = (evt: FormEvent) => {
         evt.preventDefault();
-        // const { group_name } = this.setState;
+        if (fileUrl !== null) {
+            const formData = new FormData();
+            formData.append("file", fileUrl);
+        }
         fetch("/groups", {
             method: "POST",
             headers: {
@@ -56,21 +68,22 @@ export function Groups() {
             },
             body: JSON.stringify({
                 group_name: group_name,
-                // group_descripton: group_description,
+                group_descripton: group_description,
+                image_url: fileUrl,
                 // group_url: group_url,
             }),
         })
             .then((res) => res.json())
             .then((data) => {
-                // console.log("data: ", data);
-                // if (data.success) {
-                //     location.reload();
-                // } else {
-                //     this.setState({
-                //         errormsg:
-                //             "Something went wrong. Please try again later or with a different email",
-                //     });
-                // }
+                console.log("data: ", data);
+                if (data.success) {
+                    location.reload();
+                } else {
+                    useState({
+                        errormsg:
+                            "Something went wrong. Please try again later",
+                    });
+                }
             });
     };
 
@@ -105,9 +118,9 @@ export function Groups() {
                         <label htmlFor="group_url">Group URL</label>
                         <input
                             required
-                            type="text"
-                            name="group_url"
-                            value={group_url}
+                            type="file"
+                            name="fileUrl"
+                            accept="image/*"
                             onChange={handleInputChange}
                         />
                     </div>

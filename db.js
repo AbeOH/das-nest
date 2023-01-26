@@ -154,16 +154,12 @@ module.exports.getLatestMessages = (limit = 10) => {
     return db.query(sql, [limit]);
 };
 
-module.exports.createGroup = (
-    group_name,
-    group_description,
-    group_imageurl,
-    creator_id
-) => {
+module.exports.createGroup = (data) => {
+    const { group_name, group_description, group_imageurl } = data;
     return db.query(
-        "INSERT INTO groups (name, description, imageurl, creator_id) VALUES ($1, $2, $3, $4) RETURNING *",
-        [group_name, group_description, group_imageurl, creator_id]
-    );
+        "INSERT INTO groups (name, description, imageurl) VALUES ($1, $2, $3) RETURNING *",
+        [group_name, group_description, group_imageurl || null]
+    ) /*.then((data) => data.rows[0])*/;
 };
 
 module.exports.updateImageGroups = (id, url) => {
@@ -173,5 +169,3 @@ module.exports.updateImageGroups = (id, url) => {
     );
     // .then((data) => data.rows[0]);
 };
-
-/// Check accept and recect db queries again

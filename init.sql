@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS rest_codes;
 DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS groups;
-DROP TABLE IF EXISTS users_groups;
-DROP TABLE IF EXISTS posts;
+-- DROP TABLE IF EXISTS users_groups;
+-- DROP TABLE IF EXISTS posts;
 
 
 CREATE TABLE users (
@@ -55,13 +55,13 @@ CREATE TABLE groups (
 --   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
-CREATE TABLE posts (
-  id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id),
-  -- group_id INTEGER NOT NULL REFERENCES groups(id), 
-  content TEXT NOT NULL CHECK (content <> ''),
-  post_date DATE NOT NULL,
-  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- CREATE TABLE posts (
+--   id SERIAL PRIMARY KEY,
+--   user_id INTEGER NOT NULL REFERENCES users(id),
+--   -- group_id INTEGER NOT NULL REFERENCES groups(id), 
+--   content TEXT NOT NULL CHECK (content <> ''),
+--   post_date DATE NOT NULL,
+--   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
 
