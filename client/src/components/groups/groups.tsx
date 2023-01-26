@@ -10,7 +10,7 @@ interface GroupsState {
 }
 
 export function Groups(probs: GroupsState) {
-    const [group_name, setGroup_name] = useState("");
+    // const [group_name, setGroup_name] = useState("");
     // const dispatch = useDispatch();
     // const groups = useSelector((state: RootState) => state.groups);
 
@@ -43,14 +43,14 @@ export function Groups(probs: GroupsState) {
             .then((res) => res.json())
             .then((data) => {
                 // console.log("data: ", data);
-                if (data.success) {
-                    location.reload();
-                } else {
-                    this.setState({
-                        errormsg:
-                            "Something went wrong. Please try again later or with a different email",
-                    });
-                }
+                // if (data.success) {
+                //     location.reload();
+                // } else {
+                //     this.setState({
+                //         errormsg:
+                //             "Something went wrong. Please try again later or with a different email",
+                //     });
+                // }
             });
     };
 
