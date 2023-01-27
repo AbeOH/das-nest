@@ -7,6 +7,7 @@ let newtodayStr = new Date("2023-01-28").toISOString().replace(/T.*$/, ""); // Y
 export const INITIAL_EVENTS: EventInput[] = [
     {
         id: createEventId(),
+        description: "This is a cool event",
         title: "All-day event",
         start: todayStr,
     },
@@ -18,6 +19,7 @@ export const INITIAL_EVENTS: EventInput[] = [
     {
         id: createEventId(),
         title: "Soccer Practice",
+        description: "This is a cool event",
         start: newtodayStr + "T17:00:00",
     },
 ];

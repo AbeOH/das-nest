@@ -16,8 +16,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 /// Integration of events creation into dynamically
 import { EventInput } from "@fullcalendar/core";
 
-// import { INITIAL_EVENTS, createEventId } from ".calendar/event-utils";
-
 interface PostProps {
     post: string;
 }
@@ -32,29 +30,47 @@ export default function Post() {
         new Date().toISOString().replace(/T.*$/, "")
     );
 
-    // const [posts, setPosts] = useState<PostProps[]>([]);
-    // const calendarRef = React.createRef<FullCalendar>();
-    // const calendarApi = new FullCalendar.Calendar(calendarContainer, {
-    //     plugins: [dayGridPlugin],
-    //     events: [],
-    // });
+    ////// Create dynamic react variable that takkes the input from my db fetch
+    let eventGuid = 0;
+    let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
+    let endtodayStr = new Date("2023-01-28").toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
 
-    const handlePostChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setPosts(evt.target.value);
+    const createEventId = () => {
+        return String(eventGuid++);
     };
 
-    const handleCreateEvent = (selectInfo: DateSelectArg) => {
-        let calendarApi = selectInfo.view.calendar;
-        calendarApi.unselect(); // clear date selection
+    const INITIAL_EVENTS: EventInput[] = [
+        {
+            id: createEventId(),
+            title: "Test Event",
+            start: todayStr,
+            end: endtodayStr,
+        },
+    ];
+    ////
+    // const handlePostChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+    //     setPosts(evt.target.value);
+    // };
 
-        // const event = {
-        //     title: posts,
-        //     start: { startEventDate },
-        //     end: { endEventDate },
-        //     // allDay: true,
-        // };
+    // const handleCreateEvent = (selectInfo: DateSelectArg) => {
+    //     let calendarApi = selectInfo.view.calendar;
+    //     calendarApi.unselect(); // clear date selection
 
-        // calendarApi.addEvent(event);
+    //     // const event = {
+    //     //     title: posts,
+    //     //     start: { startEventDate },
+    //     //     end: { endEventDate },
+    //     //     // allDay: true,
+    //     // };
+
+    //     // calendarApi.addEvent(event);
+    // };
+    const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        const property = evt.target.name;
+        const value = evt.target.value;
+        setPosts(value);
+        setStartEventDate(value);
+        setEndEventDate(value);
     };
 
     const postEvent = (evt: React.SyntheticEvent) => {
@@ -73,7 +89,7 @@ export default function Post() {
         })
             .then((res) => res.json())
             .then((data) => {
-                /// Save data here dynamically
+                /// Save data here dynamically in object
                 console.log(data);
             })
             .catch((err) => {
@@ -83,28 +99,59 @@ export default function Post() {
 
     return (
         <div>
-            <textarea value={posts} onChange={handlePostChange} />
-            <div>
-                <input type="datetime-local" value={startEventDate} />
-                <input type="datetime-local" value={endEventDate} />
-            </div>
-            {/* <button onClick={handleCreateEvent}>Create Event</button> */}
-            <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView="dayGridMonth"
-                editable={true}
-                selectable={true}
-                selectMirror={true}
-                dayMaxEvents={true}
-                // weekends={weekendsVisible}
-                // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-                // select={handleDateSelect}
-                eventContent={renderEventContent} // custom render function
-                // eventClick={handleEventClick}
-            />
+            <form onSubmit={postEvent}>
+                <label htmlFor="posts">Event</label>
+                <input
+                    type="text"
+                    name="posts"
+                    value={posts}
+                    onChange={handleInputChange}
+                />
+                <label htmlFor="startEventDate">Start</label>
+                <input
+                    type="datetime-local"
+                    name="startEventDate"
+                    value={startEventDate}
+                    onChange={handleInputChange}
+                />
+                <label htmlFor="endEventDate">End</label>
+                <input
+                    type="datetime-local"
+                    name="endEventDate"
+                    value={endEventDate}
+                    onChange={handleInputChange}
+                />
+                <button type="submit">Create Event</button> <br />
+            </form>
         </div>
     );
 }
+
+{
+    /* <div> value={posts}
+                <input type="datetime-local" value={startEventDate} />
+                <input type="datetime-local" value={endEventDate} />
+            </div> */
+}
+{
+    /* <button onClick={handleCreateEvent}>Create Event</button> */
+}
+//     <FullCalendar
+//         plugins={[dayGridPlugin]}
+//         initialView="dayGridMonth"
+//         editable={true}
+//         selectable={true}
+//         selectMirror={true}
+//         dayMaxEvents={true}
+//         // weekends={weekendsVisible}
+//         initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+//         // select={handleDateSelect}
+//         eventContent={renderEventContent} // custom render function
+//         // eventClick={handleEventClick}
+//     />
+// </div>
+// );
+// }
 
 function renderSidebarEvent(event: EventApi) {
     return (
