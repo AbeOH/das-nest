@@ -12,7 +12,9 @@ import FullCalendar from "@fullcalendar/react";
 
 // import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-// import { ca } from "@fullcalendar/core/internal-common";
+
+/// Integration of events creation into dynamically
+import { EventInput } from "@fullcalendar/core";
 
 // import { INITIAL_EVENTS, createEventId } from ".calendar/event-utils";
 
@@ -71,6 +73,7 @@ export default function Post() {
         })
             .then((res) => res.json())
             .then((data) => {
+                /// Save data here dynamically
                 console.log(data);
             })
             .catch((err) => {
@@ -89,7 +92,40 @@ export default function Post() {
             <FullCalendar
                 plugins={[dayGridPlugin]}
                 initialView="dayGridMonth"
+                editable={true}
+                selectable={true}
+                selectMirror={true}
+                dayMaxEvents={true}
+                // weekends={weekendsVisible}
+                // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+                // select={handleDateSelect}
+                eventContent={renderEventContent} // custom render function
+                // eventClick={handleEventClick}
             />
         </div>
+    );
+}
+
+function renderSidebarEvent(event: EventApi) {
+    return (
+        <li key={event.id}>
+            <b>
+                {formatDate(event.start!, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                })}
+            </b>
+            <i>{event.title}</i>
+        </li>
+    );
+}
+
+function renderEventContent(eventContent: EventContentArg) {
+    return (
+        <>
+            <b>{eventContent.timeText}</b>
+            <i>{eventContent.event.title}</i>
+        </>
     );
 }
