@@ -45,28 +45,51 @@ export default function Post() {
         let calendarApi = selectInfo.view.calendar;
         calendarApi.unselect(); // clear date selection
 
-        const event = {
-            title: posts,
-            start: new Date(),
-            end: new Date(),
-            // allDay: true,
-        };
+        // const event = {
+        //     title: posts,
+        //     start: { startEventDate },
+        //     end: { endEventDate },
+        //     // allDay: true,
+        // };
 
-        calendarApi.addEvent(event);
+        // calendarApi.addEvent(event);
+    };
+
+    const postEvent = (evt: React.SyntheticEvent) => {
+        evt.preventDefault();
+
+        fetch("/postEvents", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                posts,
+                startEventDate,
+                endEventDate,
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     return (
         <div>
             <textarea value={posts} onChange={handlePostChange} />
-            <button onClick={handleCreateEvent}>Create Event</button>
-            <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView="dayGridMonth"
-            />
             <div>
                 <input type="datetime-local" value={startEventDate} />
                 <input type="datetime-local" value={endEventDate} />
             </div>
+            {/* <button onClick={handleCreateEvent}>Create Event</button> */}
+            <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+            />
         </div>
     );
 }

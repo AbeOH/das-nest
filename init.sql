@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS groups;
 -- DROP TABLE IF EXISTS users_groups;
--- DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS posts;
 
 
 CREATE TABLE users (
