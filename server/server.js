@@ -465,7 +465,14 @@ app.post(
 //     }
 // });
 //***************************************************************************************** */
+/// Post Routes for post for event convertion
 
+// app.post("/postEvents", (req, res) => {
+//     const { event_name, event_description, event_date } = req.body;
+//     const userId = req.session.userId;
+// });
+
+//*****************************************************************************************
 app.get("*", function (req, res) {
     // console.log("Got requested url: ", req.url);
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
