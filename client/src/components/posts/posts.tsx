@@ -86,6 +86,7 @@ export default function Post() {
     };
 
     const INITIAL_EVENTS: EventInput[] = [
+        ...fetchedEvents,
         {
             id: createEventId(),
             title: "Test Event",
@@ -120,6 +121,18 @@ export default function Post() {
                 />
                 <button type="submit">Create Event</button> <br />
             </form>
+            <FullCalendar
+                plugins={[dayGridPlugin]} //
+                editable={true}
+                selectable={true}
+                selectMirror={true}
+                dayMaxEvents={true}
+                // weekends={weekendsVisible}
+                initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+                // select={handleDateSelect}
+                eventContent={renderEventContent} // custom render function
+                // eventClick={handleEventClick}
+            />
         </div>
     );
 }
