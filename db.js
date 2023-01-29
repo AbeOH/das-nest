@@ -170,12 +170,12 @@ module.exports.updateImageGroups = (id, url) => {
     // .then((data) => data.rows[0]);
 };
 
-module.exports.postInsert = (userId, post, startEventDate, endEventDate) => {
+module.exports.postInsert = (eventName, startEventDate, endEventDate) => {
     // const { userId, post, startEventDate, endEventDate } = data;
     return db
         .query(
-            "INSERT INTO posts (user_id, content, start_event_date, end_event_date) VALUES ($1, $2) RETURNING *",
-            [userId, post, startEventDate, endEventDate]
+            "INSERT INTO posts (content, start_event_date, end_event_date) VALUES ($1, $2, $3) RETURNING *",
+            [eventName, startEventDate, endEventDate]
         )
         .then((data) => data.rows);
 };
