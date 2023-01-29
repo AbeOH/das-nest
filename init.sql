@@ -57,11 +57,11 @@ CREATE TABLE groups (
 
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id),
   content TEXT NOT NULL CHECK (content <> ''),
   start_event_date DATE NOT NULL,
   end_event_date DATE NOT NULL,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+  -- user_id INTEGER NOT NULL REFERENCES users(id),
 

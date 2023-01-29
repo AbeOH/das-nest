@@ -469,9 +469,9 @@ app.post(
 /// Post Routes for post for event convertion
 
 app.post("/postEvents", (req, res) => {
-    const { post, startEventDate, endEventDate } = req.body;
-    const userId = req.session.userId;
-    postInsert(userId, post, startEventDate, endEventDate)
+    const { eventName, startEventDate, endEventDate } = req.body;
+    // const userId = req.session.userId;
+    postInsert(eventName, startEventDate, endEventDate)
         .then((data) => {
             console.log("Post Inserted: ", data);
             res.json(data);
