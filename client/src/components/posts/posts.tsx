@@ -16,6 +16,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 /// Integration of events creation into dynamically
 import { EventInput } from "@fullcalendar/core";
 
+// Import Chat
+import Chat from "../chat/chat";
+
+import { useParams, useNavigate } from "react-router-dom";
+
 interface Event {
     id: number;
     content: string;
@@ -25,6 +30,8 @@ interface Event {
 }
 
 export default function Post() {
+    const params = useParams();
+    const id = +(params.id ?? 0);
     const [eventName, setEventName] = useState<string>("");
     // const [eventDate, setEventDate] = useState<Date>(new Date());
     const [startEventDate, setStartEventDate] = useState<string>(
@@ -37,7 +44,7 @@ export default function Post() {
     console.log("fetchedEvents", fetchedEvents);
     console.log("startEventDate", startEventDate);
 
-    const [initialEvents, setInitialEvents] = useState<EventInput[]>([]);
+    // const [initialEvents, setInitialEvents] = useState<EventInput[]>([]);
 
     const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name;
@@ -67,24 +74,16 @@ export default function Post() {
         })
             .then((res) => res.json())
             .then((data) => {
-                // setFetchedEvents((prevEvents) => [
-                //     ...prevEvents,
-                //     {
-                //         id: createEventId(),
-                //         title: data.eventName,
-                //         start: data.startEventDate,
-                //         end: data.endEventDate,
-                //     },
-                // ]);
-                // setInitialEvents([
-                //     ...initialEvents,
-                //     {
-                //         id: createEventId(),
-                //         title: data.eventName,
-                //         start: data.startEventDate,
-                //         end: data.endEventDate,
-                //     },
-                // ]);
+                setFetchedEvents([
+                    ...fetchedEvents,
+                    {
+                        id: data.id,
+                        title: data.content,
+                        start: data.start_event_date,
+                        end: data.end_event_date,
+                    },
+                ]);
+
                 console.log(data);
             })
             .catch((err) => {
@@ -94,6 +93,7 @@ export default function Post() {
 
     useEffect(() => {
         fetch("/getEvents")
+            /// Dynamic events fetch with group id
             .then((res) => res.json())
             .then((data) => {
                 console.log("data correct?: ", data);
@@ -160,6 +160,7 @@ export default function Post() {
                 eventContent={renderEventContent} // custom render function
                 // eventClick={handleEventClick}
             />
+            <Chat />
             {/* <div className="demo-app-sidebar-section">
                 <h2>All Events ({fetchedEvents.length})</h2>
                 <ul>{fetchedEvents.map(renderSidebarEvent)}</ul>

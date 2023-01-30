@@ -177,7 +177,7 @@ module.exports.postInsert = (eventName, startEventDate, endEventDate) => {
             "INSERT INTO posts (content, start_event_date, end_event_date) VALUES ($1, $2, $3) RETURNING *",
             [eventName, startEventDate, endEventDate]
         )
-        .then((data) => data.rows);
+        .then((data) => data.rows[0]);
 };
 
 module.exports.getPosts = () => {

@@ -15,6 +15,7 @@ const io = require("socket.io")(server, {
 
 // Importing functions from db.js
 const {
+    getGroups,
     getPosts,
     postInsert,
     updateImageGroups,
@@ -455,6 +456,7 @@ app.post(
 app.get("/getGroups", (req, res) => {
     getGroups()
         .then((data) => {
+            console.log("Data from server", data);
             res.json(data);
         })
         .catch((err) => console.log("Error in getting groups: ", err));
@@ -497,6 +499,9 @@ app.get("/getEvents", (req, res) => {
         })
         .catch((err) => console.log("Error in getting posts: ", err));
 });
+
+/// A new route which get events with paramter id of the group
+app.get("/getEvents/:id", (req, res) => {});
 
 //*****************************************************************************************
 app.get("*", function (req, res) {

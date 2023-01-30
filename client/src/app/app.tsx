@@ -14,7 +14,7 @@ import { Friends } from "../components/friends/friends";
 import Chat from "../components/chat/chat";
 import { Groups } from "../components/groups/groups";
 import Calendar from "../components/calendar/calendar";
-import Posts from "../components/posts/posts";
+import Post from "../components/posts/posts";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -138,7 +138,8 @@ export class App extends React.Component<AppProbs, AppStates> {
                             element={<Friends myId={this.state.id} />}
                         />
                         <Route path="/groups" element={<Groups />} />
-                        <Route path="/post" element={<Posts />} />
+                        <Route path="/post" element={<Post />} />
+                        <Route path="/post/:groupId" element={<Post />} />
                         {/* <Route path="/calendar" element={<Calendar />} /> */}
                         {/* <Route path="/chat" element={<Chat />} /> */}
                         <Route path="/signout" element={<Signout />} />

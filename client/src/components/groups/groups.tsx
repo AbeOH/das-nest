@@ -2,21 +2,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useEffect, useState, FormEvent } from "react";
 // import groupsslice from "../../redux/groupsslice";
+import { Link } from "react-router-dom";
+import Post from "../posts/posts";
 
-// interface GroupsState {
-//     group_name: string;
-//     group_description: string;
-//     group_url: string;
-//     fileUrl: File | null;
-//     // updateImageClosePopup: Function;
-// }
+interface GroupsState {
+    id: number;
+    name: string;
+    description: string;
+    imageurl: string;
+    // fileUrl: File | null;
+    // updateImageClosePopup: Function;
+}
 
 export function Groups() {
     const [group_name, setGroup_name] = useState("");
     const [group_description, setGroup_description] = useState("");
-    // const [group_url, setGroup_url] = useState("");
     const [fileUrl, setFileUrl] = useState<File | null>(null);
     // const [updateImageClosePopup, setUpdateImageClosePopup] = useState<
+    const [groups, setGroups] = useState<GroupsState[]>([]);
 
     const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name; // This line will hold value when input for value is changed
@@ -52,19 +55,25 @@ export function Groups() {
             body: formData,
         })
             .then((res) => res.json())
-            .then((data) => {
-                console.log("data: ", data);
-                if (data.success) {
-                    location.reload();
+            .then((json) => {
+                console.log("data: ", json);
+                if (json.status === "success") {
+                    setGroups([...groups, json.data]);
                 } else {
-                    useState({
-                        errormsg:
-                            "Something went wrong. Please try again later",
-                    });
+                    console.log("Error: ", json);
                 }
             });
     };
 
+    useEffect(() => {
+        fetch("/getGroups")
+            .then((res) => res.json())
+            .then((data: GroupsState[]) => {
+                console.log("Group data: ", data);
+                setGroups(data);
+            });
+    }, []);
+    console.log("Groups: ", groups);
     return (
         <section>
             <div>
@@ -104,6 +113,23 @@ export function Groups() {
                     </div>
                     <button type="submit">Create Group</button>
                 </form>
+            </div>
+            <div>
+                <h1>Groups</h1>
+                <div>
+                    {groups.map((group) => (
+                        <div key={group.id}>
+                            <h2>{group.name}</h2>
+                            <p>{group.description}</p>
+                            <Link to={`/post/${group.id}`}>
+                                <img
+                                    src={group.imageurl || "/logo.png"}
+                                    // alt={`${friend.firstname} ${friend.lastname}`}
+                                />
+                            </Link>
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
     );
