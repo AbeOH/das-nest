@@ -4,9 +4,11 @@ import { useEffect, useState, FormEvent } from "react";
 // import groupsslice from "../../redux/groupsslice";
 import { Link } from "react-router-dom";
 import Post from "../posts/posts";
+import { useParams, useNavigate } from "react-router-dom";
 
 interface GroupsState {
     id: number;
+    // group_id: number;
     name: string;
     description: string;
     imageurl: string;
@@ -15,6 +17,10 @@ interface GroupsState {
 }
 
 export function Groups() {
+    // const params = useParams();
+    // const group_id = +(params.id ?? 0);
+    // console.log("Whhich id is here", group_id);
+
     const [group_name, setGroup_name] = useState("");
     const [group_description, setGroup_description] = useState("");
     const [fileUrl, setFileUrl] = useState<File | null>(null);
@@ -44,6 +50,7 @@ export function Groups() {
         evt.preventDefault();
 
         const formData = new FormData();
+        // formData.append("group_id", group_id.toString());
         formData.append("group_name", group_name);
         formData.append("group_description", group_description);
         formData.append("file_Url", fileUrl as File);
@@ -73,7 +80,8 @@ export function Groups() {
                 setGroups(data);
             });
     }, []);
-    console.log("Groups: ", groups);
+
+    // console.log("Groups: ", groups);
     return (
         <section>
             <div>

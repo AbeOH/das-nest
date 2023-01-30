@@ -15,6 +15,7 @@ const io = require("socket.io")(server, {
 
 // Importing functions from db.js
 const {
+    getPostsByGroupId,
     getGroupById,
     getGroups,
     getPosts,
@@ -437,10 +438,11 @@ app.post(
     verifyFields,
     groupFileUpload,
     (req, res) => {
-        const { group_name, group_description } = req.body;
+        const { group_id, group_name, group_description } = req.body;
         const url = res.locals.fileUrl || null;
 
         let data = {
+            group_id: group_id,
             group_name: group_name,
             group_description: group_description,
             group_imageurl: url,
@@ -482,9 +484,10 @@ app.get("/getGroups", (req, res) => {
 /// Post Routes and Get Routes for posts
 
 app.post("/postEvents", (req, res) => {
-    const { eventName, startEventDate, endEventDate } = req.body;
+    const { id, eventName, startEventDate, endEventDate } = req.body;
+    console.log("Entire Body: ", req.body);
     // const userId = req.session.userId;
-    postInsert(eventName, startEventDate, endEventDate)
+    postInsert(id, eventName, startEventDate, endEventDate)
         .then((data) => {
             console.log("Post Inserted: ", data);
             res.json(data);
@@ -504,7 +507,7 @@ app.get("/getEvents", (req, res) => {
 /// A new route which get events with paramter id of the group
 app.get("/getEvents/:id", (req, res) => {
     const id = req.params.id;
-    getPosts(id)
+    getPostsByGroupId(id)
         .then((data) => {
             console.log("Posts: ", data);
             res.json(data);

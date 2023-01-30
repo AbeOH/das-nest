@@ -17,7 +17,7 @@ export default function OtherUsers() {
     const params = useParams();
     const id = +(params.id ?? 0);
     /// Getting to the other profile with id from params or search input
-    console.log("What type is the id? ", typeof id);
+    console.log("What type is the id? ", id);
     const [search, setSearch] = useState("");
     // const [searchResults, setSearchResults] = useState<OtherUsersProbs[]>([]);
 

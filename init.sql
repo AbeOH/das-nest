@@ -57,6 +57,7 @@ CREATE TABLE groups (
 
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
+  group_id INTEGER NOT NULL REFERENCES groups(id),
   content TEXT NOT NULL CHECK (content <> ''),
   start_event_date DATE NOT NULL,
   end_event_date DATE NOT NULL,

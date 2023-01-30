@@ -31,7 +31,12 @@ interface Event {
 
 export default function Post() {
     const params = useParams();
-    const id = +(params.id ?? 0);
+    // console.log("params", params);
+
+    const id = +(params.groupId ?? 0);
+
+    // console.log("Is the id here? ", id);
+
     const [eventName, setEventName] = useState<string>("");
     // const [eventDate, setEventDate] = useState<Date>(new Date());
     const [startEventDate, setStartEventDate] = useState<string>(
@@ -60,13 +65,15 @@ export default function Post() {
 
     const postEvent = (evt: React.SyntheticEvent) => {
         evt.preventDefault();
-
+        console.log("right id?", id);
+        console.log("id before sending to the server: ", id);
         fetch("/postEvents", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                id,
                 eventName,
                 startEventDate,
                 endEventDate,
@@ -101,8 +108,6 @@ export default function Post() {
                     data.map((evt: Event) => {
                         const start = new Date(evt.start_event_date).toString();
                         const end = new Date(evt.end_event_date).toString();
-                        // console.log("evt: ", evt);
-                        // console.log("Mapped Data", data);
 
                         return {
                             id: evt.id,
@@ -112,8 +117,6 @@ export default function Post() {
                         };
                     })
                 );
-                // setInitialEvents(fetchedEvents);
-                // console.log("initialEvents: ", initialEvents);
             })
             .catch((err) => {
                 console.log(err);

@@ -170,12 +170,12 @@ module.exports.updateImageGroups = (id, url) => {
     // .then((data) => data.rows[0]);
 };
 
-module.exports.postInsert = (eventName, startEventDate, endEventDate) => {
+module.exports.postInsert = (id, eventName, startEventDate, endEventDate) => {
     // const { userId, post, startEventDate, endEventDate } = data;
     return db
         .query(
-            "INSERT INTO posts (content, start_event_date, end_event_date) VALUES ($1, $2, $3) RETURNING *",
-            [eventName, startEventDate, endEventDate]
+            "INSERT INTO posts (group_id, content, start_event_date, end_event_date) VALUES ($1, $2, $3, $4) RETURNING *",
+            [id, eventName, startEventDate, endEventDate]
         )
         .then((data) => data.rows[0]);
 };
@@ -192,4 +192,10 @@ module.exports.getGroupById = (id) => {
     return db
         .query("SELECT * FROM groups WHERE id=$1", [id])
         .then((data) => data.rows[0]);
+};
+
+module.exports.getPostsByGroupId = (id) => {
+    return db
+        .query("SELECT * FROM posts WHERE group_id=$1", [id])
+        .then((data) => data.rows);
 };

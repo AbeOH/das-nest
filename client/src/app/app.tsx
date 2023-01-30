@@ -138,7 +138,7 @@ export class App extends React.Component<AppProbs, AppStates> {
                             element={<Friends myId={this.state.id} />}
                         />
                         <Route path="/groups" element={<Groups />} />
-                        <Route path="/post" element={<Post />} />
+                        {/* <Route path="/post" element={<Post />} /> */}
                         <Route path="/post/:groupId" element={<Post />} />
                         {/* <Route path="/calendar" element={<Calendar />} /> */}
                         {/* <Route path="/chat" element={<Chat />} /> */}
