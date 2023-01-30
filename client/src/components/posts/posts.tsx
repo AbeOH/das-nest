@@ -133,22 +133,29 @@ export default function Post() {
                     value={eventName}
                     onChange={handleInputChange}
                 />
-                <label htmlFor="startEventDate">Start</label>
-                <input
-                    type="datetime-local"
-                    name="startEventDate"
-                    value={startEventDate}
-                    onChange={handleInputChange}
-                />
-                <label htmlFor="endEventDate">End</label>
-                <input
-                    type="datetime-local"
-                    name="endEventDate"
-                    value={endEventDate}
-                    onChange={handleInputChange}
-                />
+                <div style={{ display: "flex" }}>
+                    <div style={{ marginRight: 8 }}>
+                        <label htmlFor="startEventDate">Start</label>
+                        <input
+                            type="datetime-local"
+                            name="startEventDate"
+                            value={startEventDate}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="endEventDate">End</label>
+                        <input
+                            type="datetime-local"
+                            name="endEventDate"
+                            value={endEventDate}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                </div>
                 <button type="submit">Create Event</button> <br />
             </form>
+
             <Chat />
             {/* {renderSidebarEvent()} */}
             <FullCalendar
