@@ -61,30 +61,32 @@ export default function Post() {
         })
             .then((res) => res.json())
             .then((data) => {
-                setFetchedEvents((prevEvents) => [
-                    ...prevEvents,
-                    {
-                        id: createEventId(),
-                        title: data.eventName,
-                        start: data.startEventDate,
-                        end: data.endEventDate,
-                    },
-                ]);
-                setInitialEvents([
-                    ...initialEvents,
-                    {
-                        id: createEventId(),
-                        title: data.eventName,
-                        start: data.startEventDate,
-                        end: data.endEventDate,
-                    },
-                ]);
+                // setFetchedEvents((prevEvents) => [
+                //     ...prevEvents,
+                //     {
+                //         id: createEventId(),
+                //         title: data.eventName,
+                //         start: data.startEventDate,
+                //         end: data.endEventDate,
+                //     },
+                // ]);
+                // setInitialEvents([
+                //     ...initialEvents,
+                //     {
+                //         id: createEventId(),
+                //         title: data.eventName,
+                //         start: data.startEventDate,
+                //         end: data.endEventDate,
+                //     },
+                // ]);
                 console.log(data);
             })
             .catch((err) => {
                 console.log(err);
             });
     };
+
+    useEffect(() => {}, [fetchedEvents, initialEvents]);
 
     ////// Create dynamic react variable that takkes the input from my db fetch
     let eventGuid = 0;
@@ -139,7 +141,7 @@ export default function Post() {
                 selectMirror={true}
                 dayMaxEvents={true}
                 // weekends={weekendsVisible}
-                initialEvents={initialEvents} // alternatively, use the `events` setting to fetch from a feed
+                initialEvents={fetchedEvents} // alternatively, use the `events` setting to fetch from a feed
                 // select={handleDateSelect}
                 eventContent={renderEventContent} // custom render function
                 // eventClick={handleEventClick}
