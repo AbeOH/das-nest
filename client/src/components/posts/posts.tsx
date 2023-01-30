@@ -31,6 +31,8 @@ export default function Post() {
     );
     const [fetchedEvents, setFetchedEvents] = useState<EventInput[]>([]);
 
+    const [initialEvents, setInitialEvents] = useState<EventInput[]>([]);
+
     const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name;
         const value = evt.target.value;
@@ -68,6 +70,15 @@ export default function Post() {
                         end: data.endEventDate,
                     },
                 ]);
+                setInitialEvents([
+                    ...initialEvents,
+                    {
+                        id: createEventId(),
+                        title: data.eventName,
+                        start: data.startEventDate,
+                        end: data.endEventDate,
+                    },
+                ]);
                 console.log(data);
             })
             .catch((err) => {
@@ -85,15 +96,15 @@ export default function Post() {
         return String(eventGuid++);
     };
 
-    const INITIAL_EVENTS: EventInput[] = [
-        ...fetchedEvents,
-        {
-            id: createEventId(),
-            title: "Test Event",
-            start: todayStr,
-            end: endtodayStr,
-        },
-    ];
+    // const INITIAL_EVENTS: EventInput[] = [
+    //     ...fetchedEvents,
+    //     {
+    //         id: createEventId(),
+    //         title: "Test Event",
+    //         start: todayStr,
+    //         end: endtodayStr,
+    //     },
+    // ];
 
     return (
         <div>
@@ -128,7 +139,7 @@ export default function Post() {
                 selectMirror={true}
                 dayMaxEvents={true}
                 // weekends={weekendsVisible}
-                initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+                initialEvents={initialEvents} // alternatively, use the `events` setting to fetch from a feed
                 // select={handleDateSelect}
                 eventContent={renderEventContent} // custom render function
                 // eventClick={handleEventClick}
