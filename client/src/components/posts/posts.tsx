@@ -92,7 +92,7 @@ export default function Post() {
     };
 
     useEffect(() => {
-        fetch("/getEvents")
+        fetch(`/getEvents/${id}`) /// "/getEvents"
             /// Dynamic events fetch with group id
             .then((res) => res.json())
             .then((data) => {

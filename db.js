@@ -187,3 +187,9 @@ module.exports.getPosts = () => {
 module.exports.getGroups = () => {
     return db.query("SELECT * FROM groups").then((data) => data.rows);
 };
+
+module.exports.getGroupById = (id) => {
+    return db
+        .query("SELECT * FROM groups WHERE id=$1", [id])
+        .then((data) => data.rows[0]);
+};
