@@ -67,10 +67,20 @@ export default function Chat() {
                 ></textarea>
                 {/* Mapping over messages */}
 
-                {messages.value?.length > 0 &&
+                {/* {messages.value?.length > 0 &&
                     messages.value.map((message) => (
                         <div key={message.id}>{message.message}</div>
-                    ))}
+                    ))} */}
+            </div>
+            <div className="container">
+                <div className="message-container">
+                    {messages.value?.length > 0 &&
+                        messages.value.map((message) => (
+                            <div key={message.id} className="message">
+                                {message.message}
+                            </div>
+                        ))}
+                </div>
             </div>
         </section>
     );

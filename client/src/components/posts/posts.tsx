@@ -149,6 +149,7 @@ export default function Post() {
                 />
                 <button type="submit">Create Event</button> <br />
             </form>
+            <Chat />
             {/* {renderSidebarEvent()} */}
             <FullCalendar
                 plugins={[dayGridPlugin]} //
@@ -163,7 +164,6 @@ export default function Post() {
                 eventContent={renderEventContent} // custom render function
                 // eventClick={handleEventClick}
             />
-            <Chat />
             {/* <div className="demo-app-sidebar-section">
                 <h2>All Events ({fetchedEvents.length})</h2>
                 <ul>{fetchedEvents.map(renderSidebarEvent)}</ul>

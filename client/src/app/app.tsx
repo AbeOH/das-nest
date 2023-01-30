@@ -15,6 +15,7 @@ import Chat from "../components/chat/chat";
 import { Groups } from "../components/groups/groups";
 import Calendar from "../components/calendar/calendar";
 import Post from "../components/posts/posts";
+import Ranking from "../components/ranking/ranking";
 
 interface AppStates {
     isPopupOpen: boolean;
@@ -99,9 +100,10 @@ export class App extends React.Component<AppProbs, AppStates> {
                         <Link to="/">My Profile</Link>
                         <Link to="/friends">Friends List</Link>
                         <Link to="/groups">Groups</Link>
-                        <Link to="/post">Post</Link>
+                        {/* <Link to="/post">Post</Link> */}
                         {/* <Link to="/calendar">Calendar</Link> */}
                         {/* <Link to="/chat">Chat</Link> */}
+                        <Link to="/ranking">Ranking</Link>
                         <Link to="/signout">Sign Out</Link>
                         <ProfilPic
                             userPic={this.state.imgUrl}
@@ -142,6 +144,7 @@ export class App extends React.Component<AppProbs, AppStates> {
                         <Route path="/post/:groupId" element={<Post />} />
                         {/* <Route path="/calendar" element={<Calendar />} /> */}
                         {/* <Route path="/chat" element={<Chat />} /> */}
+                        <Route path="/ranking" element={<Ranking />} />
                         <Route path="/signout" element={<Signout />} />
                         {/* <Route path="/friendship/:id" element={<FriendButton />} /> */}
                     </Routes>

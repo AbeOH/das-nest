@@ -114,7 +114,7 @@ img {
 }
 
 /* ----------------------------------
-            Bio
+            BIO
 ----------------------------------- */
 
 /* 
@@ -127,3 +127,30 @@ img {
     color: black;
     size: xx-large;
 } */
+
+/* ----------------------------------
+            CHAT MESSAGES
+----------------------------------- */
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid rgb(255, 255, 57);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+}
+
+.message {
+    background-color: #fa9600;
+    border-radius: 8px;
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    max-width: 60%;
+}
