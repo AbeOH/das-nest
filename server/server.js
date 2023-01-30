@@ -452,6 +452,14 @@ app.post(
     }
 );
 
+app.get("/getGroups", (req, res) => {
+    getGroups()
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => console.log("Error in getting groups: ", err));
+});
+
 /// Upload Group Image
 // app.post("/groupupload", uploader.single("file"), fileUpload, (req, res) => {
 //     console.log("Files", req.file);
@@ -481,7 +489,7 @@ app.post("/postEvents", (req, res) => {
         .catch((err) => console.log("Error in inserting post: ", err));
 });
 
-app.get("/get", (req, res) => {
+app.get("/getEvents", (req, res) => {
     getPosts()
         .then((data) => {
             console.log("Posts: ", data);

@@ -18,28 +18,6 @@ export function Groups() {
     const [fileUrl, setFileUrl] = useState<File | null>(null);
     // const [updateImageClosePopup, setUpdateImageClosePopup] = useState<
 
-    // const handleUpload = (evt: React.SyntheticEvent) => {
-    //     evt.preventDefault();
-    //     const formData = new FormData();
-    //     if (fileUrl === null) {
-    //         return;
-    //     }
-    //     formData.append("file", fileUrl);
-
-    //     fetch("/groupupload", {
-    //         method: "POST",
-    //         body: formData,
-    //     })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log("data from server: ", data);
-    //             // updateImageClosePopup(data.imageurl); adjust this
-    //         })
-    //         .catch((err) => {
-    //             console.log("Errrrrrror in fetch: ", err);
-    //         });
-    // };
-
     const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name; // This line will hold value when input for value is changed
         const value = evt.target.value;
@@ -130,6 +108,28 @@ export function Groups() {
         </section>
     );
 }
+
+// const handleUpload = (evt: React.SyntheticEvent) => {
+//     evt.preventDefault();
+//     const formData = new FormData();
+//     if (fileUrl === null) {
+//         return;
+//     }
+//     formData.append("file", fileUrl);
+
+//     fetch("/groupupload", {
+//         method: "POST",
+//         body: formData,
+//     })
+//         .then((res) => res.json())
+//         .then((data) => {
+//             console.log("data from server: ", data);
+//             // updateImageClosePopup(data.imageurl); adjust this
+//         })
+//         .catch((err) => {
+//             console.log("Errrrrrror in fetch: ", err);
+//         });
+// };
 
 /// Later Reduxification
 // const dispatch = useDispatch();

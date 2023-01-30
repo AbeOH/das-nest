@@ -100,8 +100,8 @@ export class App extends React.Component<AppProbs, AppStates> {
                         <Link to="/friends">Friends List</Link>
                         <Link to="/groups">Groups</Link>
                         <Link to="/post">Post</Link>
-                        <Link to="/calendar">Calendar</Link>
-                        <Link to="/chat">Chat</Link>
+                        {/* <Link to="/calendar">Calendar</Link> */}
+                        {/* <Link to="/chat">Chat</Link> */}
                         <Link to="/signout">Sign Out</Link>
                         <ProfilPic
                             userPic={this.state.imgUrl}
@@ -139,8 +139,8 @@ export class App extends React.Component<AppProbs, AppStates> {
                         />
                         <Route path="/groups" element={<Groups />} />
                         <Route path="/post" element={<Posts />} />
-                        <Route path="/calendar" element={<Calendar />} />
-                        <Route path="/chat" element={<Chat />} />
+                        {/* <Route path="/calendar" element={<Calendar />} /> */}
+                        {/* <Route path="/chat" element={<Chat />} /> */}
                         <Route path="/signout" element={<Signout />} />
                         {/* <Route path="/friendship/:id" element={<FriendButton />} /> */}
                     </Routes>

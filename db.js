@@ -183,3 +183,7 @@ module.exports.postInsert = (eventName, startEventDate, endEventDate) => {
 module.exports.getPosts = () => {
     return db.query("SELECT * FROM posts").then((data) => data.rows);
 };
+
+module.exports.getGroups = () => {
+    return db.query("SELECT * FROM groups").then((data) => data.rows);
+};
