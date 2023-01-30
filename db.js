@@ -179,3 +179,7 @@ module.exports.postInsert = (eventName, startEventDate, endEventDate) => {
         )
         .then((data) => data.rows);
 };
+
+module.exports.getPosts = () => {
+    return db.query("SELECT * FROM posts").then((data) => data.rows);
+};

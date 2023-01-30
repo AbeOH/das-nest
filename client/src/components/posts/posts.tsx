@@ -86,7 +86,25 @@ export default function Post() {
             });
     };
 
-    useEffect(() => {}, [fetchedEvents, initialEvents]);
+    useEffect(() => {
+        fetch("/getEvents")
+            .then((res) => res.json())
+            .then((data) => {
+                setFetchedEvents(
+                    data.map((event: any) => {
+                        return {
+                            id: event.id,
+                            title: event.eventName,
+                            start: event.startEventDate,
+                            end: event.endEventDate,
+                        };
+                    })
+                );
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [fetchedEvents, initialEvents]);
 
     ////// Create dynamic react variable that takkes the input from my db fetch
     let eventGuid = 0;

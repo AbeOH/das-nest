@@ -15,6 +15,7 @@ const io = require("socket.io")(server, {
 
 // Importing functions from db.js
 const {
+    getPosts,
     postInsert,
     updateImageGroups,
     createGroup,
@@ -466,7 +467,7 @@ app.post(
 //     }
 // });
 //***************************************************************************************** */
-/// Post Routes for post for event convertion
+/// Post Routes and Get Routes for posts
 
 app.post("/postEvents", (req, res) => {
     const { eventName, startEventDate, endEventDate } = req.body;
@@ -477,6 +478,15 @@ app.post("/postEvents", (req, res) => {
             res.json(data);
         })
         .catch((err) => console.log("Error in inserting post: ", err));
+});
+
+app.get("/getPosts", (req, res) => {
+    getPosts()
+        .then((data) => {
+            console.log("Posts: ", data);
+            res.json(data);
+        })
+        .catch((err) => console.log("Error in getting posts: ", err));
 });
 
 //*****************************************************************************************
