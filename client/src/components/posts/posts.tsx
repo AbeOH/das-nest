@@ -16,8 +16,12 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 /// Integration of events creation into dynamically
 import { EventInput } from "@fullcalendar/core";
 
-interface PostProps {
-    post: string;
+interface Event {
+    id: number;
+    content: string;
+    start_event_date: string;
+    end_event_date: string;
+    // post: string;
 }
 
 export default function Post() {
@@ -30,6 +34,8 @@ export default function Post() {
         new Date().toISOString().replace(/T.*$/, "")
     );
     const [fetchedEvents, setFetchedEvents] = useState<EventInput[]>([]);
+    console.log("fetchedEvents", fetchedEvents);
+    console.log("startEventDate", startEventDate);
 
     const [initialEvents, setInitialEvents] = useState<EventInput[]>([]);
 
@@ -90,41 +96,29 @@ export default function Post() {
         fetch("/getEvents")
             .then((res) => res.json())
             .then((data) => {
+                console.log("data correct?: ", data);
                 setFetchedEvents(
-                    data.map((event: any) => {
+                    data.map((evt: Event) => {
+                        const start = new Date(evt.start_event_date).toString();
+                        const end = new Date(evt.end_event_date).toString();
+                        // console.log("evt: ", evt);
+                        // console.log("Mapped Data", data);
+
                         return {
-                            id: event.id,
-                            title: event.eventName,
-                            start: event.startEventDate,
-                            end: event.endEventDate,
+                            id: evt.id,
+                            title: evt.content,
+                            start: evt.start_event_date,
+                            end: evt.end_event_date,
                         };
                     })
                 );
+                // setInitialEvents(fetchedEvents);
+                // console.log("initialEvents: ", initialEvents);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, [fetchedEvents, initialEvents]);
-
-    ////// Create dynamic react variable that takkes the input from my db fetch
-    let eventGuid = 0;
-    let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
-    let endtodayStr = new Date("2023-01-28").toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
-
-    /// Might not need this function if I set the id to the user_id from the db
-    const createEventId = () => {
-        return String(eventGuid++);
-    };
-
-    // const INITIAL_EVENTS: EventInput[] = [
-    //     ...fetchedEvents,
-    //     {
-    //         id: createEventId(),
-    //         title: "Test Event",
-    //         start: todayStr,
-    //         end: endtodayStr,
-    //     },
-    // ];
+    }, []);
 
     return (
         <div>
@@ -152,6 +146,7 @@ export default function Post() {
                 />
                 <button type="submit">Create Event</button> <br />
             </form>
+            {/* {renderSidebarEvent()} */}
             <FullCalendar
                 plugins={[dayGridPlugin]} //
                 editable={true}
@@ -159,11 +154,16 @@ export default function Post() {
                 selectMirror={true}
                 dayMaxEvents={true}
                 // weekends={weekendsVisible}
-                initialEvents={fetchedEvents} // alternatively, use the `events` setting to fetch from a feed
+                // initialEvents={initialEvents}
+                events={fetchedEvents} // alternatively, use the `events` setting to fetch from a feed
                 // select={handleDateSelect}
                 eventContent={renderEventContent} // custom render function
                 // eventClick={handleEventClick}
             />
+            {/* <div className="demo-app-sidebar-section">
+                <h2>All Events ({fetchedEvents.length})</h2>
+                <ul>{fetchedEvents.map(renderSidebarEvent)}</ul>
+            </div> */}
         </div>
     );
 }
@@ -191,6 +191,32 @@ function renderEventContent(eventContent: EventContentArg) {
         </>
     );
 }
+
+// useEffect(() => {
+//     setInitialEvents(fetchedEvents);
+//     console.log("fetchedEvents: ", fetchedEvents);
+//     console.log("initialEvents: ", initialEvents);
+// }, [fetchedEvents]);
+
+////// Create dynamic react variable that takkes the input from my db fetch
+// let eventGuid = 0;
+// let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
+// let endtodayStr = new Date("2023-01-28").toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
+
+/// Might not need this function if I set the id to the user_id from the db
+// const createEventId = () => {
+//     return String(eventGuid++);
+// };
+
+// const INITIAL_EVENTS: EventInput[] = [
+//     ...fetchedEvents,
+//     {
+//         id: createEventId(),
+//         title: "Test Event",
+//         start: todayStr,
+//         end: endtodayStr,
+//     },
+// ];
 
 {
     /* <div> value={posts}

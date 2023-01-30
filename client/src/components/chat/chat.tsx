@@ -2,13 +2,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, SyntheticEvent } from "react";
 import { connect, socket } from "../../socket";
 
-import { io, Socket } from "socket.io-client";
-import {
-    recentMessagesReceived,
-    singleMessageReceived,
-} from "../../redux/messagesSlice";
-import { Store } from "redux";
-import { Action } from "../../app/typeinterface";
+// import { io, Socket } from "socket.io-client";
+// import { recentMessagesReceived } from "../../redux/messagesSlice";
+// import { Store } from "redux";
+// import { Action } from "../../app/typeinterface";
 import { RootState } from "../../redux/store";
 
 export default function Chat() {
@@ -17,6 +14,7 @@ export default function Chat() {
         console.log("state", state);
         return state.messages;
     });
+    console.log("messages", messages);
     const [messageState, setMessageState] = useState("");
 
     const changeMessage = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -41,7 +39,7 @@ export default function Chat() {
 
     // const [connectChat, setConnectChat] = useState<Boolean>(false);
     // const toggleChat = () => {
-    //     setConnectChat(!connectChat);
+    //     // setConnectChat(!connectChat);
     // };
 
     // const onChatKeyDown = (evt: React.SyntheticEvent) => {
@@ -69,8 +67,10 @@ export default function Chat() {
                 ></textarea>
                 {/* Mapping over messages */}
 
-                {messages &&
-                    messages.map((message) => <div key={message.id}></div>)}
+                {messages.value?.length > 0 &&
+                    messages.value.map((message) => (
+                        <div key={message.id}>{message.message}</div>
+                    ))}
             </div>
         </section>
     );

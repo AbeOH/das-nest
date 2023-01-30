@@ -110,10 +110,11 @@ io.on("connection", async (socket) => {
     console.log("latestMessages: ", latestMessages);
     socket.emit("chatMessages", latestMessages.rows);
     socket.on("sendMessage", async (text) => {
+        console.log("user Id: ", userId);
         console.log("text: ", text);
         const insertedMessages = await addMessage(userId, text);
         /////// Something here; check notes
-        io.emit("chatMessage", insertedMessages);
+        io.emit("chatMessage", insertedMessages.rows[0]);
     });
 });
 
@@ -480,7 +481,7 @@ app.post("/postEvents", (req, res) => {
         .catch((err) => console.log("Error in inserting post: ", err));
 });
 
-app.get("/getPosts", (req, res) => {
+app.get("/get", (req, res) => {
     getPosts()
         .then((data) => {
             console.log("Posts: ", data);

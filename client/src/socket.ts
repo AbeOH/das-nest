@@ -17,7 +17,7 @@ export const connect = (store: Store) => {
 
     // I receive a list of messages (prob. at the beginning)
     socket.on("chatMessages", (data) => {
-        console.log("dataaaaa", data);
+        console.log("data 1", data);
         const action = recentMessagesReceived(data); /// data.messages
         store.dispatch(action);
     });

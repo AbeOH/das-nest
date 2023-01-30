@@ -70,8 +70,8 @@ export default function Calendar() {
                     initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
                     select={handleDateSelect}
                     eventContent={renderEventContent} // custom render function
-                    eventClick={handleEventClick}
-                    //eventsSet={setCurrentEvents} // called after events are initialized/added/changed/removed
+                    // eventClick={handleEventClick}
+                    // eventsSet={setCurrentEvents} // called after events are initialized/added/changed/removed
                     // you can update a remote database when these fire:
                 />
             </div>
