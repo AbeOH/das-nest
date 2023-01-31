@@ -124,9 +124,9 @@ export function Groups() {
             </div>
             <div>
                 <h1>Groups</h1>
-                <div>
+                <div className="group-container">
                     {groups.map((group) => (
-                        <div key={group.id}>
+                        <div key={group.id} className="group-item">
                             <h2>{group.name}</h2>
                             <p>{group.description}</p>
                             <Link to={`/post/${group.id}`}>
