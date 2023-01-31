@@ -170,6 +170,7 @@ export default function Post() {
 
             <FullCalendar
                 plugins={[dayGridPlugin]}
+                // initialView="dayGridMonth"
                 editable={true}
                 selectable={true}
                 selectMirror={true}
