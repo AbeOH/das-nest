@@ -46,8 +46,12 @@ export default function Post() {
         new Date().toISOString().replace(/T.*$/, "")
     );
     const [fetchedEvents, setFetchedEvents] = useState<EventInput[]>([]);
-    console.log("fetchedEvents", fetchedEvents);
-    console.log("startEventDate", startEventDate);
+
+    const [showForm, setShowForm] = useState(false);
+
+    const toggleForm = () => {
+        setShowForm(!showForm);
+    };
 
     // const [initialEvents, setInitialEvents] = useState<EventInput[]>([]);
 
@@ -125,39 +129,45 @@ export default function Post() {
 
     return (
         <div>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-                <form onSubmit={postEvent} style={{ flex: 1 }}>
-                    <label htmlFor="posts">Event</label>
-                    <input
-                        type="text"
-                        name="eventName"
-                        value={eventName}
-                        onChange={handleInputChange}
-                    />
-                    <div style={{ display: "flex", marginTop: 8 }}>
-                        <div style={{ marginRight: 8 }}>
-                            <label htmlFor="startEventDate">Start</label>
-                            <input
-                                type="datetime-local"
-                                name="startEventDate"
-                                value={startEventDate}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="endEventDate">End</label>
-                            <input
-                                type="datetime-local"
-                                name="endEventDate"
-                                value={endEventDate}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    </div>
-                    <button type="submit">Create Event</button>
-                </form>
+            <div className="container">
                 <Chat />
+                <button className="create-event" onClick={toggleForm}>
+                    Create Event
+                </button>
+                {showForm && (
+                    <form onSubmit={postEvent}>
+                        <label htmlFor="posts">Event</label>
+                        <input
+                            type="text"
+                            name="eventName"
+                            value={eventName}
+                            onChange={handleInputChange}
+                        />
+                        <div className="date-inputs">
+                            <div>
+                                <label htmlFor="startEventDate">Start</label>
+                                <input
+                                    type="datetime-local"
+                                    name="startEventDate"
+                                    value={startEventDate}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="endEventDate">End</label>
+                                <input
+                                    type="datetime-local"
+                                    name="endEventDate"
+                                    value={endEventDate}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                        </div>
+                        <button type="submit">Create Event</button>
+                    </form>
+                )}
             </div>
+
             <FullCalendar
                 plugins={[dayGridPlugin]}
                 editable={true}

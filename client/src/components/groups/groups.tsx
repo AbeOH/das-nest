@@ -27,6 +27,11 @@ export function Groups() {
     // const [updateImageClosePopup, setUpdateImageClosePopup] = useState<
     const [groups, setGroups] = useState<GroupsState[]>([]);
 
+    const [showForm, setShowForm] = useState(false);
+    const toggleForm = () => {
+        setShowForm(!showForm);
+    };
+
     const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const property = evt.target.name; // This line will hold value when input for value is changed
         const value = evt.target.value;
@@ -84,44 +89,49 @@ export function Groups() {
     // console.log("Groups: ", groups);
     return (
         <section>
-            <div>
-                <h1>Want to create a Group?</h1>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="group_name">Group Name</label>
-                        <input
-                            required
-                            type="text"
-                            name="group_name"
-                            value={group_name}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="group_description">
-                            Group Description
-                        </label>
-                        <input
-                            required
-                            type="text"
-                            name="group_description"
-                            value={group_description}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="group_url">Group URL</label>
-                        <input
-                            required
-                            type="file"
-                            name="file_Url"
-                            accept="image/*"
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <button type="submit">Create Group</button>
-                </form>
-            </div>
+            <button className="create-group-button" onClick={toggleForm}>
+                Create Group
+            </button>
+            {showForm && (
+                <div className="group-form">
+                    <h1>Want to create a Group?</h1>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="group_name">Group Name</label>
+                            <input
+                                required
+                                type="text"
+                                name="group_name"
+                                value={group_name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="group_description">
+                                Group Description
+                            </label>
+                            <input
+                                required
+                                type="text"
+                                name="group_description"
+                                value={group_description}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="group_url">Group URL</label>
+                            <input
+                                required
+                                type="file"
+                                name="file_Url"
+                                accept="image/*"
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <button type="submit">Create Group</button>
+                    </form>
+                </div>
+            )}
             <div>
                 <h1>Groups</h1>
                 <div className="group-container">

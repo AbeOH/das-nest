@@ -17,6 +17,9 @@ export default function Chat() {
     console.log("messages", messages);
     const [messageState, setMessageState] = useState("");
 
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleChat = () => setIsOpen(!isOpen);
+
     const changeMessage = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMessageState(evt.target.value);
     };
@@ -55,24 +58,19 @@ export default function Chat() {
 
     return (
         <section>
-            <h1>Chat</h1>
-            {/* <button onClick={toggleChat}>Chat to Community</button> */}
-            <div className="new-message">
-                <textarea
-                    name="message"
-                    placeholder="Your message here"
-                    onChange={(evt) => changeMessage(evt)}
-                    onKeyDown={(evt) => onChatKeyDown(evt)}
-                    value={messageState}
-                ></textarea>
-                {/* Mapping over messages */}
-
-                {/* {messages.value?.length > 0 &&
-                    messages.value.map((message) => (
-                        <div key={message.id}>{message.message}</div>
-                    ))} */}
-            </div>
-            <div className="container">
+            <button className="chatButton" onClick={toggleChat}>
+                Open/Close Chat
+            </button>
+            <div className={`chat-container ${isOpen ? "open" : "closed"}`}>
+                <div className="new-message">
+                    <textarea
+                        name="message"
+                        placeholder="Your message here"
+                        onChange={(evt) => changeMessage(evt)}
+                        onKeyDown={(evt) => onChatKeyDown(evt)}
+                        value={messageState}
+                    ></textarea>
+                </div>
                 <div className="message-container">
                     {messages.value?.length > 0 &&
                         messages.value.map((message) => (
