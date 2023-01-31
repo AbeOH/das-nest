@@ -125,56 +125,48 @@ export default function Post() {
 
     return (
         <div>
-            <form onSubmit={postEvent}>
-                <label htmlFor="posts">Event</label>
-                <input
-                    type="text"
-                    name="eventName"
-                    value={eventName}
-                    onChange={handleInputChange}
-                />
-                <div style={{ display: "flex" }}>
-                    <div style={{ marginRight: 8 }}>
-                        <label htmlFor="startEventDate">Start</label>
-                        <input
-                            type="datetime-local"
-                            name="startEventDate"
-                            value={startEventDate}
-                            onChange={handleInputChange}
-                        />
+            <div style={{ display: "flex", flexDirection: "row" }}>
+                <form onSubmit={postEvent} style={{ flex: 1 }}>
+                    <label htmlFor="posts">Event</label>
+                    <input
+                        type="text"
+                        name="eventName"
+                        value={eventName}
+                        onChange={handleInputChange}
+                    />
+                    <div style={{ display: "flex", marginTop: 8 }}>
+                        <div style={{ marginRight: 8 }}>
+                            <label htmlFor="startEventDate">Start</label>
+                            <input
+                                type="datetime-local"
+                                name="startEventDate"
+                                value={startEventDate}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="endEventDate">End</label>
+                            <input
+                                type="datetime-local"
+                                name="endEventDate"
+                                value={endEventDate}
+                                onChange={handleInputChange}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="endEventDate">End</label>
-                        <input
-                            type="datetime-local"
-                            name="endEventDate"
-                            value={endEventDate}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                </div>
-                <button type="submit">Create Event</button> <br />
-            </form>
-
-            <Chat />
-            {/* {renderSidebarEvent()} */}
+                    <button type="submit">Create Event</button>
+                </form>
+                <Chat />
+            </div>
             <FullCalendar
-                plugins={[dayGridPlugin]} //
+                plugins={[dayGridPlugin]}
                 editable={true}
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}
-                // weekends={weekendsVisible}
-                // initialEvents={initialEvents}
-                events={fetchedEvents} // alternatively, use the `events` setting to fetch from a feed
-                // select={handleDateSelect}
-                eventContent={renderEventContent} // custom render function
-                // eventClick={handleEventClick}
+                events={fetchedEvents}
+                eventContent={renderEventContent}
             />
-            {/* <div className="demo-app-sidebar-section">
-                <h2>All Events ({fetchedEvents.length})</h2>
-                <ul>{fetchedEvents.map(renderSidebarEvent)}</ul>
-            </div> */}
         </div>
     );
 }
@@ -273,3 +265,52 @@ function renderEventContent(eventContent: EventContentArg) {
 
 //     // calendarApi.addEvent(event);
 // };
+
+// <div>
+//     <form onSubmit={postEvent}>
+//         <label htmlFor="posts">Event</label>
+//         <input
+//             type="text"
+//             name="eventName"
+//             value={eventName}
+//             onChange={handleInputChange}
+//         />
+//         <div style={{ display: "flex" }}>
+//             <div style={{ marginRight: 8 }}>
+//                 <label htmlFor="startEventDate">Start</label>
+//                 <input
+//                     type="datetime-local"
+//                     name="startEventDate"
+//                     value={startEventDate}
+//                     onChange={handleInputChange}
+//                 />
+//             </div>
+//             <div>
+//                 <label htmlFor="endEventDate">End</label>
+//                 <input
+//                     type="datetime-local"
+//                     name="endEventDate"
+//                     value={endEventDate}
+//                     onChange={handleInputChange}
+//                 />
+//             </div>
+//         </div>
+//         <button type="submit">Create Event</button> <br />
+//     </form>
+
+//     <Chat />
+//     {/* {renderSidebarEvent()} */}
+//     <FullCalendar
+//         plugins={[dayGridPlugin]} //
+//         editable={true}
+//         selectable={true}
+//         selectMirror={true}
+//         dayMaxEvents={true}
+//         // weekends={weekendsVisible}
+//         // initialEvents={initialEvents}
+//         events={fetchedEvents} // alternatively, use the `events` setting to fetch from a feed
+//         // select={handleDateSelect}
+//         eventContent={renderEventContent} // custom render function
+//         // eventClick={handleEventClick}
+//     />
+// </div>

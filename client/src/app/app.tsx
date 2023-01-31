@@ -96,15 +96,27 @@ export class App extends React.Component<AppProbs, AppStates> {
                     <header className="header-app">
                         {/* <pre>{JSON.stringify(this.state)}</pre> */}
                         <Logo />
-                        <Link to="/search">Find People</Link>
-                        <Link to="/">My Profile</Link>
-                        <Link to="/friends">Friends List</Link>
-                        <Link to="/groups">Groups</Link>
+                        <Link className="topbar-link" to="/search">
+                            Find People
+                        </Link>
+                        <Link className="topbar-link" to="/">
+                            My Profile
+                        </Link>
+                        <Link className="topbar-link" to="/friends">
+                            Friends List
+                        </Link>
+                        <Link className="topbar-link" to="/groups">
+                            Groups
+                        </Link>
                         {/* <Link to="/post">Post</Link> */}
                         {/* <Link to="/calendar">Calendar</Link> */}
                         {/* <Link to="/chat">Chat</Link> */}
-                        <Link to="/ranking">Ranking</Link>
-                        <Link to="/signout">Sign Out</Link>
+                        <Link className="topbar-link" to="/ranking">
+                            Ranking
+                        </Link>
+                        <Link className="topbar-link" to="/signout">
+                            Sign Out
+                        </Link>
                         <ProfilPic
                             userPic={this.state.imgUrl}
                             firstName={this.state.first}
