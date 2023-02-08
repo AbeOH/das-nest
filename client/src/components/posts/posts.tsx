@@ -10,6 +10,8 @@ import {
 } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 
+import { Modal, Button } from "react-bootstrap";
+
 // import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
@@ -26,7 +28,9 @@ interface Event {
     content: string;
     start_event_date: string;
     end_event_date: string;
-    // post: string;
+    event?: Event;
+    show: boolean;
+    handleClose: () => void;
 }
 
 export default function Post() {
@@ -48,6 +52,10 @@ export default function Post() {
     const [fetchedEvents, setFetchedEvents] = useState<EventInput[]>([]);
 
     const [showForm, setShowForm] = useState(false);
+
+    const [showModal, setShowModal] = useState(false);
+
+    // const [event, setEvent] = useState<Event | undefined>(undefined);
 
     const toggleForm = () => {
         setShowForm(!showForm);
@@ -127,6 +135,29 @@ export default function Post() {
             });
     }, []);
 
+    const handleClose = () => setShowModal(false);
+    const handleShow = (event: EventClickArg) => {
+        setEventName(event.event.title);
+        setStartEventDate(event.event.startStr);
+        setEndEventDate(event.event.endStr || "");
+        setShowModal(true);
+    };
+
+    // const eventClick = (arg: EventClickArg) => {
+    //     handleShow(arg);
+    // };
+
+    const eventClick = (arg: EventClickArg) => {
+        let message = "Event: " + eventName + "\n" + "Start: " + startEventDate;
+        if (endEventDate) {
+            message += "\nEnd: " + endEventDate;
+        }
+        if (eventName) {
+            message += "\nDescription: " + eventName;
+        }
+        alert(message);
+    };
+
     return (
         <div>
             <div className="container">
@@ -177,25 +208,89 @@ export default function Post() {
                 dayMaxEvents={true}
                 events={fetchedEvents}
                 eventContent={renderEventContent}
+                eventClick={eventClick}
             />
+            {/* <EventModal
+                show={showModal}
+                handleClose={handleClose}
+                eventName={eventName}
+                startEventDate={startEventDate}
+                endEventDate={endEventDate}
+                event={event}
+            /> */}
         </div>
     );
 }
 
-function renderSidebarEvent(event: EventApi) {
-    return (
-        <li key={event.id}>
-            <b>
-                {formatDate(event.start!, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                })}
-            </b>
-            <i>{event.title}</i>
-        </li>
-    );
-}
+// interface EventModalProps {
+//     event?: Event;
+//     show: boolean;
+//     handleClose: () => void;
+//     eventName: string;
+//     startEventDate: string;
+//     endEventDate: string;
+// }
+
+// const EventModal: React.FC<Event> = ({ show, handleClose, event }) => {
+//     return (
+//         <Modal show={show} onHide={handleClose}>
+//             <Modal.Header closeButton>
+//                 <Modal.Title>{event.content}</Modal.Title>
+//             </Modal.Header>
+//             <Modal.Body>
+//                 Start: {event.start_event_date}
+//                 <br />
+//                 End: {event.end_event_date}
+//             </Modal.Body>
+//             <Modal.Footer>
+//                 <Button variant="secondary" onClick={handleClose}>
+//                     Close
+//                 </Button>
+//             </Modal.Footer>
+//         </Modal>
+//     );
+// };
+
+// const EventModal: React.FC<EventModalProps> = ({
+//     show,
+//     handleClose,
+//     eventName,
+//     startEventDate,
+//     endEventDate,
+// }) => {
+//     let message = "Event: " + eventName + "\n" + "Start: " + startEventDate;
+//     if (endEventDate) {
+//         message += "\nEnd: " + endEventDate;
+//     }
+//     return (
+//         <Modal show={show} onHide={handleClose}>
+//             <Modal.Header closeButton>
+//                 <Modal.Title>{eventName}</Modal.Title>
+//             </Modal.Header>
+//             <Modal.Body>{message}</Modal.Body>
+//             <Modal.Footer>
+//                 <Button variant="secondary" onClick={handleClose}>
+//                     Close
+//                 </Button>
+//             </Modal.Footer>
+//         </Modal>
+//     );
+// };
+
+// function renderSidebarEvent(event: EventApi) {
+//     return (
+//         <li key={event.id}>
+//             <b>
+//                 {formatDate(event.start!, {
+//                     year: "numeric",
+//                     month: "short",
+//                     day: "numeric",
+//                 })}
+//             </b>
+//             <i>{event.title}</i>
+//         </li>
+//     );
+// }
 
 function renderEventContent(eventContent: EventContentArg) {
     return (

@@ -58,7 +58,7 @@ export default function Chat() {
 
     return (
         <section>
-            <button className="chatButton" onClick={toggleChat}>
+            <button className="chat-Button" onClick={toggleChat}>
                 Open/Close Chat
             </button>
             <div className={`chat-container ${isOpen ? "open" : "closed"}`}>
